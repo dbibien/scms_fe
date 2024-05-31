@@ -2,9 +2,6 @@ import { Link } from "react-router-dom"
 import {
   Sheet,
   SheetContent,
-  // SheetDescription,
-  // SheetHeader,
-  // SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
@@ -43,7 +40,6 @@ const NavListItem = ({ to, title, mobile = true }: { to: string, title: string, 
       <li className={mobile ? mobileStyles : deskTopStyles} >
         <Link to={to}>{title}</Link>
       </li>
-
 
       {mobile && <Separator orientation="horizontal" className="border border-slate-50"/> }
     </>

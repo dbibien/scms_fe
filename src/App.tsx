@@ -10,7 +10,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="/home" element={<HomePage />}/>
+        <Route path="/home" element={<HomePage />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/concerns" element={<ConcernsPage />} />
         <Route path="/reports" element={<ReportPage />} />
@@ -29,7 +29,10 @@ const Layout = () => {
   return (
     <>
       <Nav />
-      <Outlet />
+
+      <div className='ml-1 mr-1'>
+        <Outlet />
+      </div>
     </>
   )
 }
