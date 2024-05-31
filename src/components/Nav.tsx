@@ -2,12 +2,10 @@ import { Link } from "react-router-dom"
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
+import { Separator } from "@radix-ui/react-separator"
 
 const Nav = () => {
   return (
@@ -33,11 +31,18 @@ const Nav = () => {
 export default Nav
 
 
-const NavListItem = ({ to, title }: { to: string, title: string }) => {
+const NavListItem = ({ to, title, mobile = true }: { to: string, title: string, mobile: boolean }) => {
+  const mobileStyles = "pt-4 pb-4 text-black text-center"
+  const deskTopStyles = "text-white"
+
   return (
-    <li className="text-white">
-      <Link to={to}>{title}</Link>
-    </li>
+    <>
+      <li className={mobile ? mobileStyles : deskTopStyles} >
+        <Link to={to}>{title}</Link>
+      </li>
+
+      {mobile && <Separator orientation="horizontal" className="border border-slate-50"/> }
+    </>
   )
 }
 
@@ -47,14 +52,13 @@ const AppNavLinks = ({ mobile = true }) => {
 
   return (
     <ul className={mobile ? mobileStyles : deskTopStyles}>
-      <NavListItem to="/home" title="Home" />
-      <NavListItem to="/users" title="Users" />
-      <NavListItem to="/concerns" title="Concerns" />
-      <NavListItem to="/reports" title="Reports" />
+      <NavListItem to="/home" title="Home" mobile={mobile} />
+      <NavListItem to="/users" title="Users" mobile={mobile} />
+      <NavListItem to="/concerns" title="Concerns" mobile={mobile} />
+      <NavListItem to="/reports" title="Reports" mobile={mobile} />
     </ul>
   )
 }
-
 
 const MobileNav = () => {
   return (
@@ -63,16 +67,10 @@ const MobileNav = () => {
         <Menu color="#fff" />
       </SheetTrigger>
 
-      <SheetContent side="top">
-        <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your account
-            and remove your data from our servers.
-          </SheetDescription>
-        </SheetHeader>
-
-        <AppNavLinks mobile={true} />
+      <SheetContent side="right">
+        <div>
+          <AppNavLinks mobile={true} />
+        </div>
       </SheetContent>
     </Sheet>
   )
