@@ -9,7 +9,7 @@ import { Separator } from "@radix-ui/react-separator"
 
 const Nav = () => {
   return (
-    <nav className="sticky top-0 bg-black flex items-center p-4 justify-between">
+    <nav className="sticky top-0 z-40 bg-black flex items-center p-4 justify-between">
       <div>
         <h1 className="text-white">SCMS</h1>
       </div>
