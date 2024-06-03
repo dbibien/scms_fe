@@ -7,16 +7,16 @@ import {
 } from "@/components/ui/card"
 import { Separator } from "@radix-ui/react-separator"
 import { PhoneCall } from 'lucide-react'
+import { Pencil } from 'lucide-react';
 
 
 type homeCardCProps = {
   img: string
 }
-const HomeCard = ({img}: homeCardCProps) => {
+const HomeCard = ({ img }: homeCardCProps) => {
   return (
-
     // src="https://photos.zillowstatic.com/fp/eb044d5179496b1ca6030f016d6bb13a-cc_ft_768.webp"
-    <Card className="mb-8">
+    <Card className="mb-8 md:grid md:grid-cols-2">
       <CardHeader className="p-0">
         <img
           src={img}
@@ -26,27 +26,30 @@ const HomeCard = ({img}: homeCardCProps) => {
         />
       </CardHeader>
 
-      <CardContent className="pt-2">
-        <p className="text-center">10191 Sunset Bend Dr, Boca Raton, FL 33428</p>
+      <div>
+        <CardContent className="pt-2">
+          <p className="text-center">10191 Sunset Bend Dr, Boca Raton, FL 33428</p>
 
-        <div className="pt-4 flex flex-row justify-center gap-2">
-          <p>John Doe</p>
-          <Separator orientation="vertical" className="border border-slate-200" />
-          <p>Jane Doe</p>
-        </div>
+          <div className="pt-4 flex flex-row justify-center gap-2">
+            <p>John Doe</p>
+            <Separator orientation="vertical" className="border border-slate-200" />
+            <p>Jane Doe</p>
+          </div>
 
-        <div className="pt-4 flex flex-row justify-center gap-2">
-          <p>Member: 1087</p>
-          <Separator orientation="vertical" className="border border-slate-200" />
-          <p>Security code: 1249</p>
-        </div>
+          <div className="pt-4 flex flex-row justify-center gap-2">
+            <p>Member: 1087</p>
+            <Separator orientation="vertical" className="border border-slate-200" />
+            <p>Security code: 1249</p>
+          </div>
 
-        <Separator className="mt-8 border border-slate-200" />
-      </CardContent>
+          <Separator className="mt-8 border border-slate-200" />
+        </CardContent>
 
-      <CardFooter className="">
-        <PhoneCall />
-      </CardFooter>
+        <CardFooter className="flex flex-row justify-between items-center">
+          <PhoneCall />
+          <Pencil />
+        </CardFooter>
+      </div>
     </Card>
   )
 }
