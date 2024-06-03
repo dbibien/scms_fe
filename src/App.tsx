@@ -12,8 +12,8 @@ function App() {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       
-      <Route path="/" element={<PrivateRoutes />}>
-        <Route path="/home" element={<HomePage />} />
+      <Route element={<PrivateRoutes />}>
+        <Route path="/" element={<HomePage />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/concerns" element={<ConcernsPage />} />
         <Route path="/reports" element={<ReportPage />} />
@@ -37,6 +37,6 @@ const Layout = () => {
 }
 
 const PrivateRoutes = () => {
-  const auth = false
+  const auth = true
   return auth ? <Layout /> : <Navigate to="/login" /> 
 }
