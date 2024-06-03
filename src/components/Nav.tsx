@@ -9,7 +9,7 @@ import { Separator } from "@radix-ui/react-separator"
 
 const Nav = () => {
   return (
-    <nav className="bg-black flex items-center p-4 justify-between">
+    <nav className="sticky top-0 bg-black flex items-center p-4 justify-between">
       <div>
         <h1 className="text-white">SCMS</h1>
       </div>
@@ -52,7 +52,7 @@ const AppNavLinks = ({ mobile = true }) => {
 
   return (
     <ul className={mobile ? mobileStyles : deskTopStyles}>
-      <NavListItem to="/home" title="Home" mobile={mobile} />
+      <NavListItem to="/" title="Home" mobile={mobile} />
       <NavListItem to="/users" title="Users" mobile={mobile} />
       <NavListItem to="/concerns" title="Concerns" mobile={mobile} />
       <NavListItem to="/reports" title="Reports" mobile={mobile} />
