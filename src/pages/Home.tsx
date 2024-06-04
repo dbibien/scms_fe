@@ -16,13 +16,13 @@ type homeCardCProps = {
 const HomeCard = ({ img }: homeCardCProps) => {
   return (
     // src="https://photos.zillowstatic.com/fp/eb044d5179496b1ca6030f016d6bb13a-cc_ft_768.webp"
-    <Card className="mb-8 md:grid md:grid-cols-2">
-      <CardHeader className="p-0">
+    <Card className="mb-8 lg:grid lg:grid-cols-2">
+      <CardHeader className="p-0 bg-red-100">
         <img
           src={img}
-          width={400}
-          height={200}
-          className="rounded-t-md"
+          width="100%"
+          height="auto"
+          className="rounded-t-md object-fill"
         />
       </CardHeader>
 
@@ -56,7 +56,7 @@ const HomeCard = ({ img }: homeCardCProps) => {
 
 const HomePage = () => {
   return (
-    <div className="mt-4 p-2 md:max-w-[50%] md:m-auto">
+    <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
 
       <SInput type="text" name="search" placeHolder="search homes" />
 
