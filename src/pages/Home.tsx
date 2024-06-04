@@ -1,4 +1,5 @@
 import SInput from "@/components/SInput"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,7 +8,9 @@ import {
 } from "@/components/ui/card"
 import { Separator } from "@radix-ui/react-separator"
 import { PhoneCall } from 'lucide-react'
-import { Pencil } from 'lucide-react';
+import { Pencil } from 'lucide-react'
+import { Info } from 'lucide-react'
+import { Home } from 'lucide-react'
 
 
 type homeCardCProps = {
@@ -17,12 +20,12 @@ const HomeCard = ({ img }: homeCardCProps) => {
   return (
     // src="https://photos.zillowstatic.com/fp/eb044d5179496b1ca6030f016d6bb13a-cc_ft_768.webp"
     <Card className="mb-8 lg:grid lg:grid-cols-2">
-      <CardHeader className="p-0 bg-red-100">
+      <CardHeader className="p-0">
         <img
           src={img}
           width="100%"
           height="auto"
-          className="rounded-t-md object-fill"
+          className="rounded-t-md object-cover"
         />
       </CardHeader>
 
@@ -59,6 +62,20 @@ const HomePage = () => {
     <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
 
       <SInput type="text" name="search" placeHolder="search homes" />
+
+      <div>
+        <div className="bg-amber-100 max-w-[50%] m-auto mt-4 p-8 rounded-md">
+          <Info color="orange" />
+          <p className="text-center">No home found</p>
+        </div>
+
+        <div className="mt-4 flex flex-row justify-center">
+          <Button className="flex flex-row  gap-2 items-end w-full">
+            <Home />
+            Add New Home
+          </Button>
+        </div>
+      </div>
 
       <div className="mt-4 pb-40 h-[100vh] overflow-hidden overflow-y-auto">
         <HomeCard img="https://photos.zillowstatic.com/fp/6a98016b24a7b2ccf20821306f2b589d-sc_1920_1280.webp" />
