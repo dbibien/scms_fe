@@ -26,7 +26,7 @@ const Nav = ({ pb }: PocketBase) => {
       </div>
 
       <div className="flex flex-row gap-2">
-        <div className="hidden lg:block">
+        <div className="hidden lg:block lg:flex lg:items-center lg:gap-4">
           <AppNavLinks mobile={false} />
           <Button onClick={logOut}>Log out</Button>
         </div>
