@@ -61,12 +61,12 @@ const HomePage = () => {
   return (
     <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
 
-      <SInput type="text" name="search" placeHolder="search homes" />
+      <SInput type="text" name="search" placeHolder="search homes..." styles="pt-5 pb-5 text-lg"/>
 
       <div>
         <div className="bg-amber-100 md:max-w-[50%] m-auto mt-4 p-8 rounded-md">
           <Info color="orange" />
-          <p className="text-center">No home found</p>
+          <p className="text-center">No homes found</p>
         </div>
 
         <div className="mt-4 flex flex-row justify-center">
