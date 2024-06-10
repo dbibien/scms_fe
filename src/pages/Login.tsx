@@ -11,8 +11,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import PocketBase from 'pocketbase'
 
+const pb = new PocketBase(import.meta.env.VITE_BACKEND_URL)
 
+// login page zod schema
 const formSchema = z.object({
   email: z.string().min(2),
   password: z.string().min(8).max(24),
@@ -28,11 +31,18 @@ const LoginPage = () => {
     },
   })
 
+  const authenticateUser = async (values: z.infer<typeof formSchema>) => {
+    const authData = await pb.collection('users').authWithPassword(
+      values.email,
+      values.password,
+    )
+
+    console.log("authData: ", authData)
+  }
+
   // Defining submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+    authenticateUser(values)
   }
 
   return (
