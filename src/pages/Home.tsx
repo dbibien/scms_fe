@@ -64,7 +64,7 @@ const HomePage = () => {
       <SInput type="text" name="search" placeHolder="search homes" />
 
       <div>
-        <div className="bg-amber-100 max-w-[50%] m-auto mt-4 p-8 rounded-md">
+        <div className="bg-amber-100 md:max-w-[50%] m-auto mt-4 p-8 rounded-md">
           <Info color="orange" />
           <p className="text-center">No home found</p>
         </div>
