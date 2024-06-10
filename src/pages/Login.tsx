@@ -12,8 +12,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import PocketBase from "pocketbase"
+import { Ban } from "lucide-react"
 
 // login page zod schema
 const formSchema = z.object({
@@ -21,12 +22,14 @@ const formSchema = z.object({
   password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
-const LoginPage = ({ pb }: {pb: PocketBase}) => {
+const LoginPage = ({ pb }: { pb: PocketBase }) => {
+  const [errorMessage, setErrorMessage] = useState("")
+
   const navigate = useNavigate()
 
   // do not allow users to navigate to the login page when they are already logged in 
-  useEffect(()=>{
-    if (pb.authStore.isValid){
+  useEffect(() => {
+    if (pb.authStore.isValid) {
       return navigate("/")
     }
   }, [])
@@ -42,16 +45,22 @@ const LoginPage = ({ pb }: {pb: PocketBase}) => {
   })
 
   const authenticateUser = async (values: z.infer<typeof formSchema>) => {
-    const authData = await pb.collection('users').authWithPassword(
-      values.email,
-      values.password,
-    )
+    try {
+      const authData = await pb.collection('users').authWithPassword(
+        values.email,
+        values.password,
+      )
 
-    console.log("authData: ", authData)
+      // console.log("authData: ", authData)
 
-    if (authData?.record?.id) {
-      console.log("navigate to /")
-      return navigate("/")
+      if (authData?.record?.id) {
+        // user is logged in
+        setErrorMessage("")
+        return navigate("/")
+      }
+    } catch (e) {
+      console.log("e: ", e)
+      setErrorMessage("Error authenticating")
     }
   }
 
@@ -69,6 +78,12 @@ const LoginPage = ({ pb }: {pb: PocketBase}) => {
       <div className="p-2 pt-8 md:max-w-[50%] md:m-auto">
         <p className="text-center text-xl">Log in to manage your community</p>
 
+        {errorMessage && (
+          <div className="bg-red-200 mt-4 p-4 rounded-md">
+            <Ban color="red" />
+            <p className="text-center">{errorMessage}</p>
+          </div>
+        )}
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
@@ -117,7 +132,6 @@ const LoginPage = ({ pb }: {pb: PocketBase}) => {
             </div>
           </form>
         </Form>
-
       </div>
     </>
   )
