@@ -12,6 +12,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
+import PocketBase from "pocketbase"
 
 // login page zod schema
 const formSchema = z.object({
@@ -19,8 +21,16 @@ const formSchema = z.object({
   password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
-const LoginPage = ({ pb }: PocketBase) => {
+const LoginPage = ({ pb }: {pb: PocketBase}) => {
   const navigate = useNavigate()
+
+  // do not allow users to navigate to the login page when they are already logged in 
+  useEffect(()=>{
+    if (pb.authStore.isValid){
+      return navigate("/")
+    }
+  }, [])
+
 
   // Defining form.
   const form = useForm<z.infer<typeof formSchema>>({
