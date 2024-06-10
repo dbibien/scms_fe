@@ -11,17 +11,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import PocketBase from 'pocketbase'
-
-const pb = new PocketBase(import.meta.env.VITE_BACKEND_URL)
+import { useNavigate } from "react-router-dom"
 
 // login page zod schema
 const formSchema = z.object({
-  email: z.string().min(2),
-  password: z.string().min(8).max(24),
+  email: z.string().email(),
+  password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
-const LoginPage = () => {
+const LoginPage = ({ pb }: PocketBase) => {
+  const navigate = useNavigate()
+
   // Defining form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,6 +38,11 @@ const LoginPage = () => {
     )
 
     console.log("authData: ", authData)
+
+    if (authData?.record?.id) {
+      console.log("navigate to /")
+      return navigate("/")
+    }
   }
 
   // Defining submit handler.
@@ -56,7 +61,7 @@ const LoginPage = () => {
 
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
             <FormField
               control={form.control}
               name="email"
@@ -97,7 +102,9 @@ const LoginPage = () => {
               )}
             />
 
-            <Button type="submit" className="w-full mt-8" > Login</Button>
+            <div className="mt-8">
+              <Button type="submit" className="w-full mt-4"> Login</Button>
+            </div>
           </form>
         </Form>
 

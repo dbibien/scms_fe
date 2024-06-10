@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import {
   Sheet,
   SheetContent,
@@ -6,8 +6,19 @@ import {
 } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 import { Separator } from "@radix-ui/react-separator"
+import { Button } from "./ui/button"
+import PocketBase from 'pocketbase'
 
-const Nav = () => {
+const Nav = ({ pb }: PocketBase) => {
+  const navigate = useNavigate()
+
+  const logOut = () => {
+    pb.authStore.clear()
+
+    console.log("loging out")
+    return navigate("/login")
+  }
+
   return (
     <nav className="sticky top-0 z-40 bg-black flex items-center p-4 justify-between">
       <div>
@@ -17,13 +28,13 @@ const Nav = () => {
       <div className="flex flex-row gap-2">
         <div className="hidden lg:block">
           <AppNavLinks mobile={false} />
+          <Button onClick={logOut}>Log out</Button>
         </div>
 
         <div className="lg:hidden">
-          <MobileNav />
+          <MobileNav logOut={logOut} />
         </div>
       </div>
-
     </nav>
   )
 }
@@ -41,12 +52,12 @@ const NavListItem = ({ to, title, mobile = true }: { to: string, title: string, 
         <Link to={to}>{title}</Link>
       </li>
 
-      {mobile && <Separator orientation="horizontal" className="border border-slate-50"/> }
+      {mobile && <Separator orientation="horizontal" className="border border-slate-50" />}
     </>
   )
 }
 
-const AppNavLinks = ({ mobile = true }) => {
+const AppNavLinks = ({ mobile = true }: { mobile: boolean }) => {
   const mobileStyles = ""
   const deskTopStyles = "flex flex-row gap-4"
 
@@ -60,7 +71,7 @@ const AppNavLinks = ({ mobile = true }) => {
   )
 }
 
-const MobileNav = () => {
+const MobileNav = ({ logOut }: { logOut: () => void }) => {
   return (
     <Sheet>
       <SheetTrigger>
@@ -70,6 +81,16 @@ const MobileNav = () => {
       <SheetContent side="right">
         <div>
           <AppNavLinks mobile={true} />
+        </div>
+
+        <div>
+          <Button
+            type="button"
+            className="w-full mt-4"
+            onClick={logOut}
+          >
+            Log out
+          </Button>
         </div>
       </SheetContent>
     </Sheet>
