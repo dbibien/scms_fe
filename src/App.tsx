@@ -37,6 +37,6 @@ const Layout = () => {
 }
 
 const PrivateRoutes = () => {
-  const auth = true
+  const auth = false
   return auth ? <Layout /> : <Navigate to="/login" /> 
 }
