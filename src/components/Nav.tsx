@@ -15,7 +15,7 @@ const Nav = ({ pb }: PocketBase) => {
   const logOut = () => {
     pb.authStore.clear()
 
-    console.log("loging out")
+    console.log("loging out...")
     return navigate("/login")
   }
 

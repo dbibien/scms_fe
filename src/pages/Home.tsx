@@ -13,6 +13,7 @@ import { Info } from 'lucide-react'
 import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
 import PocketBase from "pocketbase"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 
 
@@ -79,7 +80,26 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
         </CardContent>
 
         <CardFooter className="flex flex-row justify-between items-center">
-          <PhoneCall />
+          <Sheet>
+            <SheetTrigger>
+              <PhoneCall />
+            </SheetTrigger>
+
+            <SheetContent side="bottom">
+              <SheetHeader>
+                <SheetTitle>
+                  Select concerns
+                </SheetTitle>
+              </SheetHeader>
+
+              <div>
+                <p>Hello there...</p>
+              </div>
+            </SheetContent>
+
+
+          </Sheet>
+
           <Pencil />
         </CardFooter>
       </div>
