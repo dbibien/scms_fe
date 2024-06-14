@@ -9,7 +9,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@radix-ui/react-separator"
-import { PhoneCall } from 'lucide-react'
+import { Phone, PhoneCall } from 'lucide-react'
 import { Pencil } from 'lucide-react'
 import { Info } from 'lucide-react'
 import { Home } from 'lucide-react'
@@ -46,7 +46,8 @@ type houseRecords = {
 const HomeCard = ({ id, image, address, member_number, security_code, note, expand }: houseRecords) => {
   return (
     // src="https://photos.zillowstatic.com/fp/eb044d5179496b1ca6030f016d6bb13a-cc_ft_768.webp"
-    <Card className="mb-8 lg:grid lg:grid-cols-2">
+    // <Card className="mb-8 lg:grid lg:grid-cols-2">
+    <Card className="mb-8 lg:grid lg:grid-cols-[2fr_2fr_2fr]">
       <CardHeader className="p-0">
         <img
           src={`${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${id}/${image}`}
@@ -90,18 +91,42 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
 
             <SheetContent side="bottom">
               <SheetHeader>
-                <SheetTitle>
+                <SheetTitle className="text-center">
                   Select concerns
                 </SheetTitle>
 
                 <p className="text-center text-gray-600">{address}</p>
+                <Separator orientation="horizontal" className="border border-slate-200" />
               </SheetHeader>
 
-              <ScrollArea>
-                <p>Hello there...</p>
-
+              <ScrollArea className="mt-4 h-80 bg-slate-50 p-2 lg:w-[50%] lg:mx-auto">
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Sprinkler system is on" hint="Inform resident that the sprinkler system is on" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Trash is out on the wrong day" hint="Inform resident that their trash is out on the wrong day" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
                 <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
               </ScrollArea>
+
+              <Button className="flex flex-row  gap-2 items-end w-full mt-4">
+                <Phone />
+                Reach Out To Resident
+              </Button>
             </SheetContent>
 
 
