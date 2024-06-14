@@ -6,6 +6,8 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@radix-ui/react-separator"
 import { PhoneCall } from 'lucide-react'
 import { Pencil } from 'lucide-react'
@@ -14,6 +16,7 @@ import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
 import PocketBase from "pocketbase"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import CheckBox from "@/components/CheckBox";
 
 
 
@@ -90,11 +93,15 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                 <SheetTitle>
                   Select concerns
                 </SheetTitle>
+
+                <p className="text-center text-gray-600">{address}</p>
               </SheetHeader>
 
-              <div>
+              <ScrollArea>
                 <p>Hello there...</p>
-              </div>
+
+                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+              </ScrollArea>
             </SheetContent>
 
 
