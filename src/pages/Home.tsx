@@ -57,11 +57,11 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
           <p className="text-center">{address}</p>
 
           <div className="pt-4 flex flex-row justify-center gap-2">
-            {expand.residents.map(resident => {
+            {expand?.residents.map(resident => {
               return (
                 <div key={resident.id}>
-                  <p>{resident.first_name} {resident.last_name}</p>
-                  {expand.residents.length > 1 && (
+                  <p>{resident?.first_name} {resident?.last_name}</p>
+                  {expand?.residents.length > 1 && (
                     <Separator orientation="vertical" className="border border-slate-200" />
                   )}
                 </div>
