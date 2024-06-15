@@ -99,37 +99,39 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                 <Separator orientation="horizontal" className="border border-slate-200" />
               </SheetHeader>
 
-              <ScrollArea className="mt-4 h-80 bg-slate-50 p-2 lg:w-[50%] lg:mx-auto">
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Sprinkler system is on" hint="Inform resident that the sprinkler system is on" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Trash is out on the wrong day" hint="Inform resident that their trash is out on the wrong day" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-              </ScrollArea>
+              <div className="mt-4 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
+                <SInput type="text" name="search" placeHolder="search concerns..." styles="pt-5 pb-5 mb-2 text-lg" />
 
-              <Button className="flex flex-row  gap-2 items-end w-full mt-4">
-                <Phone />
-                Reach Out To Resident
-              </Button>
+                <ScrollArea className="h-80 bg-slate-50">
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Sprinkler system is on" hint="Inform resident that the sprinkler system is on" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Trash is out on the wrong day" hint="Inform resident that their trash is out on the wrong day" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                </ScrollArea>
+
+                <Button className="flex flex-row  gap-2 items-end w-full mt-4">
+                  <Phone />
+                  Reach Out To Resident
+                </Button>
+              </div>
             </SheetContent>
-
-
           </Sheet>
 
           <Pencil />
@@ -171,7 +173,6 @@ const HomePage = ({ pb }: { pb: PocketBase }) => {
 
   return (
     <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
-
       <SInput type="text" name="search" placeHolder="search homes..." styles="pt-5 pb-5 text-lg" />
 
       {!houses && (
