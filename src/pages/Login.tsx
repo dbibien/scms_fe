@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/form"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
-import PocketBase from "pocketbase"
 import { Ban } from "lucide-react"
+import { useApplicatonStore } from "@/common/store"
 
 // login page zod schema
 const formSchema = z.object({
@@ -22,7 +22,9 @@ const formSchema = z.object({
   password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
-const LoginPage = ({ pb }: { pb: PocketBase }) => {
+const LoginPage = () => {
+  const pb = useApplicatonStore(state => state.pb) 
+
   const [errorMessage, setErrorMessage] = useState("")
 
   const navigate = useNavigate()

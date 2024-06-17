@@ -7,17 +7,15 @@ import {
   CardHeader,
 } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@radix-ui/react-separator"
 import { Phone, PhoneCall } from 'lucide-react'
 import { Pencil } from 'lucide-react'
 import { Info } from 'lucide-react'
 import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
-import PocketBase from "pocketbase"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import CheckBox from "@/components/CheckBox";
-
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import CheckBox from "@/components/CheckBox"
+import { useApplicatonStore } from "@/common/store";
 
 
 type houseRecords = {
@@ -44,6 +42,31 @@ type houseRecords = {
 }
 
 const HomeCard = ({ id, image, address, member_number, security_code, note, expand }: houseRecords) => {
+  const pb = useApplicatonStore(state => state.pb)
+
+  const callResident = async () => {
+    console.log("calling resident...")
+
+    const res = await pb.send(`/api/scms/call-resident`, {
+      headers: {
+        
+       "Authorization": `${pb.authStore.token} `
+      }
+    })
+    const data = res.json()
+    console.log("data: ", data)
+  }
+
+  // const callResident = async () => {
+  //   console.log("calling resident...")
+  //
+  //   // const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/scms/call-resident`)
+  //   const res = await fetch("http://127.0.0.1:8090/api/scms/call-resident")
+  //   const data = await res.json()
+  //   console.log("data: ", data)
+  // }
+
+
   return (
     // src="https://photos.zillowstatic.com/fp/eb044d5179496b1ca6030f016d6bb13a-cc_ft_768.webp"
     // <Card className="mb-8 lg:grid lg:grid-cols-2">
@@ -99,37 +122,42 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                 <Separator orientation="horizontal" className="border border-slate-200" />
               </SheetHeader>
 
-              <ScrollArea className="mt-4 h-80 bg-slate-50 p-2 lg:w-[50%] lg:mx-auto">
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Sprinkler system is on" hint="Inform resident that the sprinkler system is on" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Trash is out on the wrong day" hint="Inform resident that their trash is out on the wrong day" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-              </ScrollArea>
+              <div className="mt-4 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
+                <SInput type="text" name="search" placeHolder="search concerns..." styles="pt-5 pb-5 mb-4 text-lg" />
 
-              <Button className="flex flex-row  gap-2 items-end w-full mt-4">
-                <Phone />
-                Reach Out To Resident
-              </Button>
+                <ScrollArea className="h-80 bg-slate-50">
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Sprinkler system is on" hint="Inform resident that the sprinkler system is on" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Trash is out on the wrong day" hint="Inform resident that their trash is out on the wrong day" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                </ScrollArea>
+
+                <Button
+                  onClick={() => callResident()}
+                  className="flex flex-row  gap-2 items-end w-full mt-4"
+                >
+                  <Phone />
+                  Reach Out To Resident
+                </Button>
+              </div>
             </SheetContent>
-
-
           </Sheet>
 
           <Pencil />
@@ -139,7 +167,9 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
   )
 }
 
-const HomePage = ({ pb }: { pb: PocketBase }) => {
+const HomePage = () => {
+  const pb = useApplicatonStore(state => state.pb)
+
   const [houses, setHouses] = useState<houseRecords[]>([])
 
   useEffect(() => {
@@ -171,7 +201,6 @@ const HomePage = ({ pb }: { pb: PocketBase }) => {
 
   return (
     <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
-
       <SInput type="text" name="search" placeHolder="search homes..." styles="pt-5 pb-5 text-lg" />
 
       {!houses && (
@@ -194,7 +223,6 @@ const HomePage = ({ pb }: { pb: PocketBase }) => {
         {houses.map((house) => {
           return <HomeCard key={house.id} {...house} />
         })}
-
       </div>
     </div>
   )

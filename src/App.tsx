@@ -6,20 +6,20 @@ import UsersPage from './pages/Users'
 import ConcernsPage from './pages/Concerns'
 import ReportPage from './pages/Reports'
 import LoginPage from './pages/Login'
-import PocketBase from 'pocketbase'
+import { useApplicatonStore } from './common/store'
 
-const pb = new PocketBase(import.meta.env.VITE_BACKEND_URL)
+// const pb = new PocketBase(import.meta.env.VITE_BACKEND_URL)
 
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage pb={pb} />} />
+      <Route path="/login" element={<LoginPage />} />
 
-      <Route element={<PrivateRoutes pb={pb} />}>
-        <Route path="/" element={<HomePage pb={pb} />} />
-        <Route path="/users" element={<UsersPage pb={pb} />} />
-        <Route path="/concerns" element={<ConcernsPage pb={pb} />} />
-        <Route path="/reports" element={<ReportPage pb={pb} />} />
+      <Route element={<PrivateRoutes />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/users" element={<UsersPage />} />
+        <Route path="/concerns" element={<ConcernsPage />} />
+        <Route path="/reports" element={<ReportPage />} />
       </Route>
     </Routes>)
 }
@@ -30,7 +30,7 @@ export default App
 const Layout = () => {
   return (
     <>
-      <Nav pb={pb} />
+      <Nav />
 
       <div className='ml-1 mr-1'>
         <Outlet />
@@ -40,6 +40,8 @@ const Layout = () => {
 }
 
 const PrivateRoutes = () => {
+  const pb = useApplicatonStore(state => state.pb)
+
   console.log("authStore.isValid: ", pb.authStore.isValid);
   console.log("authStore.token: ", pb.authStore.token);
 
