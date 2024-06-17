@@ -7,9 +7,11 @@ import {
 import { Menu } from "lucide-react"
 import { Separator } from "@radix-ui/react-separator"
 import { Button } from "./ui/button"
-import PocketBase from 'pocketbase'
+import { useApplicatonStore } from "@/common/store"
 
-const Nav = ({ pb }: PocketBase) => {
+const Nav = () => {
+  const pb = useApplicatonStore(state => state.pb)
+
   const navigate = useNavigate()
 
   const logOut = () => {

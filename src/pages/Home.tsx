@@ -7,17 +7,15 @@ import {
   CardHeader,
 } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@radix-ui/react-separator"
 import { Phone, PhoneCall } from 'lucide-react'
 import { Pencil } from 'lucide-react'
 import { Info } from 'lucide-react'
 import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
-import PocketBase from "pocketbase"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import CheckBox from "@/components/CheckBox";
-
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import CheckBox from "@/components/CheckBox"
+import { useApplicatonStore } from "@/common/store";
 
 
 type houseRecords = {
@@ -43,15 +41,30 @@ type houseRecords = {
   },
 }
 
-const HomeCard = ({ id, image, address, member_number, security_code, note, expand}: houseRecords) => {
+const HomeCard = ({ id, image, address, member_number, security_code, note, expand }: houseRecords) => {
+  const pb = useApplicatonStore(state => state.pb)
+
   const callResident = async () => {
     console.log("calling resident...")
 
-    // const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/scms/call-resident`)
-    const res = await fetch("http://127.0.0.1:8090/api/scms/call-resident")
-    const data = await res.json()
+    const res = await pb.send(`/api/scms/call-resident`, {
+      headers: {
+        
+       "Authorization": `${pb.authStore.token} `
+      }
+    })
+    const data = res.json()
     console.log("data: ", data)
   }
+
+  // const callResident = async () => {
+  //   console.log("calling resident...")
+  //
+  //   // const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/scms/call-resident`)
+  //   const res = await fetch("http://127.0.0.1:8090/api/scms/call-resident")
+  //   const data = await res.json()
+  //   console.log("data: ", data)
+  // }
 
 
   return (
@@ -154,7 +167,9 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
   )
 }
 
-const HomePage = ({ pb }: { pb: PocketBase }) => {
+const HomePage = () => {
+  const pb = useApplicatonStore(state => state.pb)
+
   const [houses, setHouses] = useState<houseRecords[]>([])
 
   useEffect(() => {
