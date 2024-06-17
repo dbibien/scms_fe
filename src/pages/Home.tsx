@@ -43,7 +43,17 @@ type houseRecords = {
   },
 }
 
-const HomeCard = ({ id, image, address, member_number, security_code, note, expand }: houseRecords) => {
+const HomeCard = ({ id, image, address, member_number, security_code, note, expand}: houseRecords) => {
+  const callResident = async () => {
+    console.log("calling resident...")
+
+    // const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/scms/call-resident`)
+    const res = await fetch("http://127.0.0.1:8090/api/scms/call-resident")
+    const data = await res.json()
+    console.log("data: ", data)
+  }
+
+
   return (
     // src="https://photos.zillowstatic.com/fp/eb044d5179496b1ca6030f016d6bb13a-cc_ft_768.webp"
     // <Card className="mb-8 lg:grid lg:grid-cols-2">
@@ -100,7 +110,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
               </SheetHeader>
 
               <div className="mt-4 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
-                <SInput type="text" name="search" placeHolder="search concerns..." styles="pt-5 pb-5 mb-2 text-lg" />
+                <SInput type="text" name="search" placeHolder="search concerns..." styles="pt-5 pb-5 mb-4 text-lg" />
 
                 <ScrollArea className="h-80 bg-slate-50">
                   <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
@@ -126,7 +136,10 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                   <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
                 </ScrollArea>
 
-                <Button className="flex flex-row  gap-2 items-end w-full mt-4">
+                <Button
+                  onClick={() => callResident()}
+                  className="flex flex-row  gap-2 items-end w-full mt-4"
+                >
                   <Phone />
                   Reach Out To Resident
                 </Button>
@@ -195,7 +208,6 @@ const HomePage = ({ pb }: { pb: PocketBase }) => {
         {houses.map((house) => {
           return <HomeCard key={house.id} {...house} />
         })}
-
       </div>
     </div>
   )
