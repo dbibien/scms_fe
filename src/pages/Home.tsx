@@ -123,6 +123,17 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
               </SheetHeader>
 
               <div className="mt-4 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
+
+                <div className="p-4 grid grid-cols-3 gap-2">
+                    <p className="bg-green-100 inline-block p-1 rounded-lg text-center text-green-500 text-xs font-semibold">Gagrage door open</p>
+                    <p className="bg-green-100 inline-block p-1 rounded-lg text-center text-green-500 text-xs font-semibold">Sprinkers on</p>
+                    <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Garbage bin out</p>
+                    <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Garage lights are out</p>
+                    <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Some other stuff</p>
+                    <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Even some more other stuff</p>
+                </div>
+
+
                 <SInput type="text" name="search" placeHolder="search concerns..." styles="pt-5 pb-5 mb-4 text-lg" />
 
                 <ScrollArea className="h-80 bg-slate-50">
@@ -163,16 +174,21 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                     side="bottom"
                   >
                     <div className="lg:w-[50%] lg:mx-auto">
-                      <h3 className="text-center text-xl font-bold-[400px]">Are you sure you want to call the resident?</h3>
+                      <h3 className="text-center text-xl font-bold-[400px]">
+                        Are you sure you want to call the resident?
+                      </h3>
 
                       <div className="grid grid-cols-2 gap-2">
-                        <Button
-                          onClick={() => callResident()}
-                          className="flex flex-row  gap-2 items-end w-full mt-4"
-                        >
-                          <Phone />
-                          Call
-                        </Button>
+                        <SheetClose>
+                          <Button
+                            type="submit"
+                            onClick={() => callResident()}
+                            className="flex flex-row  gap-2 items-end w-full mt-4"
+                          >
+                            <Phone />
+                            Call
+                          </Button>
+                        </SheetClose>
 
                         <SheetClose>
                           <Button
