@@ -15,7 +15,7 @@ import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import CheckBox from "@/components/CheckBox"
-import { useApplicatonStore } from "@/common/store";
+import { useApplicatonStore, useConcernStore } from "@/common/store";
 
 
 type houseRecords = {
@@ -125,12 +125,12 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
               <div className="mt-4 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
 
                 <div className="p-4 grid grid-cols-3 gap-2">
-                    <p className="bg-green-100 inline-block p-1 rounded-lg text-center text-green-500 text-xs font-semibold">Gagrage door open</p>
-                    <p className="bg-green-100 inline-block p-1 rounded-lg text-center text-green-500 text-xs font-semibold">Sprinkers on</p>
-                    <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Garbage bin out</p>
-                    <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Garage lights are out</p>
-                    <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Some other stuff</p>
-                    <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Even some more other stuff</p>
+                  <p className="bg-green-100 inline-block p-1 rounded-lg text-center text-green-500 text-xs font-semibold">Gagrage door open</p>
+                  <p className="bg-green-100 inline-block p-1 rounded-lg text-center text-green-500 text-xs font-semibold">Sprinkers on</p>
+                  <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Garbage bin out</p>
+                  <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Garage lights are out</p>
+                  <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Some other stuff</p>
+                  <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Even some more other stuff</p>
                 </div>
 
 
@@ -216,35 +216,55 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
 
 const HomePage = () => {
   const pb = useApplicatonStore(state => state.pb)
+  const concerns = useConcernStore(state => state.concerns)
+  const setConcerns = useConcernStore(state => state.setConcerns)
 
   const [houses, setHouses] = useState<houseRecords[]>([])
 
-  useEffect(() => {
-    const getAllHouses = async () => {
-      try {
-        // fields the backend should return
-        const fields = `id, address, member_number, security_code, image, note,
+  const getAllHouses = async () => {
+    try {
+      // fields the backend should return
+      const fields = `id, address, member_number, security_code, image, note,
               expand.residents.id, expand.residents.first_name, expand.residents.last_name, expand.residents.owner,
               expand.phones.id, expand.phones.phone_number, expand.phones.primary, expand.phones.type,
         `
-        const records = await pb.collection('houses').getFullList({
-          // sort: "-created",
-          expand: 'residents, phones',
-          fields: fields,
-        })
+      const records = await pb.collection('houses').getFullList({
+        // sort: "-created",
+        expand: 'residents, phones',
+        fields: fields,
+      })
 
-        // console.log("records: ", records)
-        //@ts-expect-error this is just the best way I could come up with to get the error to go away
-        setHouses(records)
-      } catch (e) {
-        console.log("e:", e)
-      }
+      // console.log("records: ", records)
+      //@ts-expect-error this is just the best way I could come up with to get the error to go away
+      setHouses(records)
+    } catch (e) {
+      console.log("e:", e)
     }
+  }
 
+  const getAllConcerns = async () => {
+    try {
+      // fields the backend should return
+      const fields = `id, name, hint`
+      const records = await pb.collection('concerns').getFullList({
+        fields: fields,
+      })
+
+      console.log("records: ", records)
+      //@ts-expect-error this is just the best way I could come up with to get the error to go away
+      setConcerns(records)
+    } catch (e) {
+      console.log("e:", e)
+    }
+  }
+
+  useEffect(() => {
     getAllHouses()
+    getAllConcerns()
   }, [])
 
   // console.log("house: ", houses)
+  console.log("concerns: ", concerns)
 
   return (
     <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
