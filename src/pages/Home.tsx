@@ -8,12 +8,12 @@ import {
 } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@radix-ui/react-separator"
-import { Phone, PhoneCall } from 'lucide-react'
+import { Phone, PhoneCall, Ban } from 'lucide-react'
 import { Pencil } from 'lucide-react'
 import { Info } from 'lucide-react'
 import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import CheckBox from "@/components/CheckBox"
 import { useApplicatonStore } from "@/common/store";
 
@@ -49,8 +49,8 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
 
     const res = await pb.send(`/api/scms/call-resident`, {
       headers: {
-        
-       "Authorization": `${pb.authStore.token} `
+
+        "Authorization": `${pb.authStore.token} `
       }
     })
     const data = res.json()
@@ -149,13 +149,44 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                   <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
                 </ScrollArea>
 
-                <Button
-                  onClick={() => callResident()}
-                  className="flex flex-row  gap-2 items-end w-full mt-4"
-                >
-                  <Phone />
-                  Reach Out To Resident
-                </Button>
+                <Sheet>
+                  <SheetTrigger className="w-full">
+                    <Button
+                      className="flex flex-row  gap-2 items-end w-full mt-4"
+                    >
+                      <Phone />
+                      Reach Out To Resident
+                    </Button>
+                  </SheetTrigger>
+
+                  <SheetContent
+                    side="bottom"
+                  >
+                    <div className="lg:w-[50%] lg:mx-auto">
+                      <h3 className="text-center text-xl font-bold-[400px]">Are you sure you want to call the resident?</h3>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button
+                          onClick={() => callResident()}
+                          className="flex flex-row  gap-2 items-end w-full mt-4"
+                        >
+                          <Phone />
+                          Call
+                        </Button>
+
+                        <SheetClose>
+                          <Button
+                            color="red"
+                            className="flex flex-row gap-2 items-end w-full mt-4 bg-red-400 hover:bg-red-500"
+                          >
+                            <Ban />
+                            Cancel
+                          </Button>
+                        </SheetClose>
+                      </div>
+                    </div>
+                  </SheetContent>
+                </Sheet>
               </div>
             </SheetContent>
           </Sheet>
