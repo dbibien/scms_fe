@@ -24,7 +24,7 @@ type concernStore = {
 
 // STORE
 export const useApplicatonStore = create<applicationStore>()(
-  devtools((set) => ({
+  devtools(() => ({
     pb: pb,
   }))
 )
@@ -33,7 +33,7 @@ export const useConcernStore = create<concernStore>()(
   devtools((set) => ({
     concerns: [],
 
-    setConcerns: (data) => (set((state) => ({
+    setConcerns: (data) => (set(() => ({
       concerns: data,
     }))),
   }))

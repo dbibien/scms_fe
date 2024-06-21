@@ -66,6 +66,8 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
   //   console.log("data: ", data)
   // }
 
+  console.log("note: ", note)
+
 
   return (
     // src="https://photos.zillowstatic.com/fp/eb044d5179496b1ca6030f016d6bb13a-cc_ft_768.webp"
