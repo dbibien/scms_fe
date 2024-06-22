@@ -4,12 +4,13 @@ type CProps = {
   id: string,
   name: string,
   hint?: string
+  checked: boolean
 }
 
-const CheckBox = ({ id, name, hint }: CProps) => {
+const CheckBox = ({ id, name, hint, checked }: CProps) => {
   return (
     <div className="items-top flex space-x-2">
-      <Checkbox id={id} />
+      <Checkbox checked={checked} id={id} />
 
       <div className="grid gap-1.5 leading-none">
         <label

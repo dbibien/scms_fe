@@ -125,7 +125,6 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
               </SheetHeader>
 
               <div className="mt-4 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
-
                 <div className="p-4 grid grid-cols-3 gap-2">
                   <p className="bg-green-100 inline-block p-1 rounded-lg text-center text-green-500 text-xs font-semibold">Gagrage door open</p>
                   <p className="bg-green-100 inline-block p-1 rounded-lg text-center text-green-500 text-xs font-semibold">Sprinkers on</p>
@@ -134,7 +133,6 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                   <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Some other stuff</p>
                   <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Even some more other stuff</p>
                 </div>
-
 
                 <SInput type="text" name="search" placeHolder="search concerns..." styles="pt-5 pb-5 mb-4 text-lg" />
 
