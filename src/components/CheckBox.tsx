@@ -4,7 +4,7 @@ type CProps = {
   id: string,
   name: string,
   hint?: string
-  checked: boolean
+  checked?: boolean
 }
 
 const CheckBox = ({ id, name, hint, checked }: CProps) => {

@@ -43,6 +43,7 @@ type houseRecords = {
 
 const HomeCard = ({ id, image, address, member_number, security_code, note, expand }: houseRecords) => {
   const pb = useApplicatonStore(state => state.pb)
+  const concerns = useConcernStore(state => state.concerns)
 
   const callResident = async () => {
     console.log("calling resident...")
@@ -136,28 +137,15 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
 
                 <SInput type="text" name="search" placeHolder="search concerns..." styles="pt-5 pb-5 mb-4 text-lg" />
 
-                <ScrollArea className="h-80 bg-slate-50">
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Sprinkler system is on" hint="Inform resident that the sprinkler system is on" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Trash is out on the wrong day" hint="Inform resident that their trash is out on the wrong day" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+
+                <ScrollArea className="h-80 pl-2 pr-2 bg-slate-50">
+                  {
+                    concerns.map(concern => (
+                      <div key={concern?.id} className="mt-4">
+                        <CheckBox id={concern?.id} name={concern?.name} hint={concern?.hint} />
+                      </div>
+                    ))
+                  }
                 </ScrollArea>
 
                 <Sheet>
