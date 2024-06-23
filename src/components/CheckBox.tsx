@@ -1,16 +1,37 @@
+import { selectConcernsType } from "@/common/types"
 import { Checkbox } from "./ui/checkbox"
+import { CheckedState } from "@radix-ui/react-checkbox"
 
 type CProps = {
   id: string,
   name: string,
   hint?: string
-  checked?: boolean
+  selectConcerns: selectConcernsType[]
+  setSelectConcerns: React.Dispatch<React.SetStateAction<selectConcernsType[]>>
 }
 
-const CheckBox = ({ id, name, hint, checked }: CProps) => {
+const CheckBox = ({ id, name, hint, setSelectConcerns, selectConcerns }: CProps) => {
+  // if check box is checked, add it to the list of checked items
+  // else filter the list of checked concerned for the item that is no longer checked
+  const handleSelectBoxClicked = (checked: CheckedState) => {
+    if (checked) {
+      setSelectConcerns([...selectConcerns, { id: id, name: name, selected: true }])
+    } else {
+      const editedList = selectConcerns.filter(concern => (concern.id !== id))
+      setSelectConcerns(editedList)
+    }
+  }
+
   return (
     <div className="items-top flex space-x-2">
-      <Checkbox checked={checked} id={id} />
+      <Checkbox
+        id={id}
+        // checked={true}
+        onCheckedChange={(checked) => {
+          handleSelectBoxClicked(checked)
+          return checked
+        }}
+      />
 
       <div className="grid gap-1.5 leading-none">
         <label

@@ -15,8 +15,8 @@ import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import CheckBox from "@/components/CheckBox"
-import { useApplicatonStore, useConcernStore } from "@/common/store";
-
+import { useApplicatonStore, useConcernStore } from "@/common/store"
+import { selectConcernsType } from "@/common/types"
 
 type houseRecords = {
   id: string,
@@ -45,6 +45,8 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
   const pb = useApplicatonStore(state => state.pb)
   const concerns = useConcernStore(state => state.concerns)
 
+  const [selectConcerns, setSelectConcerns] = useState<selectConcernsType[]>([])
+
   const callResident = async () => {
     console.log("calling resident...")
 
@@ -58,16 +60,8 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
     console.log("data: ", data)
   }
 
-  // const callResident = async () => {
-  //   console.log("calling resident...")
-  //
-  //   // const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/scms/call-resident`)
-  //   const res = await fetch("http://127.0.0.1:8090/api/scms/call-resident")
-  //   const data = await res.json()
-  //   console.log("data: ", data)
-  // }
-
   console.log("note: ", note)
+  console.log("selected concerns: ", selectConcerns)
 
 
   return (
@@ -142,7 +136,13 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                   {
                     concerns.map(concern => (
                       <div key={concern?.id} className="mt-4">
-                        <CheckBox id={concern?.id} name={concern?.name} hint={concern?.hint} />
+                        <CheckBox
+                          id={concern?.id}
+                          name={concern?.name}
+                          hint={concern?.hint}
+                          selectConcerns={selectConcerns}
+                          setSelectConcerns={setSelectConcerns}
+                        />
                       </div>
                     ))
                   }
