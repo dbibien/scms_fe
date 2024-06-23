@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@radix-ui/react-separator"
-import { Phone, PhoneCall, Ban } from 'lucide-react'
+import { Phone, PhoneCall, Ban, CircleX } from 'lucide-react'
 import { Pencil } from 'lucide-react'
 import { Info } from 'lucide-react'
 import { Home } from 'lucide-react'
@@ -119,20 +119,26 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                 <Separator orientation="horizontal" className="border border-slate-200" />
               </SheetHeader>
 
-              <div className="mt-4 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
-                <div className="p-4 grid grid-cols-3 gap-2">
-                  <p className="bg-green-100 inline-block p-1 rounded-lg text-center text-green-500 text-xs font-semibold">Gagrage door open</p>
-                  <p className="bg-green-100 inline-block p-1 rounded-lg text-center text-green-500 text-xs font-semibold">Sprinkers on</p>
-                  <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Garbage bin out</p>
-                  <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Garage lights are out</p>
-                  <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Some other stuff</p>
-                  <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Even some more other stuff</p>
+              <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
+                <div className="pb-2 grid grid-cols-3 gap-2">
+                  {
+                    selectConcerns.map(concern => (
+                      <div 
+                        key={concern.id}
+                        className="bg-green-100 inline-block p-1 rounded-lg"
+                      >
+                        <div className="flex flex-row justify-end">
+                          <CircleX size={15} color="#f87171"/>
+                        </div>
+                        <p className="text-center text-green-500 text-xs font-semibold">{concern.name}</p>
+                      </div>
+                    ))
+                  }
                 </div>
 
                 <SInput type="text" name="search" placeHolder="search concerns..." styles="pt-5 pb-5 mb-4 text-lg" />
 
-
-                <ScrollArea className="h-80 pl-2 pr-2 bg-slate-50">
+                <ScrollArea className="max-h-80 pl-2 pr-2 bg-slate-50">
                   {
                     concerns.map(concern => (
                       <div key={concern?.id} className="mt-4">
