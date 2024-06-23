@@ -11,8 +11,6 @@ type CProps = {
 }
 
 const CheckBox = ({ id, name, hint, setSelectConcerns, selectConcerns }: CProps) => {
-  // if check box is checked, add it to the list of checked items
-  // else filter the list of checked concerned for the item that is no longer checked
   const handleSelectBoxClicked = (checked: CheckedState) => {
     if (checked) {
       setSelectConcerns([...selectConcerns, { id: id, name: name, selected: true }])
@@ -29,7 +27,6 @@ const CheckBox = ({ id, name, hint, setSelectConcerns, selectConcerns }: CProps)
         // checked={true}
         onCheckedChange={(checked) => {
           handleSelectBoxClicked(checked)
-          return checked
         }}
       />
 
