@@ -155,8 +155,12 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                 </ScrollArea>
 
                 <Sheet>
-                  <SheetTrigger className="w-full">
+                  <SheetTrigger
+                    disabled={selectConcerns.length === 0}
+                    className="w-full"
+                  >
                     <Button
+                      disabled={selectConcerns.length === 0}
                       className="flex flex-row  gap-2 items-end w-full mt-4"
                     >
                       <Phone />
