@@ -4,19 +4,19 @@ type CPropsTypes = {
   type: string,
   name: string,
   placeHolder: string,
-  // searchValue?: string, 
-  // setSearchValue: React.Dispatch<React.SetStateAction<string>>,
+  searchValue: string,
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>,
   styles?: string,
   fields: any,
 }
 
-const SInput = ({type, name, placeHolder, styles, fields}: CPropsTypes) => {
+const SInput = ({ type, name, placeHolder, styles, fields }: CPropsTypes) => {
   return (
     <div>
       <Input
         type={type}
-       name={name}
-        placeholder={placeHolder} 
+        name={name}
+        placeholder={placeHolder}
         // value={searchValue}
         className={styles} {...fields} />
     </div>

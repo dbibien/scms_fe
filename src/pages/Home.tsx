@@ -17,7 +17,7 @@ import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger 
 import CheckBox from "@/components/CheckBox"
 import { useApplicatonStore, useConcernStore } from "@/common/store"
 import { concernType, selectConcernsType } from "@/common/types"
-import SplInput from "@/components/SInput"
+import SplInput from "@/components/SplInput";
 
 type houseRecords = {
   id: string,
