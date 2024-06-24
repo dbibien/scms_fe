@@ -5,12 +5,14 @@ import { CheckedState } from "@radix-ui/react-checkbox"
 type CProps = {
   id: string,
   name: string,
-  hint?: string
-  selectConcerns: selectConcernsType[]
-  setSelectConcerns: React.Dispatch<React.SetStateAction<selectConcernsType[]>>
+  hint?: string,
+  checked: boolean,
+  selectConcerns: selectConcernsType[],
+  setSelectConcerns: React.Dispatch<React.SetStateAction<selectConcernsType[]>>,
 }
 
-const CheckBox = ({ id, name, hint, setSelectConcerns, selectConcerns }: CProps) => {
+const CheckBox = ({ id, name, hint, checked, setSelectConcerns, selectConcerns }: CProps) => {
+
   const handleSelectBoxClicked = (checked: CheckedState) => {
     if (checked) {
       setSelectConcerns([...selectConcerns, { id: id, name: name, selected: true }])
@@ -24,7 +26,7 @@ const CheckBox = ({ id, name, hint, setSelectConcerns, selectConcerns }: CProps)
     <div className="items-top flex space-x-2">
       <Checkbox
         id={id}
-        // checked={true}
+        checked={checked}
         onCheckedChange={(checked) => {
           handleSelectBoxClicked(checked)
         }}

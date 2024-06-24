@@ -27,7 +27,7 @@ type houseRecords = {
   note: string,
   expand: {
     phones: {
-      id: string
+      id: string,
       phone_number: string,
       primary: boolean,
       type: "home" | "cell" | "business"
@@ -58,6 +58,11 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
     })
     const data = res.json()
     console.log("data: ", data)
+  }
+
+  const handleRemoveConcern = (id: string) => {
+    const newSelectedConcernsList = selectConcerns.filter(concern => (concern.id !== id))
+    setSelectConcerns(newSelectedConcernsList)
   }
 
   console.log("note: ", note)
@@ -121,12 +126,15 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                 <div className="pb-2 grid grid-cols-3 gap-2">
                   {
                     selectConcerns.map(concern => (
-                      <div 
+                      <div
                         key={concern.id}
                         className="bg-green-100 inline-block p-1 rounded-lg"
                       >
                         <div className="flex flex-row justify-end">
-                          <CircleX size={15} color="#f87171"/>
+                          <button 
+                            onClick={() => handleRemoveConcern(concern.id)}>
+                            <CircleX size={15} color="#f87171" />
+                          </button>
                         </div>
                         <p className="text-center text-green-500 text-xs font-semibold">{concern.name}</p>
                       </div>
@@ -144,6 +152,9 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                           id={concern?.id}
                           name={concern?.name}
                           hint={concern?.hint}
+                          checked={
+                            selectConcerns.filter(sc => (sc.id === concern.id && sc.selected === true)).length === 1 && true
+                          }
                           selectConcerns={selectConcerns}
                           setSelectConcerns={setSelectConcerns}
                         />
