@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@radix-ui/react-separator"
-import { Phone, PhoneCall, Ban, CircleX } from 'lucide-react'
+import { Phone, PhoneCall, Ban } from 'lucide-react'
 import { Pencil } from 'lucide-react'
 import { Info } from 'lucide-react'
 import { Home } from 'lucide-react'
@@ -18,6 +18,7 @@ import CheckBox from "@/components/CheckBox"
 import { useApplicatonStore, useConcernStore } from "@/common/store"
 import { concernType, selectConcernsType } from "@/common/types"
 import SplInput from "@/components/SplInput";
+import ConcernSelectorViewer from "@/components/ConcernSelectorViewer";
 
 type houseRecords = {
   id: string,
@@ -132,24 +133,10 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
               </SheetHeader>
 
               <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
-                <div className="pb-2 grid grid-cols-3 gap-2">
-                  {
-                    selectConcerns.map(concern => (
-                      <div
-                        key={concern.id}
-                        className="bg-green-100 inline-block p-1 rounded-lg"
-                      >
-                        <div className="flex flex-row justify-end">
-                          <button
-                            onClick={() => handleRemoveConcern(concern.id)}>
-                            <CircleX size={15} color="#f87171" />
-                          </button>
-                        </div>
-                        <p className="text-center text-green-500 text-xs font-semibold">{concern.name}</p>
-                      </div>
-                    ))
-                  }
-                </div>
+                <ConcernSelectorViewer
+                  selectConcerns={selectConcerns}
+                  handleRemoveConcern={handleRemoveConcern}
+                />
 
                 <SplInput
                   type="text"
@@ -201,10 +188,20 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                         Are you sure you want to call the resident?
                       </h3>
 
+                      <div className="mt-4">
+                        <ConcernSelectorViewer
+                          selectConcerns={selectConcerns}
+                          handleRemoveConcern={handleRemoveConcern}
+                        />
+                      </div>
+
                       <div className="grid grid-cols-2 gap-2">
-                        <SheetClose>
+                        <SheetClose
+                          disabled={selectConcerns.length === 0}
+                        >
                           <Button
                             type="submit"
+                            disabled={selectConcerns.length === 0}
                             onClick={() => callResident()}
                             className="flex flex-row  gap-2 items-end w-full mt-4"
                           >
