@@ -8,15 +8,15 @@ import {
 } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@radix-ui/react-separator"
-import { Phone, PhoneCall, Ban } from 'lucide-react'
+import { Phone, PhoneCall, Ban, CircleX } from 'lucide-react'
 import { Pencil } from 'lucide-react'
 import { Info } from 'lucide-react'
 import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import CheckBox from "@/components/CheckBox"
-import { useApplicatonStore, useConcernStore } from "@/common/store";
-
+import { useApplicatonStore, useConcernStore } from "@/common/store"
+import { selectConcernsType } from "@/common/types"
 
 type houseRecords = {
   id: string,
@@ -27,7 +27,7 @@ type houseRecords = {
   note: string,
   expand: {
     phones: {
-      id: string
+      id: string,
       phone_number: string,
       primary: boolean,
       type: "home" | "cell" | "business"
@@ -43,6 +43,9 @@ type houseRecords = {
 
 const HomeCard = ({ id, image, address, member_number, security_code, note, expand }: houseRecords) => {
   const pb = useApplicatonStore(state => state.pb)
+  const concerns = useConcernStore(state => state.concerns)
+
+  const [selectConcerns, setSelectConcerns] = useState<selectConcernsType[]>([])
 
   const callResident = async () => {
     console.log("calling resident...")
@@ -57,21 +60,16 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
     console.log("data: ", data)
   }
 
-  // const callResident = async () => {
-  //   console.log("calling resident...")
-  //
-  //   // const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/scms/call-resident`)
-  //   const res = await fetch("http://127.0.0.1:8090/api/scms/call-resident")
-  //   const data = await res.json()
-  //   console.log("data: ", data)
-  // }
+  const handleRemoveConcern = (id: string) => {
+    const newSelectedConcernsList = selectConcerns.filter(concern => (concern.id !== id))
+    setSelectConcerns(newSelectedConcernsList)
+  }
 
   console.log("note: ", note)
+  console.log("selected concerns: ", selectConcerns)
 
 
   return (
-    // src="https://photos.zillowstatic.com/fp/eb044d5179496b1ca6030f016d6bb13a-cc_ft_768.webp"
-    // <Card className="mb-8 lg:grid lg:grid-cols-2">
     <Card className="mb-8 lg:grid lg:grid-cols-[2fr_2fr_2fr]">
       <CardHeader className="p-0">
         <img
@@ -124,47 +122,54 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                 <Separator orientation="horizontal" className="border border-slate-200" />
               </SheetHeader>
 
-              <div className="mt-4 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
-
-                <div className="p-4 grid grid-cols-3 gap-2">
-                  <p className="bg-green-100 inline-block p-1 rounded-lg text-center text-green-500 text-xs font-semibold">Gagrage door open</p>
-                  <p className="bg-green-100 inline-block p-1 rounded-lg text-center text-green-500 text-xs font-semibold">Sprinkers on</p>
-                  <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Garbage bin out</p>
-                  <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Garage lights are out</p>
-                  <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Some other stuff</p>
-                  <p className="bg-green-100 inline-block p-1 rounded-lg text-green-500 text-xs font-semibold">Even some more other stuff</p>
+              <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
+                <div className="pb-2 grid grid-cols-3 gap-2">
+                  {
+                    selectConcerns.map(concern => (
+                      <div
+                        key={concern.id}
+                        className="bg-green-100 inline-block p-1 rounded-lg"
+                      >
+                        <div className="flex flex-row justify-end">
+                          <button 
+                            onClick={() => handleRemoveConcern(concern.id)}>
+                            <CircleX size={15} color="#f87171" />
+                          </button>
+                        </div>
+                        <p className="text-center text-green-500 text-xs font-semibold">{concern.name}</p>
+                      </div>
+                    ))
+                  }
                 </div>
-
 
                 <SInput type="text" name="search" placeHolder="search concerns..." styles="pt-5 pb-5 mb-4 text-lg" />
 
-                <ScrollArea className="h-80 bg-slate-50">
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Sprinkler system is on" hint="Inform resident that the sprinkler system is on" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Trash is out on the wrong day" hint="Inform resident that their trash is out on the wrong day" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
-                  <CheckBox id="test" name="Garage door open" hint="Inform resident of open garage door" />
+                <ScrollArea className="max-h-80 pl-2 pr-2 bg-slate-50">
+                  {
+                    concerns.map(concern => (
+                      <div key={concern?.id} className="mt-4">
+                        <CheckBox
+                          id={concern?.id}
+                          name={concern?.name}
+                          hint={concern?.hint}
+                          checked={
+                            selectConcerns.filter(sc => (sc.id === concern.id && sc.selected === true)).length === 1 && true
+                          }
+                          selectConcerns={selectConcerns}
+                          setSelectConcerns={setSelectConcerns}
+                        />
+                      </div>
+                    ))
+                  }
                 </ScrollArea>
 
                 <Sheet>
-                  <SheetTrigger className="w-full">
+                  <SheetTrigger
+                    disabled={selectConcerns.length === 0}
+                    className="w-full"
+                  >
                     <Button
+                      disabled={selectConcerns.length === 0}
                       className="flex flex-row  gap-2 items-end w-full mt-4"
                     >
                       <Phone />
