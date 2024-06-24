@@ -46,6 +46,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
   const concerns = useConcernStore(state => state.concerns)
 
   const [selectConcerns, setSelectConcerns] = useState<selectConcernsType[]>([])
+  const [searchValue, setSearchValue ] = useState("")
 
   const callResident = async () => {
     console.log("calling resident...")
@@ -65,8 +66,15 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
     setSelectConcerns(newSelectedConcernsList)
   }
 
+  const handleSearchConcerns = (concern: selectConcernsType) => {
+    if(searchValue === "") return concern 
+
+    if(concern.name.toLowerCase().includes(searchValue.toLowerCase())) return concern
+  }
+
   console.log("note: ", note)
-  console.log("selected concerns: ", selectConcerns)
+  // console.log("selected concerns: ", selectConcerns)
+  // console.log("searchValue: ", searchValue)
 
 
   return (
@@ -131,7 +139,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                         className="bg-green-100 inline-block p-1 rounded-lg"
                       >
                         <div className="flex flex-row justify-end">
-                          <button 
+                          <button
                             onClick={() => handleRemoveConcern(concern.id)}>
                             <CircleX size={15} color="#f87171" />
                           </button>
@@ -142,11 +150,18 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                   }
                 </div>
 
-                <SInput type="text" name="search" placeHolder="search concerns..." styles="pt-5 pb-5 mb-4 text-lg" />
+                <SInput
+                  type="text"
+                  name="search"
+                  placeHolder="search concerns..."
+                  searchValue={searchValue}
+                  setSearchValue={setSearchValue}
+                  styles="pt-5 pb-5 mb-4 text-lg"
+                />
 
                 <ScrollArea className="max-h-80 pl-2 pr-2 bg-slate-50">
                   {
-                    concerns.map(concern => (
+                    concerns.filter(handleSearchConcerns).map(concern => (
                       <div key={concern?.id} className="mt-4">
                         <CheckBox
                           id={concern?.id}
