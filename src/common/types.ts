@@ -4,3 +4,9 @@ export type selectConcernsType = {
   selected: boolean,
   // checked: boolean, 
 }
+
+export type concernType = {
+  id: string,
+  name: string,
+  hint: string,
+}

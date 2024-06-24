@@ -16,7 +16,7 @@ import { useEffect, useState } from "react"
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import CheckBox from "@/components/CheckBox"
 import { useApplicatonStore, useConcernStore } from "@/common/store"
-import { selectConcernsType } from "@/common/types"
+import { concernType, selectConcernsType } from "@/common/types"
 
 type houseRecords = {
   id: string,
@@ -66,7 +66,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
     setSelectConcerns(newSelectedConcernsList)
   }
 
-  const handleSearchConcerns = (concern: selectConcernsType) => {
+  const handleSearchConcerns = (concern: concernType) => {
     if(searchValue === "") return concern 
 
     if(concern.name.toLowerCase().includes(searchValue.toLowerCase())) return concern
@@ -242,6 +242,7 @@ const HomePage = () => {
   const setConcerns = useConcernStore(state => state.setConcerns)
 
   const [houses, setHouses] = useState<houseRecords[]>([])
+  const [searchHomeValue, setSearchHomeValue] = useState("")
 
   const getAllHouses = async () => {
     try {
@@ -290,7 +291,14 @@ const HomePage = () => {
 
   return (
     <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
-      <SInput type="text" name="search" placeHolder="search homes..." styles="pt-5 pb-5 text-lg" />
+      <SInput 
+        type="text" 
+        name="search"
+        searchValue={searchHomeValue}
+        setSearchValue={setSearchHomeValue}
+        placeHolder="search homes..." 
+        styles="pt-5 pb-5 text-lg" 
+      />
 
       {!houses && (
         <div>

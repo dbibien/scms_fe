@@ -2,6 +2,7 @@
 import { create } from "zustand"
 import { devtools } from "zustand/middleware"
 import PocketBase from 'pocketbase'
+import { concernType } from "./types"
 
 const pb = new PocketBase(import.meta.env.VITE_BACKEND_URL)
 // const pb = new PocketBase("http://127.0.0.1:8090")
@@ -11,11 +12,6 @@ type applicationStore = {
   pb: PocketBase
 }
 
-type concernType = {
-    id: string,
-    name: string,
-    hint: string,
- }
 
 type concernStore = {
   concerns: concernType[],
