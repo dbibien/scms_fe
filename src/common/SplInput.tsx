@@ -1,16 +1,16 @@
-import { Input } from "./ui/input"
+import { Input } from "src/components/ui/input"
 
 type CPropsTypes = {
   type: string,
   name: string,
   placeHolder: string,
-  searchValue?: string, 
+  searchValue: string, 
   setSearchValue: React.Dispatch<React.SetStateAction<string>>,
   styles?: string,
-  fields?: any,
+  // fields?: any,
 }
 
-const SInput = ({type, name, placeHolder, searchValue, setSearchValue, styles, fields}: CPropsTypes) => {
+const SplInput = ({type, name, placeHolder, searchValue, setSearchValue, styles}: CPropsTypes) => {
   return (
     <div>
       <Input
@@ -18,11 +18,11 @@ const SInput = ({type, name, placeHolder, searchValue, setSearchValue, styles, f
         name={name}
         placeholder={placeHolder} 
         value={searchValue}
-        onChan
         onChange={(e) => setSearchValue(e.target.value)}
-        className={styles} {...fields} />
+        className={styles}
+      />
     </div>
   )
 }
 
-export default SInput
+export default SplInput
