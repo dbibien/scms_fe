@@ -65,8 +65,6 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
 
 
   return (
-    // src="https://photos.zillowstatic.com/fp/eb044d5179496b1ca6030f016d6bb13a-cc_ft_768.webp"
-    // <Card className="mb-8 lg:grid lg:grid-cols-2">
     <Card className="mb-8 lg:grid lg:grid-cols-[2fr_2fr_2fr]">
       <CardHeader className="p-0">
         <img
