@@ -1,4 +1,5 @@
 import { Input } from "../src/components/ui/input"
+// import { Input } from "./ui/input"
 
 type CPropsTypes = {
   type: string,
