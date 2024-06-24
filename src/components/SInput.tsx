@@ -4,22 +4,20 @@ type CPropsTypes = {
   type: string,
   name: string,
   placeHolder: string,
-  searchValue: string, 
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>,
+  // searchValue?: string, 
+  // setSearchValue: React.Dispatch<React.SetStateAction<string>>,
   styles?: string,
-  fields?: any,
+  fields: any,
 }
 
-const SInput = ({type, name, placeHolder, searchValue, setSearchValue, styles, fields}: CPropsTypes) => {
+const SInput = ({type, name, placeHolder, styles, fields}: CPropsTypes) => {
   return (
     <div>
       <Input
         type={type}
-        name={name}
+       name={name}
         placeholder={placeHolder} 
-        value={searchValue}
-        onChan
-        onChange={(e) => setSearchValue(e.target.value)}
+        // value={searchValue}
         className={styles} {...fields} />
     </div>
   )
