@@ -1,4 +1,5 @@
-import { Input } from "src/components/ui/input"
+// import { Input } from "src/components/ui/input"
+import { Input } from "./ui/input.tsx"
 
 type CPropsTypes = {
   type: string,
