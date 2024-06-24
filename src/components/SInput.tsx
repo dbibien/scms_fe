@@ -4,8 +4,8 @@ type CPropsTypes = {
   type: string,
   name: string,
   placeHolder: string,
-  searchValue: string,
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>,
+  // searchValue: string,
+  // setSearchValue: React.Dispatch<React.SetStateAction<string>>,
   styles?: string,
   fields: any,
 }
