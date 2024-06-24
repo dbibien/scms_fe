@@ -1,4 +1,4 @@
-import SInput from "@/components/SInput"
+// import SInput from "@/components/SInput"
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,6 +17,7 @@ import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger 
 import CheckBox from "@/components/CheckBox"
 import { useApplicatonStore, useConcernStore } from "@/common/store"
 import { concernType, selectConcernsType } from "@/common/types"
+import SplInput from "@/SplInput";
 
 type houseRecords = {
   id: string,
@@ -46,7 +47,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
   const concerns = useConcernStore(state => state.concerns)
 
   const [selectConcerns, setSelectConcerns] = useState<selectConcernsType[]>([])
-  const [searchValue, setSearchValue ] = useState("")
+  const [searchValue, setSearchValue] = useState("")
 
   const callResident = async () => {
     console.log("calling resident...")
@@ -67,9 +68,9 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
   }
 
   const handleSearchConcerns = (concern: concernType) => {
-    if(searchValue === "") return concern 
+    if (searchValue === "") return concern
 
-    if(concern.name.toLowerCase().includes(searchValue.toLowerCase())) return concern
+    if (concern.name.toLowerCase().includes(searchValue.toLowerCase())) return concern
   }
 
   console.log("note: ", note)
@@ -150,7 +151,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                   }
                 </div>
 
-                <SInput
+                <SplInput
                   type="text"
                   name="search"
                   placeHolder="search concerns..."
@@ -291,6 +292,7 @@ const HomePage = () => {
 
   return (
     <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
+      {/*
       <SInput 
         type="text" 
         name="search"
@@ -298,6 +300,16 @@ const HomePage = () => {
         setSearchValue={setSearchHomeValue}
         placeHolder="search homes..." 
         styles="pt-5 pb-5 text-lg" 
+      />
+      */}
+
+      <SplInput
+        type="text"
+        name="search"
+        searchValue={searchHomeValue}
+        setSearchValue={setSearchHomeValue}
+        placeHolder="search homes..."
+        styles="pt-5 pb-5 text-lg"
       />
 
       {!houses && (
