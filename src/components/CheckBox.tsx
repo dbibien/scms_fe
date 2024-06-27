@@ -1,6 +1,7 @@
 import { selectConcernsType } from "@/common/types"
 import { Checkbox } from "./ui/checkbox"
 import { CheckedState } from "@radix-ui/react-checkbox"
+import { useToast } from "./ui/use-toast"
 
 type CProps = {
   id: string,
@@ -12,9 +13,18 @@ type CProps = {
 }
 
 const CheckBox = ({ id, name, hint, checked, setSelectConcerns, selectConcerns }: CProps) => {
+  const { toast } = useToast()
 
   const handleSelectBoxClicked = (checked: CheckedState) => {
     if (checked) {
+      if (selectConcerns.length === 3) { // limit the amount of concerns that can be selected at a time to only three
+        toast({
+          variant: "destructive",
+          title: "Limit Exceeded",
+          description: "Only three concerns can be selected at a time."
+        })
+        return
+      }
       setSelectConcerns([...selectConcerns, { id: id, name: name, selected: true }])
     } else {
       const editedList = selectConcerns.filter(concern => (concern.id !== id))
