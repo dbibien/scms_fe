@@ -51,14 +51,21 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
   const [searchValue, setSearchValue] = useState("")
 
   const callResident = async () => {
-    console.log("calling resident...")
-
     const res = await pb.send(`/api/scms/call-resident`, {
+      method: "post",
       headers: {
-
-        "Authorization": `${pb.authStore.token} `
-      }
+        "Content-type": "application/json",
+        "Authorization": `${pb.authStore.token} `,
+      },
+      body: JSON.stringify(
+        {
+          h_id:id,
+          concerns: selectConcerns
+        }
+      )
     })
+
+
     const data = res.json()
     console.log("data: ", data)
   }
@@ -180,9 +187,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                     </Button>
                   </SheetTrigger>
 
-                  <SheetContent
-                    side="bottom"
-                  >
+                  <SheetContent side="bottom">
                     <div className="lg:w-[50%] lg:mx-auto">
                       <h3 className="text-center text-xl font-bold-[400px]">
                         Are you sure you want to call the resident?

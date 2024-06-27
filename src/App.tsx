@@ -7,6 +7,7 @@ import ConcernsPage from './pages/Concerns'
 import ReportPage from './pages/Reports'
 import LoginPage from './pages/Login'
 import { useApplicatonStore } from './common/store'
+import { Toaster } from './components/ui/toaster'
 
 // const pb = new PocketBase(import.meta.env.VITE_BACKEND_URL)
 
@@ -31,10 +32,10 @@ const Layout = () => {
   return (
     <>
       <Nav />
-
       <div className='ml-1 mr-1'>
         <Outlet />
       </div>
+      <Toaster />
     </>
   )
 }
