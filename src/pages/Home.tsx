@@ -51,8 +51,6 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
   const [searchValue, setSearchValue] = useState("")
 
   const callResident = async () => {
-    console.log("calling resident...")
-
     const res = await pb.send(`/api/scms/call-resident`, {
       method: "post",
       headers: {
