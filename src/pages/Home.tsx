@@ -292,8 +292,9 @@ const HomePage = () => {
   // console.log("house: ", houses)
   console.log("concerns: ", concerns)
 
+     // <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
   return (
-    <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
+    <div>
       {/*
       <SInput 
         type="text" 
