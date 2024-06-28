@@ -241,7 +241,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
 
 const HomePage = () => {
   const pb = useApplicatonStore(state => state.pb)
-  const concerns = useConcernStore(state => state.concerns)
+  // const concerns = useConcernStore(state => state.concerns)
   const setConcerns = useConcernStore(state => state.setConcerns)
 
   const [houses, setHouses] = useState<houseRecords[]>([])
@@ -290,7 +290,7 @@ const HomePage = () => {
   }, [])
 
   // console.log("house: ", houses)
-  console.log("concerns: ", concerns)
+  // console.log("concerns: ", concerns)
 
      // <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
   return (
