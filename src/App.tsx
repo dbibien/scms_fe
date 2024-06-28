@@ -29,10 +29,12 @@ export default App
 
 
 const Layout = () => {
+
+  // <div className='ml-1 mr-1'>
   return (
     <>
       <Nav />
-      <div className='ml-1 mr-1'>
+      <div className="ml-1 mr-1 mt-4 p-2 md:max-w-[70%] md:m-auto">
         <Outlet />
       </div>
       <Toaster />
