@@ -8,10 +8,34 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import SplInput from "@/components/SplInput"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useApplicatonStore } from "@/common/store"
 
 const ConcernsPage = () => {
+  const pb = useApplicatonStore(state => state.pb)
   const [searchHomeValue, setSearchHomeValue] = useState("")
+
+
+  const getAllConcerns = async () => {
+    try {
+      // fields the backend should return
+      const fields = `id, name, hint`
+      const records = await pb.collection('concerns').getFullList({
+        fields: fields,
+      })
+      // TODO: add filter to only retrieve the concerns that belong to the community the user belongs to
+      
+      console.log("records: ", records)
+      //@ts-expect-error this is just the best way I could come up with to get the error to go away
+      setConcerns(records)
+    } catch (e) {
+      console.log("e:", e)
+    }
+  }
+
+  useEffect(()=>{
+    getAllConcerns()
+  }, [])
 
   return (
     <div>
@@ -39,7 +63,6 @@ const ConcernsPage = () => {
           <CardFooter>
           </CardFooter>
         </Card>
-
       </ScrollArea>
     </div>
   )
