@@ -15,8 +15,8 @@ import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import CheckBox from "@/components/CheckBox"
-import { useApplicationStore, useConcernStore } from "@/common/store"
-import { concernType, selectConcernsType } from "@/common/types"
+import { useApplicationStore, useCommunityStore, useConcernStore } from "@/common/store"
+import { communityStore, concernType, selectConcernsType } from "@/common/types"
 import SplInput from "@/components/SplInput";
 import ConcernSelectorViewer from "@/components/ConcernSelectorViewer";
 
@@ -59,7 +59,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
       },
       body: JSON.stringify(
         {
-          h_id:id,
+          h_id: id,
           concerns: selectConcerns
         }
       )
@@ -241,10 +241,12 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
 
 const HomePage = () => {
   const pb = useApplicationStore(state => state.pb)
-  // const concerns = useConcernStore(state => state.concerns)
+  const houses = useCommunityStore(state => state.houses)
+  const setCommunity = useCommunityStore(state => state.setCommunity)
   const setConcerns = useConcernStore(state => state.setConcerns)
+  const setHouses = useCommunityStore(state => state.setHouses)
 
-  const [houses, setHouses] = useState<houseRecords[]>([])
+  // const [houses, setHouses] = useState<houseRecords[]>([])
   const [searchHomeValue, setSearchHomeValue] = useState("")
 
   const getAllHouses = async () => {
@@ -284,15 +286,55 @@ const HomePage = () => {
     }
   }
 
+  const getApplicationData = async () => {
+    try {
+      // fields the backend should return
+      const residentFields = `
+        expand.houses.expand.residents.id, expand.houses.expand.residents.first_name, expand.houses.expand.residents.last_name, 
+        expand.houses.expand.residents.owner
+      `
+      const houseFields = `
+        expand.houses.id, expand.houses.address, expand.houses.member_number, expand.houses.security_code, expand.houses.image, expand.houses.note
+      `
+      const concernsFields = `
+        expand.concerns.id, expand.concerns.name, expand.concerns.hint, expand.concerns.say 
+      `
+      const communityFields = `
+        id, name, address
+      `
+      const phoneFields = `
+        expand.houses.expand.phones.id, expand.houses.expand.phones.phone_number, expand.houses.expand.phones.primary, expand.houses.expand.phones.type
+      `
+      const fields = `${communityFields}, ${concernsFields}, ${houseFields}, ${residentFields}, ${phoneFields}`
+      const records = await pb.collection('communities').getFullList({
+        expand: 'concerns, houses, houses.residents, houses.phones',
+        fields: fields,
+      })
+
+      console.log("records: ", records)
+      const communityData = records[0]
+      setCommunity({
+        id: communityData?.id,
+        name: communityData?.name,
+        address: communityData?.address,
+      })
+      setConcerns(communityData.expand?.concerns)
+      setHouses(communityData.expand?.houses)
+    } catch (e) {
+      console.log("e:", e)
+    }
+  }
+
   useEffect(() => {
-    getAllHouses()
-    getAllConcerns()
+    // getAllHouses()
+    // getAllConcerns()
+    getApplicationData()
   }, [])
 
-  // console.log("house: ", houses)
+  console.log("house: ", houses)
   // console.log("concerns: ", concerns)
 
-     // <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
+  // <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
   return (
     <div>
       {/*
