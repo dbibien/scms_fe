@@ -2,7 +2,7 @@
 import { create } from "zustand"
 import { devtools } from "zustand/middleware"
 import PocketBase from 'pocketbase'
-import { concernType } from "./types"
+import { concernType, houseType } from "./types"
 
 const pb = new PocketBase(import.meta.env.VITE_BACKEND_URL)
 
@@ -23,6 +23,7 @@ type communityStore = {
     address: string,
   },
   concerns: concernType[],
+  houses: houseType[],
 }
 
 // STORE

@@ -5,6 +5,13 @@ export type selectConcernsType = {
   // checked: boolean, 
 }
 
+export type communityType = {
+  id: string,
+  name: string,
+  address: string,
+}
+
+
 export type concernType = {
   id: string,
   name: string,
@@ -33,6 +40,6 @@ export type houseType = {
   security_code: string,
   image: string,
   note: string,
-  phones: phoneType[], 
+  phones: phoneType[],
   residents: residentType[],
 }
