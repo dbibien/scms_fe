@@ -11,10 +11,10 @@ type applicationStore = {
   pb: PocketBase
 }
 
-type concernStore = {
-  concerns: concernType[],
-  setConcerns: (data: concernType[]) => void,
-}
+// type concernStore = {
+//   concerns: concernType[],
+//   setConcerns: (data: concernType[]) => void,
+// }
 
 type housesDataFromBackend = {
   id: string,
@@ -77,12 +77,12 @@ export const useCommunityStore = create<communityStore>()(
   }))
 )
 
-export const useConcernStore = create<concernStore>()(
-  devtools((set) => ({
-    concerns: [],
-
-    setConcerns: (data) => (set(() => ({
-      concerns: data,
-    }))),
-  }))
-)
+// export const useConcernStore = create<concernStore>()(
+//   devtools((set) => ({
+//     concerns: [],
+//
+//     setConcerns: (data) => (set(() => ({
+//       concerns: data,
+//     }))),
+//   }))
+// )

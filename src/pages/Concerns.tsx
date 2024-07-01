@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/card"
 import SplInput from "@/components/SplInput"
 import { useEffect, useState } from "react"
-import { useApplicationStore, useConcernStore } from "@/common/store"
+import { useApplicationStore, useCommunityStore } from "@/common/store"
 
 const ConcernsPage = () => {
   const pb = useApplicationStore(state => state.pb)
-  const setConcerns = useConcernStore(state => state.setConcerns)
+  const setConcerns = useCommunityStore(state => state.setConcerns)
 
   const [searchHomeValue, setSearchHomeValue] = useState("")
 

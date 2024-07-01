@@ -36,10 +36,10 @@ export type residentType = {
 export type houseType = {
   id: string,
   address: string,
-  member_id: string,
+  member_number: string,
   security_code: string,
   image: string,
   note: string,
   phones: phoneType[],
-  residents: residentType[],
+  resident: residentType[],
 }

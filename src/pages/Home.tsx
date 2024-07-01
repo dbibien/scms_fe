@@ -15,37 +15,42 @@ import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import CheckBox from "@/components/CheckBox"
-import { useApplicationStore, useCommunityStore, useConcernStore } from "@/common/store"
-import { communityStore, concernType, selectConcernsType } from "@/common/types"
+import { useApplicationStore, useCommunityStore } from "@/common/store"
+import { concernType, houseType, selectConcernsType } from "@/common/types"
 import SplInput from "@/components/SplInput";
 import ConcernSelectorViewer from "@/components/ConcernSelectorViewer";
 
-type houseRecords = {
-  id: string,
-  address: string,
-  member_number: string,
-  security_code: string,
-  image: string,
-  note: string,
-  expand: {
-    phones: {
-      id: string,
-      phone_number: string,
-      primary: boolean,
-      type: "home" | "cell" | "business"
-    }[],
-    residents: {
-      id: string,
-      first_name: string,
-      last_name: string,
-      owner: boolean,
-    }[],
-  },
+// type houseRecords = {
+//   id: string,
+//   address: string,
+//   member_number: string,
+//   security_code: string,
+//   image: string,
+//   note: string,
+//   expand: {
+//     phones: {
+//       id: string,
+//       phone_number: string,
+//       primary: boolean,
+//       type: "home" | "cell" | "business"
+//     }[],
+//     residents: {
+//       id: string,
+//       first_name: string,
+//       last_name: string,
+//       owner: boolean,
+//     }[],
+//   },
+// }
+
+type homeCardType = {
+  house: houseType,
 }
 
-const HomeCard = ({ id, image, address, member_number, security_code, note, expand }: houseRecords) => {
+// const HomeCard = ({ id, image, address, member_number, security_code, note, expand }: houseRecords) => {
+const HomeCard = ({ house }: homeCardType) => {
   const pb = useApplicationStore(state => state.pb)
-  const concerns = useConcernStore(state => state.concerns)
+  const concerns = useCommunityStore(state => state.concerns)
 
   const [selectConcerns, setSelectConcerns] = useState<selectConcernsType[]>([])
   const [searchValue, setSearchValue] = useState("")
@@ -59,7 +64,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
       },
       body: JSON.stringify(
         {
-          h_id: id,
+          h_id: house?.id,
           concerns: selectConcerns
         }
       )
@@ -81,7 +86,8 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
     if (concern.name.toLowerCase().includes(searchValue.toLowerCase())) return concern
   }
 
-  console.log("note: ", note)
+  console.log("note: ", house?.note)
+  console.log("house: ", house)
   // console.log("selected concerns: ", selectConcerns)
   // console.log("searchValue: ", searchValue)
 
@@ -90,7 +96,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
     <Card className="mb-8 lg:grid lg:grid-cols-[2fr_2fr_2fr]">
       <CardHeader className="p-0">
         <img
-          src={`${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${id}/${image}`}
+          src={`${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${house?.id}/${house?.image}`}
           width="100%"
           height="auto"
           className="rounded-t-md object-cover"
@@ -99,14 +105,14 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
 
       <div>
         <CardContent className="pt-2">
-          <p className="text-center">{address}</p>
+          <p className="text-center">{house?.address}</p>
 
           <div className="pt-4 flex flex-row justify-center gap-2">
-            {expand?.residents.map(resident => {
+            {house?.resident.map(resident => {
               return (
                 <div key={resident.id}>
                   <p>{resident?.first_name} {resident?.last_name}</p>
-                  {expand?.residents.length > 1 && (
+                  {house?.resident.length > 1 && (
                     <Separator orientation="vertical" className="border border-slate-200" />
                   )}
                 </div>
@@ -115,9 +121,9 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
           </div>
 
           <div className="pt-4 flex flex-row justify-center gap-2">
-            <p>Member: {member_number}</p>
+            <p>Member: {house?.member_number}</p>
             <Separator orientation="vertical" className="border border-slate-200" />
-            <p>Security code: {security_code}</p>
+            <p>Security code: {house?.security_code}</p>
           </div>
 
           <Separator className="mt-8 border border-slate-200" />
@@ -135,7 +141,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
                   Select concerns
                 </SheetTitle>
 
-                <p className="text-center text-gray-600">{address}</p>
+                <p className="text-center text-gray-600">{house?.address}</p>
                 <Separator orientation="horizontal" className="border border-slate-200" />
               </SheetHeader>
 
@@ -242,49 +248,49 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
 const HomePage = () => {
   const pb = useApplicationStore(state => state.pb)
   const houses = useCommunityStore(state => state.houses)
+  const setConcerns = useCommunityStore(state => state.setConcerns)
   const setCommunity = useCommunityStore(state => state.setCommunity)
-  const setConcerns = useConcernStore(state => state.setConcerns)
   const setHouses = useCommunityStore(state => state.setHouses)
 
   // const [houses, setHouses] = useState<houseRecords[]>([])
   const [searchHomeValue, setSearchHomeValue] = useState("")
 
-  const getAllHouses = async () => {
-    try {
-      // fields the backend should return
-      const fields = `id, address, member_number, security_code, image, note,
-              expand.residents.id, expand.residents.first_name, expand.residents.last_name, expand.residents.owner,
-              expand.phones.id, expand.phones.phone_number, expand.phones.primary, expand.phones.type,
-        `
-      const records = await pb.collection('houses').getFullList({
-        // sort: "-created",
-        expand: 'residents, phones',
-        fields: fields,
-      })
+  // const getAllHouses = async () => {
+  //   try {
+  //     // fields the backend should return
+  //     const fields = `id, address, member_number, security_code, image, note,
+  //             expand.residents.id, expand.residents.first_name, expand.residents.last_name, expand.residents.owner,
+  //             expand.phones.id, expand.phones.phone_number, expand.phones.primary, expand.phones.type,
+  //       `
+  //     const records = await pb.collection('houses').getFullList({
+  //       // sort: "-created",
+  //       expand: 'residents, phones',
+  //       fields: fields,
+  //     })
+  //
+  //     // console.log("records: ", records)
+  //     //@ts-expect-error this is just the best way I could come up with to get the error to go away
+  //     setHouses(records)
+  //   } catch (e) {
+  //     console.log("e:", e)
+  //   }
+  // }
 
-      // console.log("records: ", records)
-      //@ts-expect-error this is just the best way I could come up with to get the error to go away
-      setHouses(records)
-    } catch (e) {
-      console.log("e:", e)
-    }
-  }
-
-  const getAllConcerns = async () => {
-    try {
-      // fields the backend should return
-      const fields = `id, name, hint`
-      const records = await pb.collection('concerns').getFullList({
-        fields: fields,
-      })
-
-      console.log("records: ", records)
-      //@ts-expect-error this is just the best way I could come up with to get the error to go away
-      setConcerns(records)
-    } catch (e) {
-      console.log("e:", e)
-    }
-  }
+  // const getAllConcerns = async () => {
+  //   try {
+  //     // fields the backend should return
+  //     const fields = `id, name, hint`
+  //     const records = await pb.collection('concerns').getFullList({
+  //       fields: fields,
+  //     })
+  //
+  //     console.log("records: ", records)
+  //     //@ts-expect-error this is just the best way I could come up with to get the error to go away
+  //     setConcerns(records)
+  //   } catch (e) {
+  //     console.log("e:", e)
+  //   }
+  // }
 
   const getApplicationData = async () => {
     try {
@@ -375,7 +381,10 @@ const HomePage = () => {
 
       <div className="mt-4 pb-40 h-[100vh] overflow-hidden overflow-y-auto">
         {houses.map((house) => {
-          return <HomeCard key={house.id} {...house} />
+          return <HomeCard
+            key={house?.id}
+            house={house}
+          />
         })}
       </div>
     </div>
