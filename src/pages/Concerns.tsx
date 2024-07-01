@@ -68,6 +68,7 @@ const ConcernsPage = () => {
   }, [])
 
   // console.log("concerns: ", concerns)
+  // BUG: ScrollArea not scrolling
 
   return (
     <div>
@@ -86,7 +87,10 @@ const ConcernsPage = () => {
 
       <ScrollArea className="mt-4">
         {concerns?.map(concern => (
-          <ConcernCard key={concern?.id} concern={concern} />
+          <ConcernCard 
+            key={concern?.id}
+            concern={concern} 
+          />
         ))}
       </ScrollArea>
     </div>
