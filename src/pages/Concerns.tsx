@@ -18,7 +18,7 @@ const ConcernsPage = () => {
   const [searchHomeValue, setSearchHomeValue] = useState("")
 
 
-  const getAllConcerns = async () => {
+  const getApplicationData = async () => {
     try {
       // fields the backend should return
       const residentFields = `
@@ -53,7 +53,7 @@ const ConcernsPage = () => {
   }
 
   useEffect(() => {
-    getAllConcerns()
+    getApplicationData()
   }, [])
 
   return (
