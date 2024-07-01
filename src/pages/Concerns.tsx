@@ -42,7 +42,6 @@ const ConcernsPage = () => {
 
   const [searchHomeValue, setSearchHomeValue] = useState("")
 
-
   const getConcerns = async () => {
     try {
       // fields the backend should return
