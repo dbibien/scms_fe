@@ -10,50 +10,65 @@ import {
 import SplInput from "@/components/SplInput"
 import { useEffect, useState } from "react"
 import { useApplicationStore, useCommunityStore } from "@/common/store"
+import { concernType } from "@/common/types"
+
+type concernCardType = {
+  concern: concernType,
+}
+
+// helper component
+const ConcernCard = ({ concern }: concernCardType) => {
+  return (
+    <Card className="mb-4">
+      <CardHeader>
+        <CardTitle>{concern?.name}</CardTitle>
+        <CardDescription>{concern?.hint}</CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        <p>{concern?.say}</p>
+      </CardContent>
+
+      <CardFooter>
+      </CardFooter>
+    </Card>
+  )
+}
 
 const ConcernsPage = () => {
   const pb = useApplicationStore(state => state.pb)
+  const concerns = useCommunityStore(state => state.concerns)
   const setConcerns = useCommunityStore(state => state.setConcerns)
 
   const [searchHomeValue, setSearchHomeValue] = useState("")
 
 
-  const getApplicationData = async () => {
+  const getConcerns = async () => {
     try {
       // fields the backend should return
-      const residentFields = `
-        expand.houses.expand.residents.id, expand.houses.expand.residents.first_name, expand.houses.expand.residents.last_name, 
-        expand.houses.expand.residents.owner
-      `
-      const houseFields = `
-        expand.houses.id, expand.houses.address, expand.houses.member_number, expand.houses.security_code, expand.houses.image, expand.houses.note
-      `
       const concernsFields = `
         expand.concerns.id, expand.concerns.name, expand.concerns.hint, expand.concerns.say 
       `
-      const communityFields = `
-        id, name, address
-      `
-      const phoneFields = `
-        expand.houses.expand.phones.id, expand.houses.expand.phones.phone_number, expand.houses.expand.phones.primary, expand.houses.expand.phones.type
-      `
-      const fields = `${communityFields}, ${concernsFields}, ${houseFields}, ${residentFields}, ${phoneFields}`
+      const fields = `${concernsFields}`
       const records = await pb.collection('communities').getFullList({
-        expand: 'concerns, houses, houses.residents, houses.phones',
+        expand: 'concerns',
         fields: fields,
       })
 
-      console.log("records: ", records)
-      //@ts-expect-error this is just the best way I could come up with to get the error to go away
-      setConcerns(records)
+      // console.log("records: ", records)
+      // console.log("records.expand: ", records[0].expand?.concerns)
+      const concerns = records[0].expand?.concerns === undefined ? [] : records[0].expand?.concerns
+      setConcerns(concerns)
     } catch (e) {
       console.log("e:", e)
     }
   }
 
   useEffect(() => {
-    getApplicationData()
+    getConcerns()
   }, [])
+
+  // console.log("concerns: ", concerns)
 
   return (
     <div>
@@ -66,21 +81,14 @@ const ConcernsPage = () => {
         styles="pt-5 pb-5 text-lg"
       />
 
+      {
+        concerns.length === 0 && <p className="text-center mt-4 text-gray-400">No concerns</p>
+      }
 
       <ScrollArea className="mt-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>Garage Door open</CardTitle>
-            <CardDescription>Inform resident of open garage door</CardDescription>
-          </CardHeader>
-
-          <CardContent>
-            <p>Some content</p>
-          </CardContent>
-
-          <CardFooter>
-          </CardFooter>
-        </Card>
+        {concerns?.map(concern => (
+          <ConcernCard key={concern?.id} concern={concern} />
+        ))}
       </ScrollArea>
     </div>
   )
