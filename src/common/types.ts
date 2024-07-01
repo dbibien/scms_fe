@@ -11,3 +11,12 @@ export type concernType = {
   hint: string,
   say: string,
 }
+
+export type houseType = {
+  id: string,
+  address: string,
+  member_id: string,
+  security_code: string,
+  image: string,
+  note: string,
+}
