@@ -35,11 +35,11 @@ const ConcernsPage = () => {
         id, name, address
       `
       const phoneFields = `
-        expand.houses.exapnd.phones.id, expand.houses.expand.phones.phone_number, expand.houses.expand.phones.primary, expand.houses.expand.phones.type
+        expand.houses.expand.phones.id, expand.houses.expand.phones.phone_number, expand.houses.expand.phones.primary, expand.houses.expand.phones.type
       `
       const fields = `${communityFields}, ${concernsFields}, ${houseFields}, ${residentFields}, ${phoneFields}`
       const records = await pb.collection('communities').getFullList({
-        expand: 'concerns, houses, houses.residents, house.phones',
+        expand: 'concerns, houses, houses.residents, houses.phones',
         fields: fields,
       })
       // TODO: add filter to only retrieve the concerns that belong to the community the user belongs to
