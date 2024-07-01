@@ -69,6 +69,7 @@ const ConcernsPage = () => {
 
   // console.log("concerns: ", concerns)
   // BUG: ScrollArea not scrolling
+  // BUG: html p tags are being shown on the concerns page
 
   return (
     <div>
