@@ -9,22 +9,41 @@ import {
 } from "@/components/ui/card"
 import SplInput from "@/components/SplInput"
 import { useEffect, useState } from "react"
-import { useApplicatonStore } from "@/common/store"
+import { useApplicatonStore, useConcernStore } from "@/common/store"
 
 const ConcernsPage = () => {
   const pb = useApplicatonStore(state => state.pb)
+  const setConcerns = useConcernStore(state => state.setConcerns)
+
   const [searchHomeValue, setSearchHomeValue] = useState("")
 
 
   const getAllConcerns = async () => {
     try {
       // fields the backend should return
-      const fields = `id, name, hint`
-      const records = await pb.collection('concerns').getFullList({
+      const residentFields = `
+        expand.houses.expand.residents.id, expand.houses.expand.residents.first_name, expand.houses.expand.residents.last_name, 
+        expand.houses.expand.residents.owner
+      `
+      const houseFields = `
+        expand.houses.id, expand.houses.address, expand.houses.member_number, expand.houses.security_code, expand.houses.image, expand.houses.note
+      `
+      const concernsFields = `
+        expand.concerns.id, expand.concerns.name, expand.concerns.hint, expand.concerns.say 
+      `
+      const communityFields = `
+        id, name, address
+      `
+      const phoneFields = `
+        expand.houses.exapnd.phones.id, expand.houses.expand.phones.phone_number, expand.houses.expand.phones.primary, expand.houses.expand.phones.type
+      `
+      const fields = `${communityFields}, ${concernsFields}, ${houseFields}, ${residentFields}, ${phoneFields}`
+      const records = await pb.collection('communities').getFullList({
+        expand: 'concerns, houses, houses.residents, house.phones',
         fields: fields,
       })
       // TODO: add filter to only retrieve the concerns that belong to the community the user belongs to
-      
+
       console.log("records: ", records)
       //@ts-expect-error this is just the best way I could come up with to get the error to go away
       setConcerns(records)
@@ -33,7 +52,7 @@ const ConcernsPage = () => {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getAllConcerns()
   }, [])
 
@@ -68,4 +87,4 @@ const ConcernsPage = () => {
   )
 }
 
-        export default ConcernsPage
+export default ConcernsPage
