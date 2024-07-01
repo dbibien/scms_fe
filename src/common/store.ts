@@ -11,17 +11,29 @@ type applicationStore = {
   pb: PocketBase
 }
 
-
 type concernStore = {
   concerns: concernType[],
   setConcerns: (data: concernType[]) => void,
 }
 
+type communityStore = {
+  community: {
+    id: string,
+    name: string,
+    address: string,
+  },
+  concerns: concernType[],
+}
+
 // STORE
-export const useApplicatonStore = create<applicationStore>()(
+export const useApplicationStore = create<applicationStore>()(
   devtools(() => ({
     pb: pb,
   }))
+)
+
+export const useCommunityStore = create<communityStore>()(
+  devtools(() => ({}))
 )
 
 export const useConcernStore = create<concernStore>()(

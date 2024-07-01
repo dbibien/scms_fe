@@ -15,7 +15,7 @@ import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import CheckBox from "@/components/CheckBox"
-import { useApplicatonStore, useConcernStore } from "@/common/store"
+import { useApplicationStore, useConcernStore } from "@/common/store"
 import { concernType, selectConcernsType } from "@/common/types"
 import SplInput from "@/components/SplInput";
 import ConcernSelectorViewer from "@/components/ConcernSelectorViewer";
@@ -44,7 +44,7 @@ type houseRecords = {
 }
 
 const HomeCard = ({ id, image, address, member_number, security_code, note, expand }: houseRecords) => {
-  const pb = useApplicatonStore(state => state.pb)
+  const pb = useApplicationStore(state => state.pb)
   const concerns = useConcernStore(state => state.concerns)
 
   const [selectConcerns, setSelectConcerns] = useState<selectConcernsType[]>([])
@@ -240,7 +240,7 @@ const HomeCard = ({ id, image, address, member_number, security_code, note, expa
 }
 
 const HomePage = () => {
-  const pb = useApplicatonStore(state => state.pb)
+  const pb = useApplicationStore(state => state.pb)
   // const concerns = useConcernStore(state => state.concerns)
   const setConcerns = useConcernStore(state => state.setConcerns)
 

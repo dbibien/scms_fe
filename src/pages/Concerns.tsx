@@ -9,10 +9,10 @@ import {
 } from "@/components/ui/card"
 import SplInput from "@/components/SplInput"
 import { useEffect, useState } from "react"
-import { useApplicatonStore, useConcernStore } from "@/common/store"
+import { useApplicationStore, useConcernStore } from "@/common/store"
 
 const ConcernsPage = () => {
-  const pb = useApplicatonStore(state => state.pb)
+  const pb = useApplicationStore(state => state.pb)
   const setConcerns = useConcernStore(state => state.setConcerns)
 
   const [searchHomeValue, setSearchHomeValue] = useState("")
@@ -42,7 +42,6 @@ const ConcernsPage = () => {
         expand: 'concerns, houses, houses.residents, houses.phones',
         fields: fields,
       })
-      // TODO: add filter to only retrieve the concerns that belong to the community the user belongs to
 
       console.log("records: ", records)
       //@ts-expect-error this is just the best way I could come up with to get the error to go away

@@ -9,4 +9,5 @@ export type concernType = {
   id: string,
   name: string,
   hint: string,
+  say: string,
 }

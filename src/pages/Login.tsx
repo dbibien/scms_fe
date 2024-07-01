@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { Ban } from "lucide-react"
-import { useApplicatonStore } from "@/common/store"
+import { useApplicationStore } from "@/common/store"
 
 // login page zod schema
 const formSchema = z.object({
@@ -23,7 +23,7 @@ const formSchema = z.object({
 })
 
 const LoginPage = () => {
-  const pb = useApplicatonStore(state => state.pb) 
+  const pb = useApplicationStore(state => state.pb) 
 
   const [errorMessage, setErrorMessage] = useState("")
 

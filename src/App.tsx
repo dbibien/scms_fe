@@ -6,7 +6,7 @@ import UsersPage from './pages/Users'
 import ConcernsPage from './pages/Concerns'
 import ReportPage from './pages/Reports'
 import LoginPage from './pages/Login'
-import { useApplicatonStore } from './common/store'
+import { useApplicationStore } from './common/store'
 import { Toaster } from './components/ui/toaster'
 
 // const pb = new PocketBase(import.meta.env.VITE_BACKEND_URL)
@@ -43,7 +43,7 @@ const Layout = () => {
 }
 
 const PrivateRoutes = () => {
-  const pb = useApplicatonStore(state => state.pb)
+  const pb = useApplicationStore(state => state.pb)
 
   console.log("authStore.isValid: ", pb.authStore.isValid);
   console.log("authStore.token: ", pb.authStore.token);

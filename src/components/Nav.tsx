@@ -7,10 +7,10 @@ import {
 import { Menu } from "lucide-react"
 import { Separator } from "@radix-ui/react-separator"
 import { Button } from "./ui/button"
-import { useApplicatonStore } from "@/common/store"
+import { useApplicationStore } from "@/common/store"
 
 const Nav = () => {
-  const pb = useApplicatonStore(state => state.pb)
+  const pb = useApplicationStore(state => state.pb)
 
   const navigate = useNavigate()
 
