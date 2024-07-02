@@ -26,7 +26,7 @@ const ConcernCard = ({ concern }: concernCardType) => {
       </CardHeader>
 
       <CardContent>
-        <p>{concern?.say}</p>
+        <p>{concern?.say.replace("<p>", "").replace("</p>", "")}</p>
       </CardContent>
 
       <CardFooter>
@@ -68,8 +68,6 @@ const ConcernsPage = () => {
   }, [])
 
   // console.log("concerns: ", concerns)
-  // BUG: ScrollArea not scrolling
-  // BUG: html p tags are being shown on the concerns page
 
   return (
     <div>
@@ -88,11 +86,11 @@ const ConcernsPage = () => {
         )
       }
 
-      <ScrollArea className="mt-4">
+      <ScrollArea className="h-[100vh] mt-4">
         {concerns?.map(concern => (
-          <ConcernCard 
+          <ConcernCard
             key={concern?.id}
-            concern={concern} 
+            concern={concern}
           />
         ))}
       </ScrollArea>
