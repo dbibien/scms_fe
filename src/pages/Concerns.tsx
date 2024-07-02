@@ -11,6 +11,8 @@ import SplInput from "@/components/SplInput"
 import { useEffect, useState } from "react"
 import { useApplicationStore, useCommunityStore } from "@/common/store"
 import { concernType } from "@/common/types"
+import { Sheet, SheetTrigger } from "@/components/ui/sheet"
+import { Pen } from "lucide-react"
 
 type concernCardType = {
   concern: concernType,
@@ -30,6 +32,12 @@ const ConcernCard = ({ concern }: concernCardType) => {
       </CardContent>
 
       <CardFooter>
+        <Sheet>
+          <SheetTrigger className="flex gap-2 items-center text-slate-500 hover:text-black">
+            <Pen />
+            <p>Edit</p>
+          </SheetTrigger>
+        </Sheet>
       </CardFooter>
     </Card>
   )
@@ -80,11 +88,9 @@ const ConcernsPage = () => {
         styles="pt-5 pb-5 text-lg"
       />
 
-      {
-        concerns.length === 0 && (
-          <p className="text-center mt-4 text-gray-400">No concerns</p>
-        )
-      }
+      {concerns.length === 0 && (
+        <p className="text-center mt-4 text-gray-400">No concerns</p>
+      )}
 
       <ScrollArea className="h-[100vh] mt-4">
         {concerns?.map(concern => (

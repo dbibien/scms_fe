@@ -29,13 +29,6 @@ type housesDataFromBackend = {
   }
 }
 
-// STORE
-export const useApplicationStore = create<applicationStore>()(
-  devtools(() => ({
-    pb: pb,
-  }))
-)
-
 export type communityStore = {
   community: communityType,
   concerns: concernType[],
@@ -44,6 +37,13 @@ export type communityStore = {
   setConcerns: (data: concernType[]) => void,
   setHouses: (data: housesDataFromBackend[]) => void,
 }
+
+// STORE
+export const useApplicationStore = create<applicationStore>()(
+  devtools(() => ({
+    pb: pb,
+  }))
+)
 
 export const useCommunityStore = create<communityStore>()(
   devtools((set) => ({
@@ -72,7 +72,7 @@ export const useCommunityStore = create<communityStore>()(
         phones: house.expand.phones,
         resident: house.expand.residents,
       }))
-      return {houses: fHouses}
+      return { houses: fHouses }
     })),
   }))
 )
