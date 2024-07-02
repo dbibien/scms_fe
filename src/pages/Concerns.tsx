@@ -83,7 +83,9 @@ const ConcernsPage = () => {
       />
 
       {
-        concerns.length === 0 && <p className="text-center mt-4 text-gray-400">No concerns</p>
+        concerns.length === 0 && (
+          <p className="text-center mt-4 text-gray-400">No concerns</p>
+        )
       }
 
       <ScrollArea className="mt-4">
