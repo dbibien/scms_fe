@@ -1,47 +1,25 @@
 import { ScrollArea } from "@/components/ui/scroll-area"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardFooter,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card"
 import SplInput from "@/components/SplInput"
 import { useEffect, useState } from "react"
 import { useApplicationStore, useCommunityStore } from "@/common/store"
 import { concernType } from "@/common/types"
-import { Sheet, SheetTrigger } from "@/components/ui/sheet"
-import { Pen } from "lucide-react"
+// import { Sheet, SheetTrigger } from "@/components/ui/sheet"
+// import { Pen } from "lucide-react"
+import ConcernCard from "@/components/ConcernCard"
 
-type concernCardType = {
-  concern: concernType,
-}
+// type concernCardType = {
+//   concern: concernType,
+// }
 
 // helper component
-const ConcernCard = ({ concern }: concernCardType) => {
-  return (
-    <Card className="mb-4">
-      <CardHeader>
-        <CardTitle>{concern?.name}</CardTitle>
-        <CardDescription>{concern?.hint}</CardDescription>
-      </CardHeader>
-
-      <CardContent>
-        <p>{concern?.say.replace("<p>", "").replace("</p>", "")}</p>
-      </CardContent>
-
-      <CardFooter>
-        <Sheet>
-          <SheetTrigger className="flex gap-2 items-center text-slate-500 hover:text-black">
-            <Pen />
-            <p>Edit</p>
-          </SheetTrigger>
-        </Sheet>
-      </CardFooter>
-    </Card>
-  )
-}
 
 const ConcernsPage = () => {
   // STORE
