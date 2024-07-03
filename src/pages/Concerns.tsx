@@ -94,7 +94,7 @@ const ConcernsPage = () => {
         styles="pt-5 pb-5 text-lg"
       />
 
-      {concerns.length === 0 && (
+      {concerns?.filter(handleSearchConcerns).length === 0 && (
         <p className="text-center mt-4 text-gray-400">No concerns</p>
       )}
 
