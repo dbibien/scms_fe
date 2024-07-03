@@ -48,7 +48,7 @@ const ConcernsPage = () => {
   const concerns = useCommunityStore(state => state.concerns)
   const setConcerns = useCommunityStore(state => state.setConcerns)
 
-  const [searchHomeValue, setSearchHomeValue] = useState("")
+  const [searchValue, setSearchValue] = useState("")
 
   const getConcerns = async () => {
     try {
@@ -71,6 +71,12 @@ const ConcernsPage = () => {
     }
   }
 
+  const handleSearchConcerns = (concern: concernType) => {
+    if (searchValue === "") return concern
+
+    if (concern.name.toLowerCase().includes(searchValue.toLowerCase())) return concern
+  }
+
   useEffect(() => {
     getConcerns()
   }, [])
@@ -82,8 +88,8 @@ const ConcernsPage = () => {
       <SplInput
         type="text"
         name="search"
-        searchValue={searchHomeValue}
-        setSearchValue={setSearchHomeValue}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
         placeHolder="search concerns..."
         styles="pt-5 pb-5 text-lg"
       />
@@ -93,7 +99,7 @@ const ConcernsPage = () => {
       )}
 
       <ScrollArea className="h-[100vh] mt-4">
-        {concerns?.map(concern => (
+        {concerns?.filter(handleSearchConcerns)?.map(concern => (
           <ConcernCard
             key={concern?.id}
             concern={concern}
