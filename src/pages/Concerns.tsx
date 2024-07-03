@@ -49,6 +49,7 @@ const ConcernsPage = () => {
   const setConcerns = useCommunityStore(state => state.setConcerns)
 
   const [searchValue, setSearchValue] = useState("")
+  const [filteredConcerns, setFilteredConcerns] = useState(concerns)
 
   const getConcerns = async () => {
     try {
@@ -81,6 +82,11 @@ const ConcernsPage = () => {
     getConcerns()
   }, [])
 
+  // using effect for the search functionality
+  useEffect(() => {
+    setFilteredConcerns(() => concerns?.filter(handleSearchConcerns))
+  }, [searchValue])
+
   // console.log("concerns: ", concerns)
 
   return (
@@ -94,12 +100,16 @@ const ConcernsPage = () => {
         styles="pt-5 pb-5 text-lg"
       />
 
-      {concerns?.filter(handleSearchConcerns).length === 0 && (
+      <div className="mt-4">
+        <p className="text-slate-400 text-sm">Showing {filteredConcerns?.length} concern(s)</p>
+      </div>
+
+      {filteredConcerns?.length === 0 && (
         <p className="text-center mt-4 text-gray-400">No concerns</p>
       )}
 
       <ScrollArea className="h-[100vh] mt-4">
-        {concerns?.filter(handleSearchConcerns)?.map(concern => (
+        {filteredConcerns?.map(concern => (
           <ConcernCard
             key={concern?.id}
             concern={concern}
