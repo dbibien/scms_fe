@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form"
 import SInput from "./SInput"
 import { Button } from "./ui/button"
+import STextArea from "./STextArea"
 
 const formSchema = z.object({
   name: z.string().min(1, "Field must be longer than a character").max(24, "Field must not exceed 24 characters "),
@@ -24,9 +25,8 @@ const formSchema = z.object({
 })
 
 const ConcernCard = ({ concern }: concernCardType) => {
-  const handleUpdateConcern = () => { }
+  const handleUpdateConcern = (values: z.infer<typeof formSchema>) => { }
 
-  // Defining form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,8 +36,6 @@ const ConcernCard = ({ concern }: concernCardType) => {
     },
   })
 
-
-  // Defining submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     handleUpdateConcern(values)
   }
@@ -113,11 +111,11 @@ const ConcernCard = ({ concern }: concernCardType) => {
                     <FormItem>
                       <FormLabel>Say</FormLabel>
                       <FormControl>
-                        <SInput
-                          type="text"
+                        <STextArea
                           name="say"
-                          placeHolder="say"
-                          styles=""
+                          placeHolder="Type what you would like to say to the resident..."
+                          helperText="What to say to the resdident when called"
+                          styles="h-40"
                           fields={field}
                         />
                       </FormControl>
