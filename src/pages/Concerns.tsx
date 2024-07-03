@@ -44,13 +44,16 @@ const ConcernCard = ({ concern }: concernCardType) => {
 }
 
 const ConcernsPage = () => {
+  // STORE
   const pb = useApplicationStore(state => state.pb)
   const concerns = useCommunityStore(state => state.concerns)
   const setConcerns = useCommunityStore(state => state.setConcerns)
 
+  // STATE
   const [searchValue, setSearchValue] = useState("")
   const [filteredConcerns, setFilteredConcerns] = useState(concerns)
 
+  // HANDLERS
   const getConcerns = async () => {
     try {
       // fields the backend should return
@@ -78,17 +81,18 @@ const ConcernsPage = () => {
     if (concern.name.toLowerCase().includes(searchValue.toLowerCase())) return concern
   }
 
+  // EFFECTS
   useEffect(() => {
     getConcerns()
   }, [])
 
-  // using effect for the search functionality
   useEffect(() => {
     setFilteredConcerns(() => concerns?.filter(handleSearchConcerns))
   }, [searchValue])
 
   // console.log("concerns: ", concerns)
 
+  // JSX
   return (
     <div>
       <SplInput
