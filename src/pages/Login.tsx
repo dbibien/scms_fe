@@ -23,7 +23,7 @@ const formSchema = z.object({
 })
 
 const LoginPage = () => {
-  const pb = useApplicationStore(state => state.pb) 
+  const pb = useApplicationStore(state => state.pb)
 
   const [errorMessage, setErrorMessage] = useState("")
 
@@ -53,7 +53,7 @@ const LoginPage = () => {
         values.password,
       )
 
-      // console.log("authData: ", authData)
+      console.log("authData: ", authData)
 
       if (authData?.record?.id) {
         // user is logged in

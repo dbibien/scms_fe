@@ -7,14 +7,21 @@ import { communityType, concernType, houseType, phoneType, residentType } from "
 const pb = new PocketBase(import.meta.env.VITE_BACKEND_URL)
 
 // TYPES
-type applicationStore = {
+type applicationStoreType = {
   pb: PocketBase
 }
 
-// type concernStore = {
-//   concerns: concernType[],
-//   setConcerns: (data: concernType[]) => void,
-// }
+type loggedInUserType = {
+  user: {
+    id: string,
+    first_name: string,
+    last_name: string,
+    type: "director" | "manager" | "regular" | "",
+    verified: boolean,
+    created: Date | undefined,
+  }
+  setLoggedInUserData: (data: loggedInUserType["user"]) => void,
+}
 
 type housesDataFromBackend = {
   id: string,
@@ -39,9 +46,25 @@ export type communityStore = {
 }
 
 // STORE
-export const useApplicationStore = create<applicationStore>()(
+export const useApplicationStore = create<applicationStoreType>()(
   devtools(() => ({
     pb: pb,
+  }))
+)
+
+export const useLoggedInUserStore = create<loggedInUserType>()(
+  devtools((set) => ({
+    user: {
+      id: "",
+      first_name: "",
+      last_name: "",
+      type: "",
+      verified: false,
+      created: undefined,
+    },
+    setLoggedInUserData: (data => set(() => ({
+      user: data,
+    })))
   }))
 )
 
@@ -77,12 +100,4 @@ export const useCommunityStore = create<communityStore>()(
   }))
 )
 
-// export const useConcernStore = create<concernStore>()(
-//   devtools((set) => ({
-//     concerns: [],
-//
-//     setConcerns: (data) => (set(() => ({
-//       concerns: data,
-//     }))),
-//   }))
-// )
+

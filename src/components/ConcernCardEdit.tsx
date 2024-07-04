@@ -16,6 +16,7 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { ScrollArea } from "./ui/scroll-area"
+import { useApplicationStore } from "@/common/store"
 
 type concernCardType = {
   concern: concernType,
@@ -29,12 +30,25 @@ const formSchema = z.object({
 })
 
 const ConcernCardEdit = ({ concern }: concernCardType) => {
+  const pb = useApplicationStore(state => state.pb)
 
   const greeting = "Hello. This is Boca Woods Security."
   const goodBye = "Thank you. Good bye."
 
-  const handleUpdateConcern = (values: z.infer<typeof formSchema>) => {
+  const handleUpdateConcern = async (values: z.infer<typeof formSchema>) => {
     console.log("values: ", values)
+
+    try {
+      const data = {
+        name: values.name,
+        hint: values.hint,
+        say: values.say,
+        added_by: pb.authStore.
+      }
+      const record = await pb.collection('concerns').update('RECORD_ID', data);
+    } catch (e) {
+      console.log("error updating concern. e: ", e)
+    }
   }
 
   const form = useForm<z.infer<typeof formSchema>>({
