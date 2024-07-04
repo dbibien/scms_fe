@@ -69,8 +69,8 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
               <ScrollArea className="max-h-[70vh]">
 
-                <div className="bg-slate-50 p-4  mb-4 ounded-md">
-                  <p className="font-bold mb-4">Preview of what will be said to the  residient: </p>
+                <div className="bg-slate-50 p-4  mb-4 rounded-md">
+                  <p className="font-bold mb-4">Preview of what will be said to the resident: </p>
                   <p>{greeting}</p>
                   <p className="pt-2 pb-2">{sayWatched}</p>
                   <p>{goodBye}</p>
