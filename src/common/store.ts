@@ -100,18 +100,11 @@ export const useCommunityStore = create<communityStore>()(
     })),
     setUpdateConcern: (data) => set((state) => {
       const updatedList = state.concerns.map(item => {
-        // return the new updated data for the concern with same id as the new data id
-        if (item.id === data.id) {
-          console.log("item.id === data.id", data)
-          return data
-        } else {
-          // if the ids are different, return the concern as if 
-          console.log("does this run too?")
-          return item
-        }
+        if (item.id === data.id) return data // return the new updated data for the concern with same id as the new data id
+        return item // if the ids are different, return the concern as if 
       })
 
-      console.log("updatedList: ", updatedList)
+      // console.log("updatedList: ", updatedList)
       // return state.setConcerns(updatedList)
       // state.setConcerns(updatedList)
       return { concerns: updatedList }
