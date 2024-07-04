@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { Ban } from "lucide-react"
-import { useApplicationStore } from "@/common/store"
+import { useApplicationStore, useLoggedInUserStore } from "@/common/store"
 
 // login page zod schema
 const formSchema = z.object({
@@ -24,6 +24,7 @@ const formSchema = z.object({
 
 const LoginPage = () => {
   const pb = useApplicationStore(state => state.pb)
+  const setLoggedInUserData = useLoggedInUserStore(state => state.setLoggedInUserData)
 
   const [errorMessage, setErrorMessage] = useState("")
 
@@ -57,6 +58,17 @@ const LoginPage = () => {
 
       if (authData?.record?.id) {
         // user is logged in
+
+        const userRecord = authData?.record
+        setLoggedInUserData({
+          id: userRecord?.id,
+          first_name: userRecord?.first_name,
+          last_name: userRecord?.last_name,
+          type: userRecord?.type,
+          verified: userRecord?.verified,
+          created: new Date(userRecord?.created),
+        })
+
         setErrorMessage("")
         return navigate("/")
       }
