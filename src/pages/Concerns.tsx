@@ -62,7 +62,7 @@ const ConcernsPage = () => {
 
   useEffect(() => {
     setFilteredConcerns(() => concerns?.filter(handleSearchConcerns))
-  }, [searchValue])
+  }, [searchValue, concerns])
 
   // console.log("concerns: ", concerns)
 

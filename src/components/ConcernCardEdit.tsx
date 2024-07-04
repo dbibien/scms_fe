@@ -16,7 +16,7 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { ScrollArea } from "./ui/scroll-area"
-import { useApplicationStore, useLoggedInUserStore } from "@/common/store"
+import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
 
 type concernCardType = {
   concern: concernType,
@@ -32,6 +32,7 @@ const formSchema = z.object({
 const ConcernCardEdit = ({ concern }: concernCardType) => {
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
+  const setUpdatedConcern = useCommunityStore(state => state.setUpdateConcern)
 
   const greeting = "Hello. This is Boca Woods Security."
   const goodBye = "Thank you. Good bye."
@@ -47,8 +48,8 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
       const updatedConcern = await pb.collection('concerns').update(concern?.id, data, {
         fields: "id, name, hint, say"
       })
-      console.log("updated concern: ", updatedConcern)
-      console.log("concern.id: ", updatedConcern.id)
+      // @ts-expect-error i'll fix the ts errors at a later time
+      setUpdatedConcern(updatedConcern)
     } catch (e) {
       console.log("error updating concern. e: ", e)
     }
