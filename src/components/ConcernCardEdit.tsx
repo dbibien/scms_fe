@@ -15,6 +15,7 @@ import { Pen } from "lucide-react"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { ScrollArea } from "./ui/scroll-area"
 
 const formSchema = z.object({
   name: z.string().min(1, "Field must be longer than a character").max(24, "Field must not exceed 24 characters "),
@@ -54,71 +55,73 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
 
         <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <SInput
-                        type="text"
-                        name="name"
-                        placeHolder="name"
-                        styles=""
-                        fields={field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <ScrollArea className="h-100">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <SInput
+                          type="text"
+                          name="name"
+                          placeHolder="name"
+                          styles=""
+                          fields={field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="hint"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hint</FormLabel>
-                    <FormControl>
-                      <SInput
-                        type="text"
-                        name="hint"
-                        placeHolder="hint"
-                        styles=""
-                        fields={field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="hint"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Hint</FormLabel>
+                      <FormControl>
+                        <SInput
+                          type="text"
+                          name="hint"
+                          placeHolder="hint"
+                          styles=""
+                          fields={field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="say"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Say</FormLabel>
-                    <FormControl>
-                      <STextArea
-                        name="say"
-                        placeHolder="Type what you would like to say to the resident..."
-                        helperText="What to say to the resdident when called"
-                        styles="h-40"
-                        fields={field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="say"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Say</FormLabel>
+                      <FormControl>
+                        <STextArea
+                          name="say"
+                          placeHolder="Type what you would like to say to the resident..."
+                          helperText="What to say to the resdident when called"
+                          styles="h-40"
+                          fields={field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <div className="mt-8">
-                <Button type="submit" className="w-full mt-4">Update concern</Button>
-              </div>
-            </form>
+                <div className="mt-8">
+                  <Button type="submit" className="w-full mt-4">Update concern</Button>
+                </div>
+              </form>
+            </ScrollArea>
           </Form>
         </div>
       </SheetContent>
