@@ -18,7 +18,7 @@ const SInput = ({ type, name, placeHolder, styles, fields }: CPropsTypes) => {
         name={name}
         placeholder={placeHolder}
         // value={searchValue}
-        className={styles} {...fields} />
+        className={`mb-4 ${styles}`} {...fields} />
     </div>
   )
 }

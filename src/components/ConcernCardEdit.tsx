@@ -9,7 +9,7 @@ import {
 import SInput from "./SInput"
 import { Button } from "./ui/button"
 import STextArea from "./STextArea"
-import { concernCardType } from "@/common/types"
+import { concernType } from "@/common/types"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { Pen } from "lucide-react"
 import { z } from "zod"
@@ -17,9 +17,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { ScrollArea } from "./ui/scroll-area"
 
+type concernCardType = {
+  concern: concernType,
+}
+
 const formSchema = z.object({
-  name: z.string().min(1, "Field must be longer than a character").max(24, "Field must not exceed 24 characters "),
-  hint: z.string().min(1, { message: "Field must be 1 character long" }).max(32, { message: "Field must not exceed 32 characters" }),
+  name: z.string().min(1, "Field must be longer than a character").max(100, "Field must not exceed 24 characters "),
+  hint: z.string().min(1, { message: "Field must be 1 character long" }).max(200, { message: "Field must not exceed 32 characters" }),
   say: z.string().min(1, { message: "Field must be 1 character long" }).max(256, { message: "Field must not exceed 256 characters" }),
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
@@ -29,7 +33,9 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
   const greeting = "Hello. This is Boca Woods Security."
   const goodBye = "Thank you. Good bye."
 
-  const handleUpdateConcern = (values: z.infer<typeof formSchema>) => { }
+  const handleUpdateConcern = (values: z.infer<typeof formSchema>) => {
+    console.log("values: ", values)
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,15 +63,17 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
         </SheetTitle>
 
         <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
-          <div className="bg-slate-50 p-4 rounded-md">
-            <p>{greeting}</p>
-            <p className="pt-2 pb-2">This is a preview of what will be said to the resident when the app calls them</p>
-            <p>{goodBye}</p>
-          </div>
-
           <Form {...form}>
-            <ScrollArea className="h-100">
-              <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
+              <ScrollArea className="max-h-[70vh]">
+
+                <div className="bg-slate-50 p-4  mb-4 ounded-md">
+                  <p className="font-bold mb-4">Preview of what will be said to the  residient: </p>
+                  <p>{greeting}</p>
+                  <p className="pt-2 pb-2">This is a preview of what will be said to the resident when the app calls them</p>
+                  <p>{goodBye}</p>
+                </div>
+
                 <FormField
                   control={form.control}
                   name="name"
@@ -125,16 +133,16 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
                     </FormItem>
                   )}
                 />
+              </ScrollArea>
 
-                <div className="mt-8">
-                  <Button type="submit" className="w-full mt-4">Update concern</Button>
-                </div>
-              </form>
-            </ScrollArea>
+              <div className="mt-8">
+                <Button type="submit" className="w-full mt-4">Update concern</Button>
+              </div>
+            </form>
           </Form>
         </div>
       </SheetContent>
-    </Sheet>
+    </Sheet >
   )
 }
 

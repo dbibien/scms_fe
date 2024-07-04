@@ -15,10 +15,6 @@ import { concernType } from "@/common/types"
 // import { Pen } from "lucide-react"
 import ConcernCard from "@/components/ConcernCard"
 
-// type concernCardType = {
-//   concern: concernType,
-// }
-
 // helper component
 
 const ConcernsPage = () => {
