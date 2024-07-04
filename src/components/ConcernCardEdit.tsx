@@ -46,6 +46,8 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
     },
   })
 
+  const sayWatched = form.watch("say")
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     handleUpdateConcern(values)
   }
@@ -70,7 +72,7 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
                 <div className="bg-slate-50 p-4  mb-4 ounded-md">
                   <p className="font-bold mb-4">Preview of what will be said to the  residient: </p>
                   <p>{greeting}</p>
-                  <p className="pt-2 pb-2">This is a preview of what will be said to the resident when the app calls them</p>
+                  <p className="pt-2 pb-2">{sayWatched}</p>
                   <p>{goodBye}</p>
                 </div>
 
