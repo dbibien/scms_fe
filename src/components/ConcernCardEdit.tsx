@@ -37,8 +37,6 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
   const goodBye = "Thank you. Good bye."
 
   const handleUpdateConcern = async (values: z.infer<typeof formSchema>) => {
-    console.log("values: ", values)
-
     try {
       const data = {
         name: values.name,
@@ -46,8 +44,11 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
         say: values.say,
         added_by: loggedInUserId,
       }
-      const record = await pb.collection('concerns').update(concern?.id, data);
-      console.log("updated concern: ", record)
+      const updatedConcern = await pb.collection('concerns').update(concern?.id, data, {
+        fields: "id, name, hint, say"
+      })
+      console.log("updated concern: ", updatedConcern)
+      console.log("concern.id: ", updatedConcern.id)
     } catch (e) {
       console.log("error updating concern. e: ", e)
     }
