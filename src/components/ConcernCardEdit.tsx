@@ -17,6 +17,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { ScrollArea } from "./ui/scroll-area"
 import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
+import { useToast } from "./ui/use-toast"
+import { useState } from "react"
 
 type concernCardType = {
   concern: concernType,
@@ -34,8 +36,12 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
   const setUpdatedConcern = useCommunityStore(state => state.setUpdateConcern)
 
+  const [openSheet, setOpenSheet] = useState(false)
+
   const greeting = "Hello. This is Boca Woods Security."
   const goodBye = "Thank you. Good bye."
+
+  const { toast } = useToast()
 
   const handleUpdateConcern = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -50,6 +56,12 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
       })
       // @ts-expect-error i'll fix the ts errors at a later time
       setUpdatedConcern(updatedConcern)
+      toast({
+        variant: "default",
+        title: "Success!",
+        description: "Concern successfully updated"
+      })
+      setOpenSheet(false)
     } catch (e) {
       console.log("error updating concern. e: ", e)
     }
@@ -71,7 +83,7 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
   }
 
   return (
-    <Sheet>
+    <Sheet open={openSheet} onOpenChange={setOpenSheet}>
       <SheetTrigger className="flex gap-2 items-center text-slate-500 hover:text-black">
         <Pen />
         <p>Edit</p>
