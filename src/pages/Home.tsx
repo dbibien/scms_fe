@@ -255,43 +255,6 @@ const HomePage = () => {
   // const [houses, setHouses] = useState<houseRecords[]>([])
   const [searchHomeValue, setSearchHomeValue] = useState("")
 
-  // const getAllHouses = async () => {
-  //   try {
-  //     // fields the backend should return
-  //     const fields = `id, address, member_number, security_code, image, note,
-  //             expand.residents.id, expand.residents.first_name, expand.residents.last_name, expand.residents.owner,
-  //             expand.phones.id, expand.phones.phone_number, expand.phones.primary, expand.phones.type,
-  //       `
-  //     const records = await pb.collection('houses').getFullList({
-  //       // sort: "-created",
-  //       expand: 'residents, phones',
-  //       fields: fields,
-  //     })
-  //
-  //     // console.log("records: ", records)
-  //     //@ts-expect-error this is just the best way I could come up with to get the error to go away
-  //     setHouses(records)
-  //   } catch (e) {
-  //     console.log("e:", e)
-  //   }
-  // }
-
-  // const getAllConcerns = async () => {
-  //   try {
-  //     // fields the backend should return
-  //     const fields = `id, name, hint`
-  //     const records = await pb.collection('concerns').getFullList({
-  //       fields: fields,
-  //     })
-  //
-  //     console.log("records: ", records)
-  //     //@ts-expect-error this is just the best way I could come up with to get the error to go away
-  //     setConcerns(records)
-  //   } catch (e) {
-  //     console.log("e:", e)
-  //   }
-  // }
-
   const getApplicationData = async () => {
     try {
       // fields the backend should return
