@@ -26,6 +26,9 @@ const formSchema = z.object({
 
 const ConcernCardEdit = ({ concern }: concernCardType) => {
 
+  const greeting = "Hello. This is Boca Woods Security."
+  const goodBye = "Thank you. Good bye."
+
   const handleUpdateConcern = (values: z.infer<typeof formSchema>) => { }
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,6 +57,12 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
         </SheetTitle>
 
         <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
+          <div className="bg-slate-50 p-4 rounded-md">
+            <p>{greeting}</p>
+            <p className="pt-2 pb-2">This is a preview of what will be said to the resident when the app calls them</p>
+            <p>{goodBye}</p>
+          </div>
+
           <Form {...form}>
             <ScrollArea className="h-100">
               <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
