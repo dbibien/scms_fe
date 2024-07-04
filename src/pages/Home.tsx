@@ -86,8 +86,8 @@ const HomeCard = ({ house }: homeCardType) => {
     if (concern.name.toLowerCase().includes(searchValue.toLowerCase())) return concern
   }
 
-  console.log("note: ", house?.note)
-  console.log("house: ", house)
+  // console.log("note: ", house?.note)
+  // console.log("house: ", house)
   // console.log("selected concerns: ", selectConcerns)
   // console.log("searchValue: ", searchValue)
 
