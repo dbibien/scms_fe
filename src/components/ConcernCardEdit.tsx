@@ -64,6 +64,11 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
       setOpenSheet(false)
     } catch (e) {
       console.log("error updating concern. e: ", e)
+      toast({
+        variant: "destructive",
+        title: "Failure",
+        description: "Error updating concern"
+      })
     }
   }
 
