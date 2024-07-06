@@ -1,12 +1,12 @@
 import { Bars } from "react-loader-spinner"
 
 type CProps = {
-  height: string,
-  width: string,
-  color: string,
+  height?: string,
+  width?: string,
+  color?: string,
 }
 
-const Spinner = ({ height, width, color }: CProps) => {
+const Spinner = ({ height = "30", width = "30", color = "white" }: CProps) => {
   return (
     <Bars
       height={height}

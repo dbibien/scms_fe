@@ -19,7 +19,7 @@ import { ScrollArea } from "./ui/scroll-area"
 import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
 import { useToast } from "./ui/use-toast"
 import { useState } from "react"
-import { Bars } from 'react-loader-spinner'
+import Spinner from "./Spinner"
 
 type concernCardType = {
   concern: concernType,
@@ -183,17 +183,7 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
                   disabled={loading}
                   className="w-full mt-4"
                 >
-                  {loading ? (<Bars
-                    height="30"
-                    width="30"
-                    color="white"
-                    ariaLabel="bars-loading"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                    visible={true}
-                  />) :
-                    "Update concern"
-                  }
+                  {loading ? <Spinner /> : "Update concern"}
                 </Button>
               </div>
             </form>
