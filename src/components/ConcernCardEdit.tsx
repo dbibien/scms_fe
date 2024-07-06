@@ -18,8 +18,9 @@ import { useForm } from "react-hook-form"
 import { ScrollArea } from "./ui/scroll-area"
 import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
 import { useToast } from "./ui/use-toast"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Spinner from "./Spinner"
+import { useNavigate } from "react-router-dom"
 
 type concernCardType = {
   concern: concernType,
@@ -44,6 +45,7 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
   const goodBye = "Thank you. Good bye."
 
   const { toast } = useToast()
+  const navigate = useNavigate()
 
   const handleUpdateConcern = async (values: z.infer<typeof formSchema>) => {
     setLoading(true)
@@ -91,6 +93,21 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     handleUpdateConcern(values)
   }
+
+  useEffect(() => {
+    if (loggedInUserId === "") { // if there is no looged in user in the global store, an update cannot happen
+      toast({
+        variant: "destructive",
+        title: "Warning",
+        description: "No user found. Loging out...",
+      })
+      // console.log("no user found. loging out...")
+      setTimeout(() => { // time out ensure the toast will have enough time to be shown to the user
+        pb.authStore.clear()
+        return navigate("/login")
+      }, 2000)
+    }
+  }, [loggedInUserId])
 
   return (
     <Sheet open={openSheet} onOpenChange={setOpenSheet}>
