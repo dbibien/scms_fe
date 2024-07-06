@@ -19,6 +19,7 @@ import { ScrollArea } from "./ui/scroll-area"
 import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
 import { useToast } from "./ui/use-toast"
 import { useState } from "react"
+import { Bars } from 'react-loader-spinner'
 
 type concernCardType = {
   concern: concernType,
@@ -37,6 +38,7 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
   const setUpdatedConcern = useCommunityStore(state => state.setUpdateConcern)
 
   const [openSheet, setOpenSheet] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const greeting = "Hello. This is Boca Woods Security."
   const goodBye = "Thank you. Good bye."
@@ -44,6 +46,7 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
   const { toast } = useToast()
 
   const handleUpdateConcern = async (values: z.infer<typeof formSchema>) => {
+    setLoading(true)
     try {
       const data = {
         name: values.name,
@@ -69,6 +72,8 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
         title: "Failure",
         description: "Error updating concern"
       })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -173,7 +178,23 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
               </ScrollArea>
 
               <div className="mt-8">
-                <Button type="submit" className="w-full mt-4">Update concern</Button>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full mt-4"
+                >
+                  {loading ? (<Bars
+                    height="30"
+                    width="30"
+                    color="white"
+                    ariaLabel="bars-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                  />) :
+                    "Update concern"
+                  }
+                </Button>
               </div>
             </form>
           </Form>
