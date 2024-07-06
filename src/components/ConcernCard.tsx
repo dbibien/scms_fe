@@ -1,7 +1,11 @@
-import { concernCardType } from "@/common/types"
+import { concernType } from "@/common/types"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import ConcernCardEdit from "./ConcernCardEdit"
 import { Trash } from "lucide-react"
+
+type concernCardType = {
+  concern: concernType
+}
 
 const ConcernCard = ({ concern }: concernCardType) => {
   return (
