@@ -19,6 +19,11 @@ export type concernType = {
   say: string,
 }
 
+
+export type concernCardType = {
+  concern: concernType
+}
+
 export type phoneType = {
   id: string,
   phone_number: string,
