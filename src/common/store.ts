@@ -110,11 +110,10 @@ export const useCommunityStore = create<communityStore>()(
       // state.setConcerns(updatedList)
       return { concerns: updatedList }
     }),
-    // @ts-expect-error I need to look into what I am doing wrong as far as the types goes
     setDeleteConcern: (data) => set((state) => {
       const updatedList = state.concerns?.filter(item => item?.id !== data)
-      return { conerns: updatedList }
-    })
+      return { concerns: updatedList }
+    }),
   }))
 )
 

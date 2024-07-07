@@ -1,23 +1,11 @@
 import { ScrollArea } from "@/components/ui/scroll-area"
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardFooter,
-//   CardHeader,
-//   CardTitle,
-// } from "@/components/ui/card"
 import SplInput from "@/components/SplInput"
 import { useEffect, useState } from "react"
 import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
 import { concernType } from "@/common/types"
-// import { Sheet, SheetTrigger } from "@/components/ui/sheet"
-// import { Pen } from "lucide-react"
 import ConcernCard from "@/components/ConcernCard"
 import { toast } from "@/components/ui/use-toast"
 import { useNavigate } from "react-router-dom"
-
-// helper component
 
 const ConcernsPage = () => {
   // STORE
