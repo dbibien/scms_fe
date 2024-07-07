@@ -3,12 +3,13 @@ import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger 
 import { Ban, Trash } from "lucide-react"
 import { Button } from "./ui/button"
 import { useState } from "react"
-import { useApplicationStore } from "@/common/store"
+import { useApplicationStore, useCommunityStore } from "@/common/store"
 import { toast } from "./ui/use-toast"
 import Spinner from "./Spinner"
 
 const ConcernCardDelete = ({ concern }: concernCardType) => {
   const pb = useApplicationStore(state => state.pb)
+  const setDeleteConcern = useCommunityStore(state => state.setDeleteConcern)
 
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
@@ -22,6 +23,7 @@ const ConcernCardDelete = ({ concern }: concernCardType) => {
         title: "Success",
         description: "Concern deleted"
       })
+      setDeleteConcern(concern?.id)
       setOpen(false)
     } catch (e) {
       console.log("e: ", e)
@@ -82,13 +84,3 @@ const ConcernCardDelete = ({ concern }: concernCardType) => {
 }
 
 export default ConcernCardDelete
-
-
-{/*
-
-        <ConfirmAction
-          trigger={<Trash />}
-          triggerLabel="Delete"
-          confirmationMessage="Are you sure you want to delete this concern?"
-        />
-  */}

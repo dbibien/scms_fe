@@ -44,6 +44,7 @@ export type communityStore = {
   setConcerns: (data: concernType[]) => void,
   setHouses: (data: housesDataFromBackend[]) => void,
   setUpdateConcern: (data: concernType) => void,
+  setDeleteConcern: (data: string) => void,
 }
 
 // STORE
@@ -109,6 +110,11 @@ export const useCommunityStore = create<communityStore>()(
       // state.setConcerns(updatedList)
       return { concerns: updatedList }
     }),
+    // @ts-expect-error I need to look into what I am doing wrong as far as the types goes
+    setDeleteConcern: (data) => set((state) => {
+      const updatedList = state.concerns?.filter(item => item?.id !== data)
+      return { conerns: updatedList }
+    })
   }))
 )
 

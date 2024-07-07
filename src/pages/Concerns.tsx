@@ -9,23 +9,28 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 // } from "@/components/ui/card"
 import SplInput from "@/components/SplInput"
 import { useEffect, useState } from "react"
-import { useApplicationStore, useCommunityStore } from "@/common/store"
+import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
 import { concernType } from "@/common/types"
 // import { Sheet, SheetTrigger } from "@/components/ui/sheet"
 // import { Pen } from "lucide-react"
 import ConcernCard from "@/components/ConcernCard"
+import { toast } from "@/components/ui/use-toast"
+import { useNavigate } from "react-router-dom"
 
 // helper component
 
 const ConcernsPage = () => {
   // STORE
   const pb = useApplicationStore(state => state.pb)
+  const loggedInUserId = useLoggedInUserStore(state => state.user.id)
   const concerns = useCommunityStore(state => state.concerns)
   const setConcerns = useCommunityStore(state => state.setConcerns)
 
   // STATE
   const [searchValue, setSearchValue] = useState("")
   const [filteredConcerns, setFilteredConcerns] = useState(concerns)
+
+  const navigate = useNavigate()
 
   // HANDLERS
   const getConcerns = async () => {
@@ -65,6 +70,21 @@ const ConcernsPage = () => {
   }, [searchValue, concerns])
 
   // console.log("concerns: ", concerns)
+
+  useEffect(() => {
+    if (loggedInUserId === "") { // if there is no looged in user in the global store, an update cannot happen
+      toast({
+        variant: "destructive",
+        title: "Warning",
+        description: "No user found. Loging out...",
+      })
+      // console.log("no user found. loging out...")
+      setTimeout(() => { // time out ensure the toast will have enough time to be shown to the user
+        pb.authStore.clear()
+        return navigate("/login")
+      }, 2000)
+    }
+  }, [loggedInUserId])
 
   // JSX
   return (
