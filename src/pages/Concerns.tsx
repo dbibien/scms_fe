@@ -86,7 +86,7 @@ const ConcernsPage = () => {
         <p className="text-center mt-4 text-gray-400">No concerns</p>
       )}
 
-      <ScrollArea className="h-[100vh] mt-4">
+      <ScrollArea className="h-[80vh] mt-4 pb-8">
         {filteredConcerns?.map(concern => (
           <ConcernCard
             key={concern?.id}
