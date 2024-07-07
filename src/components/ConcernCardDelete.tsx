@@ -1,14 +1,42 @@
 import { concernCardType } from "@/common/types"
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
-import { Ban, Phone, Trash } from "lucide-react"
-import ConfirmAction from "./ConfirmAction"
+import { Ban, Trash } from "lucide-react"
 import { Button } from "./ui/button"
+import { useState } from "react"
+import { useApplicationStore } from "@/common/store"
+import { toast } from "./ui/use-toast"
+import Spinner from "./Spinner"
 
 const ConcernCardDelete = ({ concern }: concernCardType) => {
-  console.log("concern: ", concern)
+  const pb = useApplicationStore(state => state.pb)
+
+  const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  const deleteConcern = async () => {
+    setLoading(true)
+    try {
+      await pb.collection("concerns").delete(concern?.id)
+      toast({
+        variant: "default",
+        title: "Success",
+        description: "Concern deleted"
+      })
+      setOpen(false)
+    } catch (e) {
+      console.log("e: ", e)
+      toast({
+        variant: "destructive",
+        title: "Fail",
+        description: "Concern not deleted"
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetHeader>
         <SheetTrigger>
           <Trash className="text-slate-500 hover:text-red-400" />
@@ -29,18 +57,18 @@ const ConcernCardDelete = ({ concern }: concernCardType) => {
           <div className="grid grid-cols-2 gap-2">
             <Button
               type="submit"
-              // disabled={disabled}
-              // onClick={() => performAction()}
+              disabled={loading}
+              onClick={() => deleteConcern()}
               className="flex flex-row  gap-2 items-end w-full mt-4"
             >
               <Trash />
-              Delete
+              {loading ? <Spinner /> : "Delete"}
             </Button>
 
-            <SheetClose>
+            <SheetClose disabled={loading}>
               <Button
                 color="red"
-                className="flex flex-row gap-2 items-end w-full mt-4 bg-red-400 hover:bg-red-500"
+                className={`flex flex-row gap-2 items-end w-full mt-4 bg-red-400 ${!loading ? "hover:bg-red-500" : "hover:bg-red-400"}`}
               >
                 <Ban />
                 Cancel
