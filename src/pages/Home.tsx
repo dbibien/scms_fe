@@ -108,11 +108,11 @@ const HomeCard = ({ house }: homeCardType) => {
           <p className="text-center">{house?.address}</p>
 
           <div className="pt-4 flex flex-row justify-center gap-2">
-            {house?.resident.map(resident => {
+            {house?.residents.map(resident => {
               return (
                 <div key={resident.id}>
                   <p>{resident?.first_name} {resident?.last_name}</p>
-                  {house?.resident.length > 1 && (
+                  {house?.residents.length > 1 && (
                     <Separator orientation="vertical" className="border border-slate-200" />
                   )}
                 </div>
@@ -249,8 +249,8 @@ const HomePage = () => {
   const pb = useApplicationStore(state => state.pb)
   const houses = useCommunityStore(state => state.houses)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
-  const setConcerns = useCommunityStore(state => state.setConcerns)
-  const setCommunity = useCommunityStore(state => state.setCommunity)
+  // const setConcerns = useCommunityStore(state => state.setConcerns)
+  // const setCommunity = useCommunityStore(state => state.setCommunity)
   const setHouses = useCommunityStore(state => state.setHouses)
 
   // const [houses, setHouses] = useState<houseRecords[]>([])
@@ -312,8 +312,6 @@ const HomePage = () => {
 
         return data
       })
-
-      console.log("houses: ", houses)
 
       setHouses(houses)
     } catch (e) {
