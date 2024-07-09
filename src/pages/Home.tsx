@@ -15,7 +15,7 @@ import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import CheckBox from "@/components/CheckBox"
-import { useApplicationStore, useCommunityStore } from "@/common/store"
+import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
 import { concernType, houseType, selectConcernsType } from "@/common/types"
 import SplInput from "@/components/SplInput";
 import ConcernSelectorViewer from "@/components/ConcernSelectorViewer";
@@ -248,6 +248,7 @@ const HomeCard = ({ house }: homeCardType) => {
 const HomePage = () => {
   const pb = useApplicationStore(state => state.pb)
   const houses = useCommunityStore(state => state.houses)
+  const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
   const setConcerns = useCommunityStore(state => state.setConcerns)
   const setCommunity = useCommunityStore(state => state.setCommunity)
   const setHouses = useCommunityStore(state => state.setHouses)
@@ -255,40 +256,44 @@ const HomePage = () => {
   // const [houses, setHouses] = useState<houseRecords[]>([])
   const [searchHomeValue, setSearchHomeValue] = useState("")
 
-  const getApplicationData = async () => {
+  const getHomeData = async () => {
     try {
       // fields the backend should return
-      const residentFields = `
-        expand.houses.expand.residents.id, expand.houses.expand.residents.first_name, expand.houses.expand.residents.last_name, 
-        expand.houses.expand.residents.owner
-      `
-      const houseFields = `
-        expand.houses.id, expand.houses.address, expand.houses.member_number, expand.houses.security_code, expand.houses.image, expand.houses.note
-      `
-      const concernsFields = `
-        expand.concerns.id, expand.concerns.name, expand.concerns.hint, expand.concerns.say 
-      `
-      const communityFields = `
-        id, name, address
-      `
+      // const residentFields = `
+      //   expand.houses.expand.residents.id, expand.houses.expand.residents.first_name, expand.houses.expand.residents.last_name, 
+      //   expand.houses.expand.residents.owner
+      // `
+      const houseFields = `id, address, member_number, security_code, image, note`
+      // const concernsFields = `
+      //   expand.concerns.id, expand.concerns.name, expand.concerns.hint, expand.concerns.say 
+      // `
+
       const phoneFields = `
-        expand.houses.expand.phones.id, expand.houses.expand.phones.phone_number, expand.houses.expand.phones.primary, expand.houses.expand.phones.type
+        expand.phones_via_house.id, expand.phones_via_house.phone_number, expand.phones_via_house.primary, expand.phones_via_house.type
       `
-      const fields = `${communityFields}, ${concernsFields}, ${houseFields}, ${residentFields}, ${phoneFields}`
-      const records = await pb.collection('communities').getFullList({
-        expand: 'concerns, houses, houses.residents, houses.phones',
+      const residentFields = `
+        expand.residents_via_house.id, expand.residents_via_house.first_name, expand.residents_via_house.last_name, expand.residents_via_house.owner,
+      `
+
+      // const fields = `${communityFields}, ${concernsFields}, ${houseFields}, ${residentFields}, ${phoneFields}`
+
+      const fields = `${houseFields}, ${phoneFields}, ${residentFields}`
+      const records = await pb.collection('houses').getFullList({
+        filter: `community.id = '${loggedInUserCommunityId}'`,
         fields: fields,
+        expand: 'phones_via_house, residents_via_house',
       })
 
-      console.log("records: ", records)
-      const communityData = records[0]
-      setCommunity({
-        id: communityData?.id,
-        name: communityData?.name,
-        address: communityData?.address,
-      })
-      setConcerns(communityData.expand?.concerns)
-      setHouses(communityData.expand?.houses)
+      console.log("records from home page: ", records)
+
+      // const communityData = records[0]
+      // setCommunity({
+      //   id: communityData?.id,
+      //   name: communityData?.name,
+      //   address: communityData?.address,
+      // })
+      // setConcerns(communityData.expand?.concerns)
+      setHouses(records)
     } catch (e) {
       console.log("e:", e)
     }
@@ -297,7 +302,7 @@ const HomePage = () => {
   useEffect(() => {
     // getAllHouses()
     // getAllConcerns()
-    getApplicationData()
+    getHomeData()
   }, [])
 
   // console.log("house: ", houses)
