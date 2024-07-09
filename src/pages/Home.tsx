@@ -16,7 +16,7 @@ import { useEffect, useState } from "react"
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import CheckBox from "@/components/CheckBox"
 import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
-import { concernType, houseType, selectConcernsType } from "@/common/types"
+import { concernType, houseType, phoneType, residentType, selectConcernsType } from "@/common/types"
 import SplInput from "@/components/SplInput";
 import ConcernSelectorViewer from "@/components/ConcernSelectorViewer";
 
@@ -284,16 +284,38 @@ const HomePage = () => {
         expand: 'phones_via_house, residents_via_house',
       })
 
-      console.log("records from home page: ", records)
+      const houses = records.map((house) => {
+        const phones: phoneType[] = house?.expand?.phones_via_house.map((phone: phoneType) => ({
+          id: phone?.id,
+          phone_number: phone?.phone_number,
+          primary: phone?.primary,
+          type: phone?.type,
+        }))
 
-      // const communityData = records[0]
-      // setCommunity({
-      //   id: communityData?.id,
-      //   name: communityData?.name,
-      //   address: communityData?.address,
-      // })
-      // setConcerns(communityData.expand?.concerns)
-      setHouses(records)
+        const residents: residentType[] = house?.expand?.residents_via_house?.map((resident: residentType) => ({
+          id: resident?.id,
+          first_name: resident?.first_name,
+          last_name: resident?.last_name,
+          owner: resident?.owner,
+        }))
+
+        const data: houseType = {
+          id: house.id,
+          address: house.address,
+          image: house.image,
+          member_number: house.member_number,
+          security_code: house.security_code,
+          note: house.note,
+          phones: phones || [],
+          residents: residents || [],
+        }
+
+        return data
+      })
+
+      console.log("houses: ", houses)
+
+      setHouses(houses)
     } catch (e) {
       console.log("e:", e)
     }

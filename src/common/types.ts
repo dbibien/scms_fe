@@ -35,7 +35,7 @@ export type residentType = {
   id: string,
   first_name: string,
   last_name: string,
-  ownder: boolean,
+  owner: boolean,
 }
 
 export type houseType = {
@@ -46,5 +46,5 @@ export type houseType = {
   image: string,
   note: string,
   phones: phoneType[],
-  resident: residentType[],
+  residents: residentType[],
 }

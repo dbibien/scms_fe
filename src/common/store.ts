@@ -2,7 +2,7 @@
 import { create } from "zustand"
 import { devtools } from "zustand/middleware"
 import PocketBase from 'pocketbase'
-import { communityType, concernType, houseType, phoneType, residentType } from "./types"
+import { communityType, concernType, houseType } from "./types"
 
 const pb = new PocketBase(import.meta.env.VITE_BACKEND_URL)
 
@@ -24,18 +24,18 @@ type loggedInUserType = {
   setLoggedInUserData: (data: loggedInUserType["user"]) => void,
 }
 
-type housesDataFromBackend = {
-  id: string,
-  address: string,
-  member_id: string,
-  security_code: string,
-  image: string,
-  note: string,
-  expand: {
-    phones: phoneType[],
-    residents: residentType[],
-  }
-}
+// type housesDataFromBackend = {
+//   id: string,
+//   address: string,
+//   member_id: string,
+//   security_code: string,
+//   image: string,
+//   note: string,
+//   expand: {
+//     phones: phoneType[],
+//     residents: residentType[],
+//   }
+// }
 
 export type communityStore = {
   community: communityType,
@@ -43,7 +43,7 @@ export type communityStore = {
   houses: houseType[],
   setCommunity: (data: communityType) => void,
   setConcerns: (data: concernType[]) => void,
-  setHouses: (data: housesDataFromBackend[]) => void,
+  setHouses: (data: houseType[]) => void,
   setUpdateConcern: (data: concernType) => void,
   setDeleteConcern: (data: string) => void,
 }
@@ -87,19 +87,21 @@ export const useCommunityStore = create<communityStore>()(
     setConcerns: (data) => (set(() => ({
       concerns: data,
     }))),
-    // @ts-expect-error I need to look into what I am doing wrong as far as the types goes
+    // setHouses: (data) => (set(() => {
+    //   const fHouses = data.map((house: housesDataFromBackend) => ({
+    //     id: house.id,
+    //     address: house.address,
+    //     member_id: house.member_id,
+    //     security_code: house.security_code,
+    //     note: house.note,
+    //     image: house.image,
+    //     phones: house.expand.phones,
+    //     resident: house.expand.residents,
+    //   }))
+    //   return { houses: fHouses }
+    // })),
     setHouses: (data) => (set(() => {
-      const fHouses = data.map((house: housesDataFromBackend) => ({
-        id: house.id,
-        address: house.address,
-        member_id: house.member_id,
-        security_code: house.security_code,
-        note: house.note,
-        image: house.image,
-        phones: house.expand.phones,
-        resident: house.expand.residents,
-      }))
-      return { houses: fHouses }
+      return { houses: data }
     })),
     setUpdateConcern: (data) => set((state) => {
       const updatedList = state.concerns.map(item => {
