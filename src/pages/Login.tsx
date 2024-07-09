@@ -54,7 +54,7 @@ const LoginPage = () => {
         values.password,
       )
 
-      // console.log("authData: ", authData)
+      console.log("authData: ", authData)
 
       if (authData?.record?.id) {
         // user is logged in
@@ -62,6 +62,7 @@ const LoginPage = () => {
         const userRecord = authData?.record
         setLoggedInUserData({
           id: userRecord?.id,
+          community_id: userRecord?.community,
           first_name: userRecord?.first_name,
           last_name: userRecord?.last_name,
           type: userRecord?.type,

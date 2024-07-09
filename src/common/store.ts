@@ -14,6 +14,7 @@ type applicationStoreType = {
 type loggedInUserType = {
   user: {
     id: string,
+    community_id: string,
     first_name: string,
     last_name: string,
     type: "director" | "manager" | "regular" | "",
@@ -58,6 +59,7 @@ export const useLoggedInUserStore = create<loggedInUserType>()(
   devtools((set) => ({
     user: {
       id: "",
+      community_id: "",
       first_name: "",
       last_name: "",
       type: "",
