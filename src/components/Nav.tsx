@@ -9,6 +9,7 @@ import { Separator } from "@radix-ui/react-separator"
 import { Button } from "./ui/button"
 import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
 import { useEffect } from "react"
+import { toast } from "./ui/use-toast"
 
 const Nav = () => {
   const pb = useApplicationStore(state => state.pb)
@@ -22,7 +23,7 @@ const Nav = () => {
       const record = await pb.collection('communities').getOne(loggedInUserCommunityId, {
         fields: "id, name, address",
       })
-      console.log("record from nav: ", record)
+      // console.log("record from nav: ", record)
       setCommunity({
         id: record?.id,
         name: record?.name,
@@ -30,6 +31,11 @@ const Nav = () => {
       })
     } catch (e) {
       console.log(e)
+      toast({
+        variant: "destructive",
+        title: "Fail",
+        description: "Community data not loaded",
+      })
     }
   }
 
