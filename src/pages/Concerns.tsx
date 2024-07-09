@@ -14,6 +14,7 @@ const ConcernsPage = () => {
   // STORE
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
+  const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
   const concerns = useCommunityStore(state => state.concerns)
   const setConcerns = useCommunityStore(state => state.setConcerns)
 
@@ -26,20 +27,15 @@ const ConcernsPage = () => {
   // HANDLERS
   const getConcerns = async () => {
     try {
-      // fields the backend should return
-      const concernsFields = `
-        expand.concerns.id, expand.concerns.name, expand.concerns.hint, expand.concerns.say 
-      `
-      const fields = `${concernsFields}`
-      const records = await pb.collection('communities').getFullList({
-        expand: 'concerns',
-        fields: fields,
+      const records: concernType[] = await pb.collection('concerns').getFullList({
+        filter: `community.id = "${loggedInUserCommunityId}"`,
+        fields: "id, name, hint, say",
       })
 
-      // console.log("records: ", records)
+      console.log("records: ", records)
       // console.log("records.expand: ", records[0].expand?.concerns)
-      const concerns = records[0].expand?.concerns === undefined ? [] : records[0].expand?.concerns
-      setConcerns(concerns)
+      // const concerns = records[0].expand?.concerns === undefined ? [] : records[0].expand?.concerns
+      setConcerns(records)
     } catch (e) {
       console.log("e:", e)
     }
