@@ -54,7 +54,7 @@ const LoginPage = () => {
         values.password,
       )
 
-      console.log("authData: ", authData)
+      // console.log("authData: ", authData)
 
       if (authData?.record?.id) {
         // user is logged in

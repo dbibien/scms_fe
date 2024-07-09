@@ -7,12 +7,31 @@ import {
 import { Menu } from "lucide-react"
 import { Separator } from "@radix-ui/react-separator"
 import { Button } from "./ui/button"
-import { useApplicationStore } from "@/common/store"
+import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
+import { useEffect } from "react"
 
 const Nav = () => {
   const pb = useApplicationStore(state => state.pb)
+  const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
+  const setCommunity = useCommunityStore(state => state.setCommunity)
 
   const navigate = useNavigate()
+
+  const getCommunityData = async () => {
+    try {
+      const record = await pb.collection('communities').getOne(loggedInUserCommunityId, {
+        fields: "id, name, address",
+      })
+      console.log("record from nav: ", record)
+      setCommunity({
+        id: record?.id,
+        name: record?.name,
+        address: record?.address,
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   const logOut = () => {
     pb.authStore.clear()
@@ -20,6 +39,10 @@ const Nav = () => {
     console.log("loging out...")
     return navigate("/login")
   }
+
+  useEffect(() => {
+    getCommunityData()
+  }, [])
 
   return (
     <nav className="sticky top-0 z-40 bg-black flex items-center p-4 justify-between">
