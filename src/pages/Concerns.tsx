@@ -38,6 +38,11 @@ const ConcernsPage = () => {
       setConcerns(records)
     } catch (e) {
       console.log("e:", e)
+      toast({
+        variant: "destructive",
+        title: "Fail",
+        description: "Fail to retrieve concerns"
+      })
     }
   }
 

@@ -20,6 +20,7 @@ import { concernType, houseType, phoneType, residentType, selectConcernsType } f
 import SplInput from "@/components/SplInput";
 import ConcernSelectorViewer from "@/components/ConcernSelectorViewer";
 import Spinner from "@/components/Spinner";
+import { toast } from "@/components/ui/use-toast";
 
 // type houseRecords = {
 //   id: string,
@@ -60,6 +61,7 @@ const HomeCard = ({ house }: homeCardType) => {
   const [searchValue, setSearchValue] = useState("")
 
   const getConcerns = async () => {
+    // NOTE: duplicated code. Good use for a custom hook
     setLoading(true)
     try {
       const records: concernType[] = await pb.collection('concerns').getFullList({
@@ -73,6 +75,11 @@ const HomeCard = ({ house }: homeCardType) => {
       setConcerns(records)
     } catch (e) {
       console.log("e:", e)
+      toast({
+        variant: "destructive",
+        title: "Fail",
+        description: "Fail to retrieve concerns"
+      })
     } finally {
       setLoading(false)
     }
