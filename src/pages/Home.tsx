@@ -155,7 +155,7 @@ const HomeCard = ({ house }: homeCardType) => {
         <CardFooter className="flex flex-row justify-between items-center">
           <Sheet>
             <SheetTrigger>
-              <button onClick={() => console.log("hello world")}>
+              <button onClick={getConcerns}>
                 <PhoneCall />
               </button>
             </SheetTrigger>
