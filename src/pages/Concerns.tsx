@@ -32,7 +32,7 @@ const ConcernsPage = () => {
         fields: "id, name, hint, say",
       })
 
-      console.log("records: ", records)
+      // console.log("records: ", records)
       // console.log("records.expand: ", records[0].expand?.concerns)
       // const concerns = records[0].expand?.concerns === undefined ? [] : records[0].expand?.concerns
       setConcerns(records)
