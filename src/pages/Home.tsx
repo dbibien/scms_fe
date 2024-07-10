@@ -19,6 +19,7 @@ import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/
 import { concernType, houseType, phoneType, residentType, selectConcernsType } from "@/common/types"
 import SplInput from "@/components/SplInput";
 import ConcernSelectorViewer from "@/components/ConcernSelectorViewer";
+import Spinner from "@/components/Spinner";
 
 // type houseRecords = {
 //   id: string,
@@ -51,9 +52,31 @@ type homeCardType = {
 const HomeCard = ({ house }: homeCardType) => {
   const pb = useApplicationStore(state => state.pb)
   const concerns = useCommunityStore(state => state.concerns)
+  const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
+  const setConcerns = useCommunityStore(state => state.setConcerns)
 
+  const [loading, setLoading] = useState(true)
   const [selectConcerns, setSelectConcerns] = useState<selectConcernsType[]>([])
   const [searchValue, setSearchValue] = useState("")
+
+  const getConcerns = async () => {
+    setLoading(true)
+    try {
+      const records: concernType[] = await pb.collection('concerns').getFullList({
+        filter: `community.id = "${loggedInUserCommunityId}"`,
+        fields: "id, name, hint, say",
+      })
+
+      // console.log("records: ", records)
+      // console.log("records.expand: ", records[0].expand?.concerns)
+      // const concerns = records[0].expand?.concerns === undefined ? [] : records[0].expand?.concerns
+      setConcerns(records)
+    } catch (e) {
+      console.log("e:", e)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const callResident = async () => {
     const res = await pb.send(`/api/scms/call-resident`, {
@@ -132,7 +155,9 @@ const HomeCard = ({ house }: homeCardType) => {
         <CardFooter className="flex flex-row justify-between items-center">
           <Sheet>
             <SheetTrigger>
-              <PhoneCall />
+              <button onClick={() => console.log("hello world")}>
+                <PhoneCall />
+              </button>
             </SheetTrigger>
 
             <SheetContent side="bottom">
@@ -160,24 +185,34 @@ const HomeCard = ({ house }: homeCardType) => {
                   styles="pt-5 pb-5 mb-4 text-lg"
                 />
 
-                <ScrollArea className="max-h-80 pl-2 pr-2 bg-slate-50">
-                  {
-                    concerns.filter(handleSearchConcerns).map(concern => (
-                      <div key={concern?.id} className="mt-4">
-                        <CheckBox
-                          id={concern?.id}
-                          name={concern?.name}
-                          hint={concern?.hint}
-                          checked={
-                            selectConcerns.filter(sc => (sc.id === concern.id && sc.selected === true)).length === 1 && true
-                          }
-                          selectConcerns={selectConcerns}
-                          setSelectConcerns={setSelectConcerns}
-                        />
-                      </div>
-                    ))
-                  }
-                </ScrollArea>
+                {loading === true ? (
+                  <>
+                    <div className="flex justify-center">
+                      <Spinner color="black" />
+                    </div>
+                    <p className="text-center text-slate-400">Loading concerns...</p>
+                  </>
+                ) : (
+                  <ScrollArea className="max-h-80 pl-2 pr-2 bg-slate-50">
+                    {
+                      concerns.filter(handleSearchConcerns).map(concern => (
+                        <div key={concern?.id} className="mt-4">
+                          <CheckBox
+                            id={concern?.id}
+                            name={concern?.name}
+                            hint={concern?.hint}
+                            checked={
+                              selectConcerns.filter(sc => (sc.id === concern.id && sc.selected === true)).length === 1 && true
+                            }
+                            selectConcerns={selectConcerns}
+                            setSelectConcerns={setSelectConcerns}
+                          />
+                        </div>
+                      ))
+                    }
+                  </ScrollArea>
+                )}
+
 
                 <Sheet>
                   <SheetTrigger
