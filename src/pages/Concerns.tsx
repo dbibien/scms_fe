@@ -15,6 +15,7 @@ const ConcernsPage = () => {
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
+  const loggedInUserType = useLoggedInUserStore(state => state.user.type)
   const concerns = useCommunityStore(state => state.concerns)
   const setConcerns = useCommunityStore(state => state.setConcerns)
 
@@ -92,7 +93,7 @@ const ConcernsPage = () => {
 
       <div className="flex flex-row items-center justify-between mt-4">
         <p className="text-slate-400 text-sm">Showing {filteredConcerns?.length} concern(s)</p>
-        <ConcernCardCreate />
+        {loggedInUserType === "director" && <ConcernCardCreate />}
       </div>
 
       {filteredConcerns?.length === 0 && (
