@@ -30,6 +30,7 @@ const formSchema = z.object({
 const ConcernCardCreate = () => {
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
+  const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
   const concerns = useCommunityStore(state => state.concerns)
   const setConcerns = useCommunityStore(state => state.setConcerns)
 
@@ -49,7 +50,7 @@ const ConcernCardCreate = () => {
         hint: values.hint,
         say: values.say,
         added_by: loggedInUserId,
-        community: "06lxu8o5fjppepj",
+        community: loggedInUserCommunityId,
       }
       const createdConcern = await pb.collection('concerns').create(data, {
         fields: "id, name, hint, say"
