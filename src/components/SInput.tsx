@@ -5,19 +5,21 @@ type CPropsTypes = {
   name: string,
   placeHolder: string,
   helperText?: string,
+  max?: number,
   // searchValue: string,
   // setSearchValue: React.Dispatch<React.SetStateAction<string>>,
   styles?: string,
   fields: any,
 }
 
-const SInput = ({ type, name, placeHolder, helperText = "", styles, fields }: CPropsTypes) => {
+const SInput = ({ type, name, placeHolder, helperText = "", max = undefined, styles, fields }: CPropsTypes) => {
   return (
     <div>
       <Input
         type={type}
         name={name}
         placeholder={placeHolder}
+        maxLength={max}
         // value={searchValue}
         className={`${styles}`} {...fields} />
       <p className="text-sm text-muted-foreground mt-1 mb-4">{helperText}</p>

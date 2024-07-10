@@ -4,6 +4,7 @@ type CPropsTypes = {
   // type: string,
   name: string,
   placeHolder: string,
+  max?: number,
   // searchValue: string,
   // setSearchValue: React.Dispatch<React.SetStateAction<string>>,
   styles?: string,
@@ -11,12 +12,13 @@ type CPropsTypes = {
   fields: any,
 }
 
-const STextArea = ({ name, placeHolder, helperText, styles, fields }: CPropsTypes) => {
+const STextArea = ({ name, placeHolder, helperText, max = undefined, styles, fields }: CPropsTypes) => {
   return (
     <div>
       <Textarea
         name={name}
         placeholder={placeHolder}
+        maxLength={max}
         // value={searchValue}
         className={styles} {...fields} />
 

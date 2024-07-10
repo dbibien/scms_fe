@@ -22,9 +22,9 @@ import { useState } from "react"
 import Spinner from "./Spinner"
 
 const formSchema = z.object({
-  name: z.string().min(1, "Field must be longer than a character").max(100, "Field must not exceed 24 characters "),
-  hint: z.string().min(1, { message: "Field must be 1 character long" }).max(200, { message: "Field must not exceed 32 characters" }),
-  say: z.string().min(1, { message: "Field must be 1 character long" }).max(256, { message: "Field must not exceed 256 characters" }),
+  name: z.string().min(1, "Field must be longer than a character").max(70, "Field must not exceed 70 characters "),
+  hint: z.string().min(1, { message: "Field must be 1 character long" }).max(100, { message: "Field must not exceed 100 characters" }),
+  say: z.string().min(1, { message: "Field must be 1 character long" }).max(350, { message: "Field must not exceed 350 characters" }),
 })
 
 const ConcernCardCreate = () => {
@@ -133,6 +133,7 @@ const ConcernCardCreate = () => {
                           name="name"
                           placeHolder="name"
                           helperText="Name of the concern"
+                          max={70}
                           styles=""
                           fields={field}
                         />
@@ -154,6 +155,7 @@ const ConcernCardCreate = () => {
                           name="hint"
                           helperText="Short description of what the concern does"
                           placeHolder="hint"
+                          max={100}
                           styles=""
                           fields={field}
                         />
@@ -174,6 +176,7 @@ const ConcernCardCreate = () => {
                           name="say"
                           placeHolder="Type what you would like to say to the resident..."
                           helperText="What to say to the resdident when called"
+                          max={350}
                           styles="h-40"
                           fields={field}
                         />
