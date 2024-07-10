@@ -4,13 +4,14 @@ type CPropsTypes = {
   type: string,
   name: string,
   placeHolder: string,
+  helperText?: string,
   // searchValue: string,
   // setSearchValue: React.Dispatch<React.SetStateAction<string>>,
   styles?: string,
   fields: any,
 }
 
-const SInput = ({ type, name, placeHolder, styles, fields }: CPropsTypes) => {
+const SInput = ({ type, name, placeHolder, helperText = "", styles, fields }: CPropsTypes) => {
   return (
     <div>
       <Input
@@ -18,7 +19,8 @@ const SInput = ({ type, name, placeHolder, styles, fields }: CPropsTypes) => {
         name={name}
         placeholder={placeHolder}
         // value={searchValue}
-        className={`mb-4 ${styles}`} {...fields} />
+        className={`${styles}`} {...fields} />
+      <p className="text-sm text-muted-foreground mt-1 mb-4">{helperText}</p>
     </div>
   )
 }

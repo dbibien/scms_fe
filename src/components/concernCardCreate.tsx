@@ -132,6 +132,7 @@ const ConcernCardCreate = () => {
                           type="text"
                           name="name"
                           placeHolder="name"
+                          helperText="Name of the concern"
                           styles=""
                           fields={field}
                         />
@@ -151,6 +152,7 @@ const ConcernCardCreate = () => {
                         <SInput
                           type="text"
                           name="hint"
+                          helperText="Short description of what the concern does"
                           placeHolder="hint"
                           styles=""
                           fields={field}
