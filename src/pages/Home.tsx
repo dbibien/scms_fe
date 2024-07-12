@@ -30,7 +30,6 @@ type homeCardType = {
 const HouseNote = ({ note }: { note: string }) => {
   const [showFullNote, setShowFullNote] = useState(false)
 
-
   const noteClean = note.replace("<p>", "").replace("</p>", "")
 
   return (
@@ -166,7 +165,7 @@ const HomeCard = ({ house }: homeCardType) => {
         </CardContent>
       </div>
 
-      <CardFooter className="flex flex-row justify-between items-center lg:border-l lg:border-l-slate-200 lg:items-end lg:pt-4">
+      <CardFooter className="flex flex-row justify-between items-center border-t pt-6 lg:border-l lg:border-l-slate-200 lg:items-end lg:pt-4 lg:border-t-0">
         <Sheet>
           <SheetTrigger>
             <button onClick={getConcerns}>
