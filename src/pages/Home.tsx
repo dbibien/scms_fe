@@ -110,12 +110,12 @@ const HomeCard = ({ house }: homeCardType) => {
 
   return (
     <Card className="mb-8 lg:grid lg:grid-cols-[2fr_2fr_2fr]">
-      <CardHeader className="p-0">
+      <CardHeader className="p-0 bg-black flex flex-row items-center">
         <img
           src={`${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${house?.id}/${house?.image}`}
           width="100%"
           height="auto"
-          className="rounded-t-md object-cover"
+          className="object-cover"
         />
       </CardHeader>
 
@@ -123,7 +123,7 @@ const HomeCard = ({ house }: homeCardType) => {
         <CardContent className="pt-2">
           <p className="text-center">{house?.address}</p>
 
-          <div className="pt-4 flex flex-row justify-center gap-2">
+          <div className="pt-2 flex flex-row justify-center gap-2">
             {house?.residents.map(resident => {
               return (
                 <div key={resident.id}>
@@ -142,9 +142,9 @@ const HomeCard = ({ house }: homeCardType) => {
             <p>Security code: {house?.security_code}</p>
           </div>
 
-          <Separator className="mt-8 border border-slate-200" />
+          <Separator className="mt-6 border border-slate-200" />
 
-          <div>
+          <div className="mt-4">
             {house?.note && <HouseNote note={house?.note} />}
           </div>
         </CardContent>
