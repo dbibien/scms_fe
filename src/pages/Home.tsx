@@ -270,6 +270,7 @@ const HomePage = () => {
   const setHouses = useCommunityStore(state => state.setHouses)
 
   const [searchHomeValue, setSearchHomeValue] = useState("")
+  const [filteredHouses, setFilteredHouses] = useState<houseType[]>(houses)
 
   const getHomeData = async () => {
     try {
@@ -323,7 +324,7 @@ const HomePage = () => {
     }
   }
 
-  const filterHouses = (house: houseType) => {
+  const filterHousesBySearchedValue = (house: houseType) => {
     const searchedValueLowerCase = searchHomeValue.toLowerCase()
     if (searchedValueLowerCase === "") {
       return house
@@ -340,6 +341,10 @@ const HomePage = () => {
     getHomeData()
   }, [])
 
+  useEffect(() => {
+    setFilteredHouses(houses.filter(filterHousesBySearchedValue))
+  }, [searchHomeValue])
+
   // console.log("house: ", houses)
   // console.log("concerns: ", concerns)
 
@@ -354,7 +359,7 @@ const HomePage = () => {
         styles="pt-5 pb-5 text-lg"
       />
 
-      {!houses && (
+      {filteredHouses.length < 1 && (
         <div>
           <div className="bg-amber-100 md:max-w-[50%] m-auto mt-4 p-4 rounded-md">
             <Info color="orange" />
@@ -371,7 +376,7 @@ const HomePage = () => {
       )}
 
       <div className="mt-4 pb-40 h-[100vh] overflow-hidden overflow-y-auto">
-        {houses.filter(filterHouses).map((house) => {
+        {filteredHouses?.map((house: houseType) => {
           return <HomeCard
             key={house?.id}
             house={house}
