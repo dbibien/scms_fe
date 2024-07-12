@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet"
@@ -8,7 +9,7 @@ import { Menu } from "lucide-react"
 import { Separator } from "@radix-ui/react-separator"
 import { Button } from "./ui/button"
 import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "./ui/use-toast"
 
 const Nav = () => {
@@ -73,14 +74,29 @@ const Nav = () => {
 export default Nav
 
 
-const NavListItem = ({ to, title, mobile = true }: { to: string, title: string, mobile: boolean }) => {
+const NavListItem = ({ to, title, mobile = true, setOpen }: { to: string, title: string, mobile: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const mobileStyles = "pt-4 pb-4 text-black text-center"
   const deskTopStyles = "text-white"
+
+  const handleSetOpen = () => {
+    if (mobile) {
+      setOpen(false)
+    }
+  }
 
   return (
     <>
       <li className={mobile ? mobileStyles : deskTopStyles} >
-        <Link to={to}>{title}</Link>
+        <button
+          className="w-full hover:cursor-pointer"
+          onClick={handleSetOpen}
+        >
+          <Link
+            to={to}
+          >
+            {title}
+          </Link>
+        </button>
       </li>
 
       {mobile && <Separator orientation="horizontal" className="border border-slate-50" />}
@@ -88,30 +104,32 @@ const NavListItem = ({ to, title, mobile = true }: { to: string, title: string, 
   )
 }
 
-const AppNavLinks = ({ mobile = true }: { mobile: boolean }) => {
+const AppNavLinks = ({ mobile = true, setOpen }: { mobile: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const mobileStyles = ""
   const deskTopStyles = "flex flex-row gap-4"
 
   return (
     <ul className={mobile ? mobileStyles : deskTopStyles}>
-      <NavListItem to="/" title="Home" mobile={mobile} />
-      <NavListItem to="/users" title="Users" mobile={mobile} />
-      <NavListItem to="/concerns" title="Concerns" mobile={mobile} />
-      <NavListItem to="/reports" title="Reports" mobile={mobile} />
+      <NavListItem to="/" title="Home" mobile={mobile} setOpen={setOpen} />
+      <NavListItem to="/users" title="Users" mobile={mobile} setOpen={setOpen} />
+      <NavListItem to="/concerns" title="Concerns" mobile={mobile} setOpen={setOpen} />
+      <NavListItem to="/reports" title="Reports" mobile={mobile} setOpen={setOpen} />
     </ul>
   )
 }
 
 const MobileNav = ({ logOut }: { logOut: () => void }) => {
+  const [open, setOpen] = useState(false)
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger>
         <Menu color="#fff" />
       </SheetTrigger>
 
       <SheetContent side="right">
         <div>
-          <AppNavLinks mobile={true} />
+          <AppNavLinks mobile={true} setOpen={setOpen} />
         </div>
 
         <div>
