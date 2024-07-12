@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom"
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet"
@@ -74,12 +73,13 @@ const Nav = () => {
 export default Nav
 
 
-const NavListItem = ({ to, title, mobile = true, setOpen }: { to: string, title: string, mobile: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const NavListItem = ({ to, title, mobile = true, setOpen }: { to: string, title: string, mobile: boolean, setOpen?: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const mobileStyles = "pt-4 pb-4 text-black text-center"
   const deskTopStyles = "text-white"
 
   const handleSetOpen = () => {
     if (mobile) {
+      // @ts-expect-error it's available where it'll be needed. Look into this later
       setOpen(false)
     }
   }
@@ -104,7 +104,7 @@ const NavListItem = ({ to, title, mobile = true, setOpen }: { to: string, title:
   )
 }
 
-const AppNavLinks = ({ mobile = true, setOpen }: { mobile: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const AppNavLinks = ({ mobile = true, setOpen }: { mobile: boolean, setOpen?: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const mobileStyles = ""
   const deskTopStyles = "flex flex-row gap-4"
 
