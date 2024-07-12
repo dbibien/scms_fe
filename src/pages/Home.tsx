@@ -124,11 +124,11 @@ const HomeCard = ({ house }: homeCardType) => {
           <p className="text-center">{house?.address}</p>
 
           <div className="pt-2 flex flex-row justify-center gap-2">
-            {house?.residents.map(resident => {
+            {house?.residents.map((resident, index) => {
               return (
-                <div key={resident.id}>
+                <div key={resident.id} className="flex flex-row gap-2">
                   <p>{resident?.first_name} {resident?.last_name}</p>
-                  {house?.residents.length > 1 && (
+                  {index + 1 !== house?.residents.length && (
                     <Separator orientation="vertical" className="border border-slate-200" />
                   )}
                 </div>
@@ -148,131 +148,131 @@ const HomeCard = ({ house }: homeCardType) => {
             {house?.note && <HouseNote note={house?.note} />}
           </div>
         </CardContent>
+      </div>
 
-        <CardFooter className="flex flex-row justify-between items-center">
-          <Sheet>
-            <SheetTrigger>
-              <button onClick={getConcerns}>
-                <PhoneCall />
-              </button>
-            </SheetTrigger>
+      <CardFooter className="flex flex-row justify-between items-center lg:border-l lg:border-l-slate-200 lg:items-end lg:pt-4">
+        <Sheet>
+          <SheetTrigger>
+            <button onClick={getConcerns}>
+              <PhoneCall />
+            </button>
+          </SheetTrigger>
 
-            <SheetContent side="bottom">
-              <SheetHeader>
-                <SheetTitle className="text-center">
-                  Select concerns
-                </SheetTitle>
+          <SheetContent side="bottom">
+            <SheetHeader>
+              <SheetTitle className="text-center">
+                Select concerns
+              </SheetTitle>
 
-                <p className="text-center text-gray-600">{house?.address}</p>
-                <Separator orientation="horizontal" className="border border-slate-200" />
-              </SheetHeader>
+              <p className="text-center text-gray-600">{house?.address}</p>
+              <Separator orientation="horizontal" className="border border-slate-200" />
+            </SheetHeader>
 
-              <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
-                <ConcernSelectorViewer
-                  selectConcerns={selectConcerns}
-                  handleRemoveConcern={handleRemoveConcern}
-                />
+            <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
+              <ConcernSelectorViewer
+                selectConcerns={selectConcerns}
+                handleRemoveConcern={handleRemoveConcern}
+              />
 
-                <SplInput
-                  type="text"
-                  name="search"
-                  placeHolder="search concerns..."
-                  searchValue={searchValue}
-                  setSearchValue={setSearchValue}
-                  styles="pt-5 pb-5 mb-4 text-lg"
-                />
+              <SplInput
+                type="text"
+                name="search"
+                placeHolder="search concerns..."
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+                styles="pt-5 pb-5 mb-4 text-lg"
+              />
 
-                {loading === true ? (
-                  <>
-                    <div className="flex justify-center">
-                      <Spinner color="black" />
-                    </div>
-                    <p className="text-center text-slate-400">Loading concerns...</p>
-                  </>
-                ) : (
-                  <ScrollArea className="max-h-80 pl-2 pr-2 bg-slate-50">
-                    {
-                      concerns.filter(handleSearchConcerns).map(concern => (
-                        <div key={concern?.id} className="mt-4">
-                          <CheckBox
-                            id={concern?.id}
-                            name={concern?.name}
-                            hint={concern?.hint}
-                            checked={
-                              selectConcerns.filter(sc => (sc.id === concern.id && sc.selected === true)).length === 1 && true
-                            }
-                            selectConcerns={selectConcerns}
-                            setSelectConcerns={setSelectConcerns}
-                          />
-                        </div>
-                      ))
-                    }
-                  </ScrollArea>
-                )}
-
-
-                <Sheet>
-                  <SheetTrigger
-                    disabled={selectConcerns.length === 0}
-                    className="w-full"
-                  >
-                    <Button
-                      disabled={selectConcerns.length === 0}
-                      className="flex flex-row  gap-2 items-end w-full mt-4"
-                    >
-                      <Phone />
-                      Reach Out To Resident
-                    </Button>
-                  </SheetTrigger>
-
-                  <SheetContent side="bottom">
-                    <div className="lg:w-[50%] lg:mx-auto">
-                      <h3 className="text-center text-xl font-bold-[400px]">
-                        Are you sure you want to call the resident?
-                      </h3>
-
-                      <div className="mt-4">
-                        <ConcernSelectorViewer
+              {loading === true ? (
+                <>
+                  <div className="flex justify-center">
+                    <Spinner color="black" />
+                  </div>
+                  <p className="text-center text-slate-400">Loading concerns...</p>
+                </>
+              ) : (
+                <ScrollArea className="max-h-80 pl-2 pr-2 bg-slate-50">
+                  {
+                    concerns.filter(handleSearchConcerns).map(concern => (
+                      <div key={concern?.id} className="mt-4">
+                        <CheckBox
+                          id={concern?.id}
+                          name={concern?.name}
+                          hint={concern?.hint}
+                          checked={
+                            selectConcerns.filter(sc => (sc.id === concern.id && sc.selected === true)).length === 1 && true
+                          }
                           selectConcerns={selectConcerns}
-                          handleRemoveConcern={handleRemoveConcern}
+                          setSelectConcerns={setSelectConcerns}
                         />
                       </div>
+                    ))
+                  }
+                </ScrollArea>
+              )}
 
-                      <div className="grid grid-cols-2 gap-2">
-                        <SheetClose
-                          disabled={selectConcerns.length === 0}
-                        >
-                          <Button
-                            type="submit"
-                            disabled={selectConcerns.length === 0}
-                            onClick={() => callResident()}
-                            className="flex flex-row  gap-2 items-end w-full mt-4"
-                          >
-                            <Phone />
-                            Call
-                          </Button>
-                        </SheetClose>
 
-                        <SheetClose>
-                          <Button
-                            color="red"
-                            className="flex flex-row gap-2 items-end w-full mt-4 bg-red-400 hover:bg-red-500"
-                          >
-                            <Ban />
-                            Cancel
-                          </Button>
-                        </SheetClose>
-                      </div>
+              <Sheet>
+                <SheetTrigger
+                  disabled={selectConcerns.length === 0}
+                  className="w-full"
+                >
+                  <Button
+                    disabled={selectConcerns.length === 0}
+                    className="flex flex-row  gap-2 items-end w-full mt-4"
+                  >
+                    <Phone />
+                    Reach Out To Resident
+                  </Button>
+                </SheetTrigger>
+
+                <SheetContent side="bottom">
+                  <div className="lg:w-[50%] lg:mx-auto">
+                    <h3 className="text-center text-xl font-bold-[400px]">
+                      Are you sure you want to call the resident?
+                    </h3>
+
+                    <div className="mt-4">
+                      <ConcernSelectorViewer
+                        selectConcerns={selectConcerns}
+                        handleRemoveConcern={handleRemoveConcern}
+                      />
                     </div>
-                  </SheetContent>
-                </Sheet>
-              </div>
-            </SheetContent>
-          </Sheet>
 
-          <Pencil />
-        </CardFooter>
-      </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <SheetClose
+                        disabled={selectConcerns.length === 0}
+                      >
+                        <Button
+                          type="submit"
+                          disabled={selectConcerns.length === 0}
+                          onClick={() => callResident()}
+                          className="flex flex-row  gap-2 items-end w-full mt-4"
+                        >
+                          <Phone />
+                          Call
+                        </Button>
+                      </SheetClose>
+
+                      <SheetClose>
+                        <Button
+                          color="red"
+                          className="flex flex-row gap-2 items-end w-full mt-4 bg-red-400 hover:bg-red-500"
+                        >
+                          <Ban />
+                          Cancel
+                        </Button>
+                      </SheetClose>
+                    </div>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
+          </SheetContent>
+        </Sheet>
+
+        <Pencil />
+      </CardFooter>
     </Card>
   )
 }
