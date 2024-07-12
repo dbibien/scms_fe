@@ -27,6 +27,15 @@ type homeCardType = {
   house: houseType,
 }
 
+const HouseNote = ({ note }: { note: string }) => {
+  return (
+    <div className="">
+      <p>Note:</p>
+      <p>{note.replace("<p>", "").replace("</p>", "")}</p>
+    </div>
+  )
+}
+
 const HomeCard = ({ house }: homeCardType) => {
   const pb = useApplicationStore(state => state.pb)
   const concerns = useCommunityStore(state => state.concerns)
@@ -134,6 +143,10 @@ const HomeCard = ({ house }: homeCardType) => {
           </div>
 
           <Separator className="mt-8 border border-slate-200" />
+
+          <div>
+            {house?.note && <HouseNote note={house?.note} />}
+          </div>
         </CardContent>
 
         <CardFooter className="flex flex-row justify-between items-center">
