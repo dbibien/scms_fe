@@ -128,15 +128,17 @@ const ConcernCardCreate = () => {
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <SInput
-                          type="text"
-                          name="name"
-                          placeHolder="name"
-                          helperText="Name of the concern"
-                          max={70}
-                          styles=""
-                          fields={field}
-                        />
+                        <div className="mb-4">
+                          <SInput
+                            type="text"
+                            name="name"
+                            placeHolder="name"
+                            helperText="Name of the concern"
+                            max={70}
+                            styles=""
+                            fields={field}
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>

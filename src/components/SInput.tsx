@@ -22,7 +22,7 @@ const SInput = ({ type, name, placeHolder, helperText = "", max = undefined, sty
         maxLength={max}
         // value={searchValue}
         className={`${styles}`} {...fields} />
-      <p className="text-sm text-muted-foreground mt-1 mb-4">{helperText}</p>
+      <p className="text-sm text-muted-foreground mt-1">{helperText}</p>
     </div>
   )
 }
