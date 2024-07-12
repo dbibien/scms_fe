@@ -22,34 +22,10 @@ import ConcernSelectorViewer from "@/components/ConcernSelectorViewer";
 import Spinner from "@/components/Spinner";
 import { toast } from "@/components/ui/use-toast";
 
-// type houseRecords = {
-//   id: string,
-//   address: string,
-//   member_number: string,
-//   security_code: string,
-//   image: string,
-//   note: string,
-//   expand: {
-//     phones: {
-//       id: string,
-//       phone_number: string,
-//       primary: boolean,
-//       type: "home" | "cell" | "business"
-//     }[],
-//     residents: {
-//       id: string,
-//       first_name: string,
-//       last_name: string,
-//       owner: boolean,
-//     }[],
-//   },
-// }
-
 type homeCardType = {
   house: houseType,
 }
 
-// const HomeCard = ({ id, image, address, member_number, security_code, note, expand }: houseRecords) => {
 const HomeCard = ({ house }: homeCardType) => {
   const pb = useApplicationStore(state => state.pb)
   const concerns = useCommunityStore(state => state.concerns)
@@ -291,34 +267,20 @@ const HomePage = () => {
   const pb = useApplicationStore(state => state.pb)
   const houses = useCommunityStore(state => state.houses)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
-  // const setConcerns = useCommunityStore(state => state.setConcerns)
-  // const setCommunity = useCommunityStore(state => state.setCommunity)
   const setHouses = useCommunityStore(state => state.setHouses)
 
-  // const [houses, setHouses] = useState<houseRecords[]>([])
   const [searchHomeValue, setSearchHomeValue] = useState("")
 
   const getHomeData = async () => {
     try {
       // fields the backend should return
-      // const residentFields = `
-      //   expand.houses.expand.residents.id, expand.houses.expand.residents.first_name, expand.houses.expand.residents.last_name, 
-      //   expand.houses.expand.residents.owner
-      // `
       const houseFields = `id, address, member_number, security_code, image, note`
-      // const concernsFields = `
-      //   expand.concerns.id, expand.concerns.name, expand.concerns.hint, expand.concerns.say 
-      // `
-
       const phoneFields = `
         expand.phones_via_house.id, expand.phones_via_house.phone_number, expand.phones_via_house.primary, expand.phones_via_house.type
       `
       const residentFields = `
         expand.residents_via_house.id, expand.residents_via_house.first_name, expand.residents_via_house.last_name, expand.residents_via_house.owner,
       `
-
-      // const fields = `${communityFields}, ${concernsFields}, ${houseFields}, ${residentFields}, ${phoneFields}`
-
       const fields = `${houseFields}, ${phoneFields}, ${residentFields}`
       const records = await pb.collection('houses').getFullList({
         filter: `community.id = '${loggedInUserCommunityId}'`,
@@ -362,15 +324,12 @@ const HomePage = () => {
   }
 
   useEffect(() => {
-    // getAllHouses()
-    // getAllConcerns()
     getHomeData()
   }, [])
 
   // console.log("house: ", houses)
   // console.log("concerns: ", concerns)
 
-  // <div className="mt-4 p-2 md:max-w-[70%] md:m-auto">
   return (
     <div>
       {/*
@@ -422,8 +381,3 @@ const HomePage = () => {
 }
 
 export default HomePage
-
-// <HomeCard img="https://photos.zillowstatic.com/fp/6a98016b24a7b2ccf20821306f2b589d-sc_1920_1280.webp" />
-// <HomeCard img="https://photos.zillowstatic.com/fp/eb044d5179496b1ca6030f016d6bb13a-cc_ft_768.webp" />
-// <HomeCard img="https://photos.zillowstatic.com/fp/923ccef6439fa33f1e290982783f0307-sc_1920_1280.webp" />
-// <HomeCard img="https://photos.zillowstatic.com/fp/98de88bcef350d833a76824e10b9d5ad-cc_ft_1536.webp" />
