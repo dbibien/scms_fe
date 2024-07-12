@@ -16,6 +16,7 @@ const STextArea = ({ name, placeHolder, helperText, max = undefined, styles, fie
   return (
     <div>
       <Textarea
+        style={{ outlineColor: "white" }}
         name={name}
         placeholder={placeHolder}
         maxLength={max}
