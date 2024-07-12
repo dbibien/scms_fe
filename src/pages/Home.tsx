@@ -21,6 +21,7 @@ import SplInput from "@/components/SplInput";
 import ConcernSelectorViewer from "@/components/ConcernSelectorViewer";
 import Spinner from "@/components/Spinner";
 import { toast } from "@/components/ui/use-toast";
+import PageInfoBar from "@/components/PageInfoBar";
 
 type homeCardType = {
   house: houseType,
@@ -357,6 +358,12 @@ const HomePage = () => {
         setSearchValue={setSearchHomeValue}
         placeHolder="search homes..."
         styles="pt-5 pb-5 text-lg"
+      />
+
+      <PageInfoBar
+        resultLength={filteredHouses.length}
+        resultType=" home(s)"
+        component={<p>Add Home</p>}
       />
 
       {filteredHouses.length < 1 && (
