@@ -107,8 +107,8 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
         <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
-              <ScrollArea className="max-h-[70vh]">
 
+              <ScrollArea className="h-[70vh]">
                 <div className="bg-slate-50 p-4  mb-4 rounded-md">
                   <p className="font-bold mb-4">Preview of what will be said to the resident: </p>
                   <p>{greeting}</p>
@@ -175,8 +175,8 @@ const ConcernCardEdit = ({ concern }: concernCardType) => {
                     </FormItem>
                   )}
                 />
-              </ScrollArea>
 
+              </ScrollArea>
               <div className="mt-8">
                 <Button
                   type="submit"
