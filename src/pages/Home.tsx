@@ -28,10 +28,26 @@ type homeCardType = {
 }
 
 const HouseNote = ({ note }: { note: string }) => {
+  const [showFullNote, setShowFullNote] = useState(false)
+
+
+  const noteClean = note.replace("<p>", "").replace("</p>", "")
+
   return (
     <div className="">
       <p>Note:</p>
-      <p>{note.replace("<p>", "").replace("</p>", "")}</p>
+      <div>
+        <p>{showFullNote ? noteClean : noteClean.length > 30 ? `${noteClean.slice(0, 30)}... ` : noteClean}
+          {noteClean.length > 30 && (
+            <button
+              onClick={() => setShowFullNote(!showFullNote)}
+              className="pl-1 text-blue-300"
+            >
+              {showFullNote ? `show less` : `show more`}
+            </button>
+          )}
+        </p>
+      </div>
     </div>
   )
 }
