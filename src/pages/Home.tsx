@@ -324,9 +324,14 @@ const HomePage = () => {
   }
 
   const filterHouses = (house: houseType) => {
-    if (searchHomeValue === "") {
+    const searchedValueLowerCase = searchHomeValue.toLowerCase()
+    if (searchedValueLowerCase === "") {
       return house
-    } else if (house.address.toLowerCase().includes(searchHomeValue.toLowerCase())) {
+    } else if (
+      house.address.toLowerCase().includes(searchedValueLowerCase) ||
+      house.security_code.toLowerCase().includes(searchedValueLowerCase) ||
+      house.member_number.toLowerCase().includes(searchedValueLowerCase)
+    ) {
       return house
     }
   }
@@ -337,21 +342,9 @@ const HomePage = () => {
 
   // console.log("house: ", houses)
   // console.log("concerns: ", concerns)
-  console.log("search: ", searchHomeValue)
 
   return (
     <div>
-      {/*
-      <SInput 
-        type="text" 
-        name="search"
-        searchValue={searchHomeValue}
-        setSearchValue={setSearchHomeValue}
-        placeHolder="search homes..." 
-        styles="pt-5 pb-5 text-lg" 
-      />
-      */}
-
       <SplInput
         type="text"
         name="search"
