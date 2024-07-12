@@ -323,12 +323,21 @@ const HomePage = () => {
     }
   }
 
+  const filterHouses = (house: houseType) => {
+    if (searchHomeValue === "") {
+      return house
+    } else if (house.address.toLowerCase().includes(searchHomeValue.toLowerCase())) {
+      return house
+    }
+  }
+
   useEffect(() => {
     getHomeData()
   }, [])
 
   // console.log("house: ", houses)
   // console.log("concerns: ", concerns)
+  console.log("search: ", searchHomeValue)
 
   return (
     <div>
@@ -369,7 +378,7 @@ const HomePage = () => {
       )}
 
       <div className="mt-4 pb-40 h-[100vh] overflow-hidden overflow-y-auto">
-        {houses.map((house) => {
+        {houses.filter(filterHouses).map((house) => {
           return <HomeCard
             key={house?.id}
             house={house}
