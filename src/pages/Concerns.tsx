@@ -7,6 +7,7 @@ import ConcernCard from "@/components/ConcernCard"
 import { toast } from "@/components/ui/use-toast"
 import { useNavigate } from "react-router-dom"
 import ConcernCardCreate from "@/components/concernCardCreate"
+import PageInfoBar from "@/components/PageInfoBar"
 // import { Button } from "@/components/ui/button"
 // import { Plus } from "lucide-react"
 
@@ -91,10 +92,11 @@ const ConcernsPage = () => {
         styles="pt-5 pb-5 text-lg"
       />
 
-      <div className="flex flex-row items-center justify-between mt-4">
-        <p className="text-slate-400 text-sm">Showing {filteredConcerns?.length} concern(s)</p>
-        {loggedInUserType === "director" && <ConcernCardCreate />}
-      </div>
+      <PageInfoBar
+        resultLength={filteredConcerns?.length}
+        resultType=" concern(s)"
+        component={loggedInUserType === "director" && <ConcernCardCreate />}
+      />
 
       {filteredConcerns?.length === 0 && (
         <p className="text-center mt-4 text-gray-400">No concerns</p>
