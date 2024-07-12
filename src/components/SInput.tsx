@@ -16,6 +16,7 @@ const SInput = ({ type, name, placeHolder, helperText = "", max = undefined, sty
   return (
     <div>
       <Input
+        style={{ outlineColor: "white" }}
         type={type}
         name={name}
         placeholder={placeHolder}

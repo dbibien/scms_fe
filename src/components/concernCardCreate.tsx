@@ -125,20 +125,18 @@ const ConcernCardCreate = () => {
                   control={form.control}
                   name="name"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mb-4">
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <div className="mb-4">
-                          <SInput
-                            type="text"
-                            name="name"
-                            placeHolder="name"
-                            helperText="Name of the concern"
-                            max={70}
-                            styles=""
-                            fields={field}
-                          />
-                        </div>
+                        <SInput
+                          type="text"
+                          name="name"
+                          placeHolder="name"
+                          helperText="Name of the concern"
+                          max={70}
+                          styles=""
+                          fields={field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -149,7 +147,7 @@ const ConcernCardCreate = () => {
                   control={form.control}
                   name="hint"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mb-4">
                       <FormLabel>Hint</FormLabel>
                       <FormControl>
                         <SInput
@@ -171,7 +169,7 @@ const ConcernCardCreate = () => {
                   control={form.control}
                   name="say"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mb-4">
                       <FormLabel>Say</FormLabel>
                       <FormControl>
                         <STextArea
