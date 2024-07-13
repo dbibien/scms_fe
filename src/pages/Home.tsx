@@ -348,6 +348,7 @@ const HomePage = () => {
       })
 
       setHouses(houses)
+      setFilteredHouses(houses)
     } catch (e) {
       console.log("e:", e)
     }
