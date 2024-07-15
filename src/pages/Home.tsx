@@ -22,6 +22,7 @@ import ConcernSelectorViewer from "@/components/ConcernSelectorViewer";
 import Spinner from "@/components/Spinner";
 import { toast } from "@/components/ui/use-toast";
 import PageInfoBar from "@/components/PageInfoBar";
+import HomeCreate from "@/components/HomeCreate";
 
 type homeCardType = {
   house: houseType,
@@ -393,7 +394,11 @@ const HomePage = () => {
       <PageInfoBar
         resultLength={filteredHouses.length}
         resultType=" home(s)"
-        component={<p>Add Home</p>}
+        component={<HomeCreate
+          openHomeCreationCard={openHomeCreationCard}
+          setOpenHomeCreationCard={setOpenHomeCreationCard}
+          showCreationButton={filteredHouses.length > 0 && true}
+        />}
       />
 
       {filteredHouses.length < 1 && (
@@ -404,9 +409,12 @@ const HomePage = () => {
           </div>
 
           <div className="mt-4 flex flex-row justify-center">
-            <Button className="flex flex-row  gap-2 items-end w-full">
+            <Button
+              onClick={() => setOpenHomeCreationCard(true)}
+              className="flex flex-row  gap-2 items-end w-full"
+            >
               <Home />
-              Add New Home
+              Add Home
             </Button>
           </div>
         </div>
