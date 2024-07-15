@@ -402,22 +402,19 @@ const HomePage = () => {
       />
 
       {filteredHouses.length < 1 && (
-        <div>
+        <>
           <div className="bg-amber-100 md:max-w-[50%] m-auto mt-4 p-4 rounded-md">
             <Info color="orange" />
             <p className="text-center">No homes found</p>
           </div>
 
           <div className="mt-4 flex flex-row justify-center">
-            <Button
-              onClick={() => setOpenHomeCreationCard(true)}
-              className="flex flex-row  gap-2 items-end w-full"
-            >
-              <Home />
-              Add Home
-            </Button>
+            <HomeCreate
+              openHomeCreationCard={openHomeCreationCard}
+              setOpenHomeCreationCard={setOpenHomeCreationCard}
+            />
           </div>
-        </div>
+        </>
       )}
 
       <div className="mt-4 pb-40 h-[100vh] overflow-hidden overflow-y-auto">
