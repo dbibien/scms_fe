@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form"
 import Spinner from "./Spinner"
 import { useState } from "react"
 import STextArea from "./STextArea"
+import { Separator } from "./ui/separator"
 
 type CProps = {
   openHomeCreationCard: boolean,
@@ -30,6 +31,9 @@ const formSchema = z.object({
   city: z.string().min(1, { message: "City must be at least 1 character long" }).max(100, { message: "City must not exceed 100 characters" }),
   zip: z.string().min(1, { message: "Zip must be at least 1 character longk" }).max(100, { message: "Zip must not exceed 100 characters" }),
   note: z.string().max(256, { message: "Note must not exceed 256 characters" }),
+
+  first_name: z.string().max(30, { message: "First name must not exceed 30 characters" }),
+  last_name: z.string().max(30, { message: "Last name must not exceed 30 characters" }),
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
@@ -69,6 +73,7 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
                 <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
 
                   <ScrollArea className="h-[70vh]">
+                    <p className="text-md font-bold mb-2">Home</p>
 
                     <FormField
                       control={form.control}
@@ -169,7 +174,53 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
                         </FormItem>
                       )}
                     />
+
+                    <Separator orientation="horizontal" className="mt-8 mb-6" />
+
+                    <p className="text-md font-bold mb-2">Resident</p>
+
+                    <FormField
+                      control={form.control}
+                      name="first_name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>First name:</FormLabel>
+                          <FormControl>
+                            <SInput
+                              type="text"
+                              name="first_name"
+                              placeHolder="First name"
+                              styles=""
+                              fields={field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="last_name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Last name:</FormLabel>
+                          <FormControl>
+                            <SInput
+                              type="text"
+                              name="last_name"
+                              placeHolder="Last name"
+                              styles=""
+                              fields={field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
                   </ScrollArea>
+
 
                   <div className="mt-8">
                     <Button
