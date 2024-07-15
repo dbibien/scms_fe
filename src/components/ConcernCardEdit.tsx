@@ -26,9 +26,9 @@ type concernCardType = {
 }
 
 const formSchema = z.object({
-  name: z.string().min(1, "Field must be longer than a character").max(100, "Field must not exceed 24 characters "),
-  hint: z.string().min(1, { message: "Field must be 1 character long" }).max(200, { message: "Field must not exceed 32 characters" }),
-  say: z.string().min(1, { message: "Field must be 1 character long" }).max(256, { message: "Field must not exceed 256 characters" }),
+  name: z.string().min(1, "Name must be longer than a character").max(100, "Name must not exceed 100 characters "),
+  hint: z.string().min(1, { message: "Hint must be 1 character long" }).max(200, { message: "Hint must not exceed 200 characters" }),
+  say: z.string().min(1, { message: "Say must be 1 character long" }).max(256, { message: "Say must not exceed 256 characters" }),
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
