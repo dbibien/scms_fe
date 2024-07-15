@@ -22,6 +22,7 @@ import STextArea from "./STextArea"
 import { Separator } from "./ui/separator"
 import { Switch } from "./ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+import { useApplicationStore, useLoggedInUserStore } from '@/common/store'
 
 type CProps = {
   openHomeCreationCard: boolean,
@@ -36,6 +37,8 @@ const formSchema = z.object({
   city: z.string().min(1, { message: "City must be at least 1 character long" }).max(100, { message: "City must not exceed 100 characters" }),
   zip: z.string().min(1, { message: "Zip must be at least 1 character longk" }).max(100, { message: "Zip must not exceed 100 characters" }),
   note: z.string().max(256, { message: "Note must not exceed 256 characters" }).optional(),
+  member_number: z.string().max(14, { message: "Member number must not exceed 14 characters" }).optional(),
+  security_code: z.string().max(8, { message: "Security code must not exceed 8 characters" }).optional(),
 
   first_name: z.string().max(30, { message: "First name must not exceed 30 characters" }).optional(),
   last_name: z.string().max(30, { message: "Last name must not exceed 30 characters" }).optional(),
@@ -49,6 +52,8 @@ const formSchema = z.object({
 })
 
 const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreationButton = true, buttonFull = false }: CProps) => {
+  const pb = useApplicationStore(state => state.pb)
+  const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
 
   const [loading, setLoading] = useState(false)
   const [phoneInputValue, setPhoneInputValue] = useState(undefined)
@@ -62,8 +67,19 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
     // },
   })
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("values: ", values)
+
+    const homeCreation = pb.collection("houses").create({
+      address: values.address,
+      apt: values.apt,
+      city: values.city,
+      zip: values.zip,
+      note: values.note,
+      member_number: values.member_number,
+      security_code: values.security_code,
+      community: loggedInUserCommunityId,
+    })
   }
 
   return (
@@ -178,7 +194,7 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
                           <FormControl>
                             <STextArea
                               name="note"
-                              placeHolder="Note"
+                              placeHolder="Write a note for this home..."
                               helperText=""
                               styles="h-40"
                               fields={field}
@@ -252,6 +268,45 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
                       )}
                     />
 
+                    <FormField
+                      control={form.control}
+                      name="member_number"
+                      render={({ field }) => (
+                        <FormItem className='mt-4'>
+                          <FormLabel>Member number:</FormLabel>
+                          <FormControl>
+                            <SInput
+                              type="text"
+                              name="member_number"
+                              placeHolder="Member number"
+                              styles=""
+                              fields={field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="security_code"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Security code:</FormLabel>
+                          <FormControl>
+                            <SInput
+                              type="text"
+                              name="security_code"
+                              placeHolder="Security code"
+                              styles=""
+                              fields={field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
                     <Separator orientation="horizontal" className="mt-8 mb-6" />
 
@@ -322,7 +377,7 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
                           <FormControl>
                             <STextArea
                               name="report"
-                              placeHolder="Report"
+                              placeHolder="Write a report for this home..."
                               helperText=""
                               styles="h-40"
                               fields={field}
@@ -332,7 +387,6 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
                         </FormItem>
                       )}
                     />
-
                   </ScrollArea>
 
 
