@@ -32,17 +32,17 @@ type CProps = {
 
 const formSchema = z.object({
   address: z.string().min(1, "Address must be longer than a character").max(100, "Address must not exceed 100 characters "),
-  apt: z.string().min(1, { message: "Apt. must be at least 1 character long" }).max(100, { message: "Apt. must not exceed 100 characters" }),
+  apt: z.string().min(1, { message: "Apt. must be at least 1 character long" }).max(100, { message: "Apt. must not exceed 100 characters" }).optional(),
   city: z.string().min(1, { message: "City must be at least 1 character long" }).max(100, { message: "City must not exceed 100 characters" }),
   zip: z.string().min(1, { message: "Zip must be at least 1 character longk" }).max(100, { message: "Zip must not exceed 100 characters" }),
-  note: z.string().max(256, { message: "Note must not exceed 256 characters" }),
+  note: z.string().max(256, { message: "Note must not exceed 256 characters" }).optional(),
 
-  first_name: z.string().max(30, { message: "First name must not exceed 30 characters" }),
-  last_name: z.string().max(30, { message: "Last name must not exceed 30 characters" }),
-  owner: z.boolean(),
+  first_name: z.string().max(30, { message: "First name must not exceed 30 characters" }).optional(),
+  last_name: z.string().max(30, { message: "Last name must not exceed 30 characters" }).optional(),
+  owner: z.boolean().optional(),
 
-  type: z.string(),
-  primary: z.boolean(),
+  type: z.string().optional(),
+  primary: z.boolean().optional(),
 
   report: z.string().max(256, { message: "Note must not exceed 256 characters" }).optional(),
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
@@ -62,7 +62,9 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
     // },
   })
 
-  const onSubmit = () => { }
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log("values: ", values)
+  }
 
   return (
     <div className={`${buttonFull && "w-full"}`}>
