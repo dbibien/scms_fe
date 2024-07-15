@@ -21,6 +21,7 @@ import { useState } from "react"
 import STextArea from "./STextArea"
 import { Separator } from "./ui/separator"
 import { Switch } from "./ui/switch"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 
 type CProps = {
   openHomeCreationCard: boolean,
@@ -40,6 +41,7 @@ const formSchema = z.object({
   last_name: z.string().max(30, { message: "Last name must not exceed 30 characters" }),
   owner: z.boolean(),
 
+  type: z.string(),
   primary: z.boolean(),
 
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
@@ -252,12 +254,37 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
 
                     <p className="text-md font-bold mb-2">Phone</p>
 
-                    <PhoneInput
-                      defaultCountry='US'
-                      placeholder="Enter phone number"
-                      value={phoneInputValue}
-                      onChange={setPhoneInputValue}
-                      className="border border-slate-200 p-2 rounded-md focus-visible:outline-red-100"
+                    <div>
+                      <p className="text-sm font-medium mb-2">Phone:</p>
+                      <PhoneInput
+                        defaultCountry='US'
+                        placeholder="Enter phone number"
+                        value={phoneInputValue}
+                        onChange={setPhoneInputValue}
+                        className="border border-slate-200 p-2 rounded-md focus-visible:outline-red-100"
+                      />
+                    </div>
+
+                    <FormField
+                      control={form.control}
+                      name="type"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Type:</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select phone type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="cell">Cell</SelectItem>
+                              <SelectItem value="home">Home</SelectItem>
+                              <SelectItem value="business">Business</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      )}
                     />
 
                     <FormField
