@@ -1,3 +1,5 @@
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 import { Home } from "lucide-react"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { ScrollArea } from "./ui/scroll-area"
@@ -18,11 +20,13 @@ import Spinner from "./Spinner"
 import { useState } from "react"
 import STextArea from "./STextArea"
 import { Separator } from "./ui/separator"
+import { Switch } from "./ui/switch"
 
 type CProps = {
   openHomeCreationCard: boolean,
   setOpenHomeCreationCard: React.Dispatch<React.SetStateAction<boolean>>,
-  showCreationButton: boolean,
+  showCreationButton?: boolean,
+  buttonFull?: boolean,
 }
 
 const formSchema = z.object({
@@ -34,12 +38,15 @@ const formSchema = z.object({
 
   first_name: z.string().max(30, { message: "First name must not exceed 30 characters" }),
   last_name: z.string().max(30, { message: "Last name must not exceed 30 characters" }),
+  owner: z.boolean(),
+
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
-const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreationButton }: CProps) => {
+const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreationButton = true, buttonFull = false }: CProps) => {
 
   const [loading, setLoading] = useState(false)
+  const [phoneInputValue, setPhoneInputValue] = useState(undefined)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,10 +60,10 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
   const onSubmit = () => { }
 
   return (
-    <div>
+    <div className={`${buttonFull && "w-full"}`}>
       {showCreationButton && (
         <Sheet open={openHomeCreationCard} onOpenChange={setOpenHomeCreationCard} >
-          <SheetTrigger>
+          <SheetTrigger className={`${buttonFull && "w-full"}`}>
             <Button className="flex items-end gap-2">
               <Home />
               Add Home
@@ -217,6 +224,38 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
                           <FormMessage />
                         </FormItem>
                       )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="owner"
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="flex items-center gap-2 mt-4">
+                            <FormLabel>Owner:</FormLabel>
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                          </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+
+                    <Separator orientation="horizontal" className="mt-8 mb-6" />
+
+                    <p className="text-md font-bold mb-2">Phone</p>
+
+                    <PhoneInput
+                      defaultCountry='US'
+                      placeholder="Enter phone number"
+                      value={phoneInputValue}
+                      onChange={setPhoneInputValue}
+                      className="border border-slate-200 p-2 rounded-md focus-visible:outline-red-100"
                     />
 
                   </ScrollArea>
