@@ -300,6 +300,7 @@ const HomePage = () => {
 
   const [searchHomeValue, setSearchHomeValue] = useState("")
   const [filteredHouses, setFilteredHouses] = useState<houseType[]>(houses)
+  const [openHomeCreationCard, setOpenHomeCreationCard] = useState(false)
 
   const getHomeData = async () => {
     try {
