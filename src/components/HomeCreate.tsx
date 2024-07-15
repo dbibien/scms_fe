@@ -44,6 +44,7 @@ const formSchema = z.object({
   type: z.string(),
   primary: z.boolean(),
 
+  report: z.string().max(256, { message: "Note must not exceed 256 characters" }).optional(),
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
@@ -171,7 +172,7 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
                       name="note"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Note</FormLabel>
+                          <FormLabel>Note:</FormLabel>
                           <FormControl>
                             <STextArea
                               name="note"
@@ -301,6 +302,30 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
                               />
                             </FormControl>
                           </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <Separator orientation="horizontal" className="mt-8 mb-6" />
+
+                    <p className="text-md font-bold mb-2">Report</p>
+
+                    <FormField
+                      control={form.control}
+                      name="report"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Report:</FormLabel>
+                          <FormControl>
+                            <STextArea
+                              name="report"
+                              placeHolder="Report"
+                              helperText=""
+                              styles="h-40"
+                              fields={field}
+                            />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
