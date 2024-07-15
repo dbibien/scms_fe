@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import Spinner from "./Spinner"
 import { useState } from "react"
+import STextArea from "./STextArea"
 
 type CProps = {
   openHomeCreationCard: boolean,
@@ -24,9 +25,11 @@ type CProps = {
 }
 
 const formSchema = z.object({
-  name: z.string().min(1, "Field must be longer than a character").max(100, "Field must not exceed 24 characters "),
-  hint: z.string().min(1, { message: "Field must be 1 character long" }).max(200, { message: "Field must not exceed 32 characters" }),
-  say: z.string().min(1, { message: "Field must be 1 character long" }).max(256, { message: "Field must not exceed 256 characters" }),
+  address: z.string().min(1, "Address must be longer than a character").max(100, "Address must not exceed 100 characters "),
+  apt: z.string().min(1, { message: "Apt. must be at least 1 character long" }).max(100, { message: "Apt. must not exceed 100 characters" }),
+  city: z.string().min(1, { message: "City must be at least 1 character long" }).max(100, { message: "City must not exceed 100 characters" }),
+  zip: z.string().min(1, { message: "Zip must be at least 1 character longk" }).max(100, { message: "Zip must not exceed 100 characters" }),
+  note: z.string().max(256, { message: "Note must not exceed 256 characters" }),
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
@@ -56,8 +59,8 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
             </Button>
           </SheetTrigger>
 
-          <SheetContent>
-            <SheetTitle>
+          <SheetContent side="bottom">
+            <SheetTitle className="text-center">
               Add Home
             </SheetTitle>
 
@@ -69,16 +72,96 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
 
                     <FormField
                       control={form.control}
-                      name="name"
+                      name="address"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Name</FormLabel>
+                          <FormLabel>Address:</FormLabel>
                           <FormControl>
                             <SInput
                               type="text"
-                              name="name"
-                              placeHolder="name"
+                              name="address"
+                              placeHolder="Address"
                               styles=""
+                              fields={field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="apt"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Apt, Suite, etc:</FormLabel>
+                          <FormControl>
+                            <SInput
+                              type="text"
+                              name="apt"
+                              placeHolder="Apt, Suite, etc"
+                              styles=""
+                              fields={field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="city"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>City:</FormLabel>
+                          <FormControl>
+                            <SInput
+                              type="text"
+                              name="city"
+                              placeHolder="City"
+                              styles=""
+                              fields={field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="zip"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>ZIP/ Post code:</FormLabel>
+                          <FormControl>
+                            <SInput
+                              type="text"
+                              name="zip"
+                              placeHolder="Zip"
+                              styles=""
+                              fields={field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="note"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Note</FormLabel>
+                          <FormControl>
+                            <STextArea
+                              name="note"
+                              placeHolder="Note"
+                              helperText=""
+                              styles="h-40"
                               fields={field}
                             />
                           </FormControl>
