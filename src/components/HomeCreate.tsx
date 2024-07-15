@@ -40,6 +40,8 @@ const formSchema = z.object({
   last_name: z.string().max(30, { message: "Last name must not exceed 30 characters" }),
   owner: z.boolean(),
 
+  primary: z.boolean(),
+
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
@@ -256,6 +258,25 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
                       value={phoneInputValue}
                       onChange={setPhoneInputValue}
                       className="border border-slate-200 p-2 rounded-md focus-visible:outline-red-100"
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="primary"
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="flex items-center gap-2 mt-4">
+                            <FormLabel>Primary:</FormLabel>
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                          </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
 
                   </ScrollArea>
