@@ -34,7 +34,7 @@ type CProps = {
 
 const formSchema = z.object({
   address: z.string().min(1, "Address must be longer than a character").max(100, "Address must not exceed 100 characters "),
-  apt: z.string().min(1, { message: "Apt. must be at least 1 character long" }).max(100, { message: "Apt. must not exceed 100 characters" }).optional(),
+  apt: z.string().max(100, { message: "Apt. must not exceed 100 characters" }).optional(),
   city: z.string().min(1, { message: "City must be at least 1 character long" }).max(100, { message: "City must not exceed 100 characters" }),
   zip: z.string().min(1, { message: "Zip must be at least 1 character longk" }).max(100, { message: "Zip must not exceed 100 characters" }),
   note: z.string().max(256, { message: "Note must not exceed 256 characters" }).optional(),
@@ -62,11 +62,21 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   name: concern?.name,
-    //   hint: concern?.hint,
-    //   say: concern?.say?.replace("<p>", "").replace("</p>", ""),
-    // },
+    defaultValues: {
+      address: "",
+      apt: "",
+      city: "",
+      zip: "",
+      note: "",
+      member_number: "",
+      security_code: "",
+      first_name: "",
+      last_name: "",
+      owner: false,
+      type: "",
+      primary: false,
+      report: "",
+    },
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -115,7 +125,24 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
         })
       }
 
-      getHomeData()
+      await getHomeData()
+      form.reset({
+        address: "",
+        apt: "",
+        city: "",
+        zip: "",
+        note: "",
+        member_number: "",
+        security_code: "",
+        first_name: "",
+        last_name: "",
+        owner: false,
+        type: "",
+        primary: false,
+        report: "",
+      })
+      setPhoneInputValue(undefined)
+      setOpenHomeCreationCard(false)
     } catch (e) {
       console.log("created house error: ", e)
     } finally {
