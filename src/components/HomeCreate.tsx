@@ -54,6 +54,7 @@ const formSchema = z.object({
 const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreationButton = true, buttonFull = false }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
+  const loggedInUserId = useLoggedInUserStore(state => state.user.id)
 
   const [loading, setLoading] = useState(false)
   const [phoneInputValue, setPhoneInputValue] = useState(undefined)
@@ -143,6 +144,17 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
           house: createdHouse?.id
         }
         const createdPhone = await pb.collection("phones").create(phoneData)
+        console.log("createdResident: ", createdPhone)
+      }
+
+
+      if (values?.report) {
+        const createdReport = await pb.collection("reports").create({
+          note: values?.report,
+          created_by: loggedInUserId,
+          // type: ""  TODO: figure out what to do about the type field
+          house: createdHouse?.id,
+        })
         console.log("createdResident: ", createdPhone)
       }
 
