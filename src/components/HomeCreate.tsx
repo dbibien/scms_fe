@@ -29,6 +29,7 @@ type CProps = {
   setOpenHomeCreationCard: React.Dispatch<React.SetStateAction<boolean>>,
   showCreationButton?: boolean,
   buttonFull?: boolean,
+  getHomeData: () => Promise<void>,
 }
 
 const formSchema = z.object({
@@ -51,14 +52,13 @@ const formSchema = z.object({
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
-const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreationButton = true, buttonFull = false }: CProps) => {
+const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData, showCreationButton = true, buttonFull = false }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
 
   const [loading, setLoading] = useState(false)
   const [phoneInputValue, setPhoneInputValue] = useState(undefined)
-  const [newHomeId, setNewHomeId] = useState("")
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,47 +69,9 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
     // },
   })
 
-  const handleHouseCreationSuccess = (createdHouse) => {
-    console.log("createdHouse: ", createdHouse)
-    setNewHomeId(createdHouse?.id)
-
-    const residentData = {
-      first_name: "",
-    }
-    return pb.collection('residents').create(data);
-  }
-  const handleHouseCreationFailed = (tragic) => {
-    console.log("tragic: ", tragic)
-  }
-  const handleResidentCreationSuccess = (createdResident) => {
-    console.log("createdResident: ", createdResident)
-  }
-  const handleResidentCreationFailed = (tragic) => {
-    console.log("createdResident: ", tragic)
-  }
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("values: ", values)
-
-    // pb.collection("houses").create(createHouseData)
-    //   .then(handleHouseCreationSuccess, handleHouseCreationFailed)
-    //   .then(handleResidentCreationSuccess, handleResidentCreationFailed)
-
-
-    // pb.collection("houses").create(createHouseData)
-    //   .then((value) => {
-    //     setNewHomeId(value?.id)
-    //     const residentData = {
-    //       first_name: values?.first_name,
-    //       last_name: values?.last_name,
-    //       owner: values?.owner,
-    //       house: newHomeId,
-    //     }
-    //     pb.collection("residents").create(residentData)
-    //   })
-    //   .then((value) => console.log("value: ", value))
-    //   .catch((e) => console.log("e: ", e))
-
+    setLoading(true)
+    // console.log("values: ", values)
     try {
       const createHouseData = {
         address: values.address,
@@ -122,18 +84,15 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
         community: loggedInUserCommunityId,
       }
       const createdHouse = await pb.collection("houses").create(createHouseData)
-      setNewHomeId(createdHouse?.id)
 
       if (values?.first_name && values?.last_name) { // note: it is not required for a resident to be created at the time of home creation. Only create a resident if first and last names are provided
         const residentData = {
           first_name: values?.first_name,
           last_name: values?.last_name,
           owner: values?.owner,
-          // house: newHomeId,
           house: createdHouse?.id,
         }
-        const createdResident = await pb.collection("residents").create(residentData)
-        console.log("createdResident: ", createdResident)
+        await pb.collection("residents").create(residentData)
       }
 
       if (phoneInputValue) {
@@ -143,41 +102,26 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
           type: values?.type,
           house: createdHouse?.id
         }
-        const createdPhone = await pb.collection("phones").create(phoneData)
-        console.log("createdResident: ", createdPhone)
+        await pb.collection("phones").create(phoneData)
       }
 
 
       if (values?.report) {
-        const createdReport = await pb.collection("reports").create({
+        await pb.collection("reports").create({
           note: values?.report,
           created_by: loggedInUserId,
           // type: ""  TODO: figure out what to do about the type field
           house: createdHouse?.id,
         })
-        console.log("createdResident: ", createdPhone)
       }
 
+      getHomeData()
     } catch (e) {
       console.log("created house error: ", e)
+    } finally {
+      setLoading(false)
     }
-
-    // try {
-    //   const residentData = {
-    //     first_name: values?.first_name,
-    //     last_name: values?.last_name,
-    //     owner: values?.owner,
-    //     house: newHomeId,
-    //   }
-    //   const createdResident = await pb.collection("residents").create(residentData)
-    //   console.log("createdResident: ", createdResident)
-    // } catch (e) {
-    //   console.log("create resident error: ", e)
-    // }
   }
-
-  console.log("newHomeId: ", newHomeId)
-  console.log("phone", phoneInputValue)
 
   return (
     <div className={`${buttonFull && "w-full"}`}>
@@ -415,6 +359,7 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, showCreatio
                         defaultCountry='US'
                         placeholder="Enter phone number"
                         value={phoneInputValue}
+                        // @ts-expect-error look into the types at a later time
                         onChange={setPhoneInputValue}
                         className="border border-slate-200 p-2 rounded-md focus-visible:outline-red-100"
                       />

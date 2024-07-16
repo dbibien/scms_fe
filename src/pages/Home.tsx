@@ -11,7 +11,7 @@ import { Separator } from "@radix-ui/react-separator"
 import { Phone, PhoneCall, Ban } from 'lucide-react'
 import { Pencil } from 'lucide-react'
 import { Info } from 'lucide-react'
-import { Home } from 'lucide-react'
+// import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import CheckBox from "@/components/CheckBox"
@@ -398,6 +398,7 @@ const HomePage = () => {
           openHomeCreationCard={openHomeCreationCard}
           setOpenHomeCreationCard={setOpenHomeCreationCard}
           showCreationButton={filteredHouses.length > 0 && true}
+          getHomeData={getHomeData}
         />}
       />
 
@@ -412,6 +413,7 @@ const HomePage = () => {
             <HomeCreate
               openHomeCreationCard={openHomeCreationCard}
               setOpenHomeCreationCard={setOpenHomeCreationCard}
+              getHomeData={getHomeData}
             />
           </div>
         </>
