@@ -23,6 +23,7 @@ import { Separator } from "./ui/separator"
 import { Switch } from "./ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { useApplicationStore, useLoggedInUserStore } from '@/common/store'
+import { toast } from './ui/use-toast'
 
 type CProps = {
   openHomeCreationCard: boolean,
@@ -145,6 +146,11 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
       setOpenHomeCreationCard(false)
     } catch (e) {
       console.log("created house error: ", e)
+      toast({
+        variant: "destructive",
+        title: "Failure",
+        description: "Error adding home"
+      })
     } finally {
       setLoading(false)
     }
