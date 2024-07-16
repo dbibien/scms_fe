@@ -61,6 +61,7 @@ const HomeCard = ({ house }: homeCardType) => {
   const [loading, setLoading] = useState(true)
   const [selectConcerns, setSelectConcerns] = useState<selectConcernsType[]>([])
   const [searchValue, setSearchValue] = useState("")
+  const [imageError, setImageError] = useState(false)
 
   const getConcerns = async () => {
     // NOTE: duplicated code. Good use for a custom hook
@@ -128,9 +129,10 @@ const HomeCard = ({ house }: homeCardType) => {
     <Card className="mb-8 lg:grid lg:grid-cols-[2fr_2fr_2fr]">
       <CardHeader className="p-0 bg-black flex flex-row items-center">
         <img
-          src={`${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${house?.id}/${house?.image}`}
+          src={imageError ? "src/assets/homeDefault.jpg" : `${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${house?.id}/${house?.image}`}
           width="100%"
           height="auto"
+          onError={() => setImageError(true)}
           className="object-cover"
         />
       </CardHeader>
