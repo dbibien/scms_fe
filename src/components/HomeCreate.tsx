@@ -147,6 +147,11 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
       })
       setPhoneInputValue(undefined)
       setOpenHomeCreationCard(false)
+      toast({
+        variant: "default",
+        title: "Success",
+        description: "New home added"
+      })
     } catch (e) {
       console.log("created house error: ", e)
       toast({
