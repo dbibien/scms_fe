@@ -24,6 +24,7 @@ import { Switch } from "./ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { useApplicationStore, useLoggedInUserStore } from '@/common/store'
 import { toast } from './ui/use-toast'
+import StateSelector from './StateSelector'
 
 type CProps = {
   openHomeCreationCard: boolean,
@@ -37,6 +38,7 @@ const formSchema = z.object({
   address: z.string().min(1, "Address must be longer than a character").max(100, "Address must not exceed 100 characters "),
   apt: z.string().max(100, { message: "Apt. must not exceed 100 characters" }).optional(),
   city: z.string().min(1, { message: "City must be at least 1 character long" }).max(100, { message: "City must not exceed 100 characters" }),
+  state: z.string().min(2, { message: "State must be selected" }),
   zip: z.string().min(1, { message: "Zip must be at least 1 character longk" }).max(100, { message: "Zip must not exceed 100 characters" }),
   note: z.string().max(256, { message: "Note must not exceed 256 characters" }).optional(),
   member_number: z.string().max(14, { message: "Member number must not exceed 14 characters" }).optional(),
@@ -67,6 +69,7 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
       address: "",
       apt: "",
       city: "",
+      state: "",
       zip: "",
       note: "",
       member_number: "",
@@ -91,6 +94,7 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
         address: values.address,
         apt: values.apt,
         city: values.city,
+        state: values?.state,
         zip: values.zip,
         note: values.note,
         member_number: values.member_number,
@@ -246,6 +250,8 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
                         </FormItem>
                       )}
                     />
+
+                    <StateSelector control={form.control} name="state" />
 
                     <FormField
                       control={form.control}
