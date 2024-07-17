@@ -16,16 +16,16 @@ const SInput = ({ type, name, placeHolder, helperText = "", max = undefined, sty
   return (
     <div>
       <Input
-        style={{ outlineColor: "white" }}
         type={type}
         name={name}
         placeholder={placeHolder}
         maxLength={max}
         // value={searchValue}
-        className={`${styles}`} {...fields} />
+        className={`focus-visible:ring-0 ${styles}`} {...fields} />
       <p className="text-sm text-muted-foreground mt-1">{helperText}</p>
     </div>
   )
 }
 
 export default SInput
+// style={{ outlineColor: "white" }}
