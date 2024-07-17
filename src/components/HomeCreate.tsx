@@ -484,7 +484,7 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
                       disabled={loading}
                       className="w-full mt-4"
                     >
-                      {loading ? <Spinner /> : "Create home"}
+                      {loading ? <Spinner /> : "Add home"}
                     </Button>
                   </div>
                 </form>
