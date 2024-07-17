@@ -368,6 +368,10 @@ const HomePage = () => {
       return house
     } else if (
       house.address.toLowerCase().includes(searchedValueLowerCase) ||
+      house.apt.toLowerCase().includes(searchedValueLowerCase) ||
+      house.city.toLowerCase().includes(searchedValueLowerCase) ||
+      house.state.toLowerCase().includes(searchedValueLowerCase) ||
+      house.zip.toLowerCase().includes(searchedValueLowerCase) ||
       house.security_code.toLowerCase().includes(searchedValueLowerCase) ||
       house.member_number.toLowerCase().includes(searchedValueLowerCase)
     ) {
