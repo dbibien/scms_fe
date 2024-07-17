@@ -80,6 +80,9 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
     },
   })
 
+  const watchFirstName = form.watch("first_name")
+  const watchLastName = form.watch("last_name")
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true)
     // console.log("values: ", values)
@@ -323,64 +326,69 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
                       )}
                     />
 
-                    <FormField
-                      control={form.control}
-                      name="owner"
-                      render={({ field }) => (
-                        <FormItem>
-                          <div className="flex items-center gap-2 mt-4">
-                            <FormLabel>Owner:</FormLabel>
-                            <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </div>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    {/*@ts-expect-error yah */}
+                    {watchFirstName?.length > 0 && watchLastName?.length > 0 && (
+                      <>
+                        <FormField
+                          control={form.control}
+                          name="owner"
+                          render={({ field }) => (
+                            <FormItem>
+                              <div className="flex items-center gap-2 mt-4">
+                                <FormLabel>Owner:</FormLabel>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                    <FormField
-                      control={form.control}
-                      name="member_number"
-                      render={({ field }) => (
-                        <FormItem className='mt-4'>
-                          <FormLabel>Member number:</FormLabel>
-                          <FormControl>
-                            <SInput
-                              type="text"
-                              name="member_number"
-                              placeHolder="Member number"
-                              styles=""
-                              fields={field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        <FormField
+                          control={form.control}
+                          name="member_number"
+                          render={({ field }) => (
+                            <FormItem className='mt-4'>
+                              <FormLabel>Member number:</FormLabel>
+                              <FormControl>
+                                <SInput
+                                  type="text"
+                                  name="member_number"
+                                  placeHolder="Member number"
+                                  styles=""
+                                  fields={field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                    <FormField
-                      control={form.control}
-                      name="security_code"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Security code:</FormLabel>
-                          <FormControl>
-                            <SInput
-                              type="text"
-                              name="security_code"
-                              placeHolder="Security code"
-                              styles=""
-                              fields={field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        <FormField
+                          control={form.control}
+                          name="security_code"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Security code:</FormLabel>
+                              <FormControl>
+                                <SInput
+                                  type="text"
+                                  name="security_code"
+                                  placeHolder="Security code"
+                                  styles=""
+                                  fields={field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </>
+                    )}
 
                     <Separator orientation="horizontal" className="mt-8 mb-6" />
 
@@ -398,46 +406,51 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
                       />
                     </div>
 
-                    <FormField
-                      control={form.control}
-                      name="type"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Type:</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select phone type" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="cell">Cell</SelectItem>
-                              <SelectItem value="home">Home</SelectItem>
-                              <SelectItem value="business">Business</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormItem>
-                      )}
-                    />
+                    {/*@ts-expect-error yah */}
+                    {phoneInputValue?.length > 0 && (
+                      <>
+                        <FormField
+                          control={form.control}
+                          name="type"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Type:</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select phone type" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="cell">Cell</SelectItem>
+                                  <SelectItem value="home">Home</SelectItem>
+                                  <SelectItem value="business">Business</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormItem>
+                          )}
+                        />
 
-                    <FormField
-                      control={form.control}
-                      name="primary"
-                      render={({ field }) => (
-                        <FormItem>
-                          <div className="flex items-center gap-2 mt-4">
-                            <FormLabel>Primary:</FormLabel>
-                            <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </div>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        <FormField
+                          control={form.control}
+                          name="primary"
+                          render={({ field }) => (
+                            <FormItem>
+                              <div className="flex items-center gap-2 mt-4">
+                                <FormLabel>Primary:</FormLabel>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </>
+                    )}
 
                     <Separator orientation="horizontal" className="mt-8 mb-6" />
 
