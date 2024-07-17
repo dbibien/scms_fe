@@ -41,6 +41,10 @@ export type residentType = {
 export type houseType = {
   id: string,
   address: string,
+  apt: string,
+  city: string,
+  state: string,
+  zip: string,
   member_number: string,
   security_code: string,
   image: string,

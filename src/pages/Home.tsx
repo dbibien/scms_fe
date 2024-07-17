@@ -139,7 +139,7 @@ const HomeCard = ({ house }: homeCardType) => {
 
       <div>
         <CardContent className="pt-2">
-          <p className="text-center">{house?.address}</p>
+          <p className="text-center">{`${house?.address} ${house?.apt} ${house?.city} ${house?.zip}`}</p>
 
           <div className="pt-2 flex flex-row justify-center gap-2">
             {house?.residents.map((resident, index) => {
@@ -308,7 +308,7 @@ const HomePage = () => {
   const getHomeData = async () => {
     try {
       // fields the backend should return
-      const houseFields = `id, address, member_number, security_code, image, note`
+      const houseFields = `id, address, apt, city, state, zip, member_number, security_code, image, note`
       const phoneFields = `
         expand.phones_via_house.id, expand.phones_via_house.phone_number, expand.phones_via_house.primary, expand.phones_via_house.type
       `
@@ -340,6 +340,10 @@ const HomePage = () => {
         const data: houseType = {
           id: house.id,
           address: house.address,
+          apt: house?.apt,
+          city: house?.city,
+          state: house?.state,
+          zip: house?.zip,
           image: house.image,
           member_number: house.member_number,
           security_code: house.security_code,
