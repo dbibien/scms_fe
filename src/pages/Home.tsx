@@ -139,7 +139,7 @@ const HomeCard = ({ house }: homeCardType) => {
 
       <div>
         <CardContent className="pt-2">
-          <p className="text-center">{`${house?.address} ${house?.apt} ${house?.city} ${house?.zip}`}</p>
+          <p className="text-center">{`${house?.address} ${house?.apt}, ${house?.city} ${house?.state} ${house?.zip}`}</p>
 
           <div className="pt-2 flex flex-row justify-center gap-2">
             {house?.residents.map((resident, index) => {
