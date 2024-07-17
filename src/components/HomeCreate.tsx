@@ -69,7 +69,7 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
       address: "",
       apt: "",
       city: "",
-      state: "",
+      state: "FL",
       zip: "",
       note: "",
       member_number: "",
