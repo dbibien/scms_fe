@@ -26,7 +26,7 @@ const StateSelector = ({ control }: CProps) => {
       render={({ field }) => (
         <FormItem>
           <FormLabel>State:</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select onValueChange={field.onChange} defaultValue="FL">
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder="Select state" />
@@ -99,3 +99,4 @@ const StateSelector = ({ control }: CProps) => {
 }
 
 export default StateSelector
+// <Select onValueChange={field.onChange} defaultValue={field.value}>
