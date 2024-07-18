@@ -428,7 +428,7 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
                               <FormLabel>Type:</FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
-                                  <SelectTrigger>
+                                  <SelectTrigger className="focus-visible:ring-0 focus:ring-0">
                                     <SelectValue placeholder="Select phone type" />
                                   </SelectTrigger>
                                 </FormControl>
