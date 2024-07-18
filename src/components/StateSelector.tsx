@@ -28,7 +28,7 @@ const StateSelector = ({ control }: CProps) => {
           <FormLabel>State:</FormLabel>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className="focus-visible:ring-0 focus:ring-0" >
                 <SelectValue placeholder="Select state" />
               </SelectTrigger>
             </FormControl>
