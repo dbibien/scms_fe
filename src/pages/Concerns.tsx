@@ -88,7 +88,7 @@ const ConcernsPage = () => {
         name="search"
         searchValue={searchValue}
         setSearchValue={setSearchValue}
-        placeHolder="search concerns..."
+        placeHolder="Search concerns..."
         styles="pt-5 pb-5 text-lg"
       />
 

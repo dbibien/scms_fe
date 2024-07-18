@@ -399,7 +399,7 @@ const HomePage = () => {
         name="search"
         searchValue={searchHomeValue}
         setSearchValue={setSearchHomeValue}
-        placeHolder="search homes..."
+        placeHolder="Search homes..."
         styles="pt-5 pb-5 text-lg"
       />
 
