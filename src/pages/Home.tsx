@@ -35,7 +35,7 @@ const HouseNote = ({ note }: { note: string }) => {
 
   return (
     <div className="">
-      <p>Note:</p>
+      <p className="text-sm underline text-slate-500">Note:</p>
       <div>
         <p>{showFullNote ? noteClean : noteClean.length > 30 ? `${noteClean.slice(0, 30)}... ` : noteClean}
           {noteClean.length > 30 && (
