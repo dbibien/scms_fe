@@ -184,7 +184,7 @@ const HomeCard = ({ house }: homeCardType) => {
                 Select concerns
               </SheetTitle>
 
-              <p className="text-center text-gray-600">{house?.address}</p>
+              <p className="text-center">{`${house?.address} ${house?.apt}, ${house?.city} ${house?.state}, ${house?.zip}`}</p>
               <Separator orientation="horizontal" className="border border-slate-200" />
             </SheetHeader>
 
