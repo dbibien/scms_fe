@@ -160,11 +160,13 @@ const HomeCard = ({ house }: homeCardType) => {
             <p>Security code: {house?.security_code}</p>
           </div>
 
-          <Separator className="mt-6 border border-slate-200" />
-
-          <div className="mt-4">
-            {house?.note && <HouseNote note={house?.note} />}
-          </div>
+          {house?.note && (<>
+            <Separator className="mt-6 border border-slate-200" />
+            <div className="mt-4">
+              <HouseNote note={house?.note} />
+            </div>
+          </>)
+          }
         </CardContent>
       </div>
 
