@@ -413,7 +413,7 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
                         value={phoneInputValue}
                         // @ts-expect-error look into the types at a later time
                         onChange={setPhoneInputValue}
-                        className="border border-slate-200 p-2 rounded-md focus-visible:outline-red-100"
+                        className="border border-slate-200 p-2 rounded-md"
                       />
                     </div>
 
