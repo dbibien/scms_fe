@@ -325,7 +325,7 @@ const HomePage = () => {
       })
 
       const houses = records.map((house) => {
-        const phones: phoneType[] = house?.expand?.phones_via_house.map((phone: phoneType) => ({
+        const phones: phoneType[] = house?.expand?.phones_via_house?.map((phone: phoneType) => ({
           id: phone?.id,
           phone_number: phone?.phone_number,
           primary: phone?.primary,
@@ -340,22 +340,24 @@ const HomePage = () => {
         }))
 
         const data: houseType = {
-          id: house.id,
-          address: house.address,
+          id: house?.id,
+          address: house?.address,
           apt: house?.apt,
           city: house?.city,
           state: house?.state,
           zip: house?.zip,
-          image: house.image,
-          member_number: house.member_number,
-          security_code: house.security_code,
-          note: house.note,
+          image: house?.image,
+          member_number: house?.member_number,
+          security_code: house?.security_code,
+          note: house?.note,
           phones: phones || [],
           residents: residents || [],
         }
 
         return data
       })
+
+      console.log("houses: ", houses)
 
       setHouses(houses)
       setFilteredHouses(houses)
