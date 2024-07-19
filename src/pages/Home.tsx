@@ -197,10 +197,10 @@ const HomeCard = ({ house }: homeCardType) => {
               <SplInput
                 type="text"
                 name="search"
-                placeHolder="search concerns..."
+                placeHolder="Search concerns..."
                 searchValue={searchValue}
                 setSearchValue={setSearchValue}
-                styles="pt-5 pb-5 mb-4 text-lg"
+                styles="text-lg"
               />
 
               {loading === true ? (
