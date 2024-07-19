@@ -357,7 +357,7 @@ const HomePage = () => {
         return data
       })
 
-      console.log("houses: ", houses)
+      // console.log("houses: ", houses)
 
       setHouses(houses)
       setFilteredHouses(houses)
