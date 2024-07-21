@@ -9,7 +9,6 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@radix-ui/react-separator"
 import { Phone, PhoneCall, Ban } from 'lucide-react'
-import { Pencil } from 'lucide-react'
 import { Info } from 'lucide-react'
 // import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
@@ -17,12 +16,13 @@ import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger 
 import CheckBox from "@/components/CheckBox"
 import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
 import { concernType, houseType, phoneType, residentType, selectConcernsType } from "@/common/types"
-import SplInput from "@/components/SplInput";
-import ConcernSelectorViewer from "@/components/ConcernSelectorViewer";
-import Spinner from "@/components/Spinner";
-import { toast } from "@/components/ui/use-toast";
-import PageInfoBar from "@/components/PageInfoBar";
-import HomeCreate from "@/components/HomeCreate";
+import SplInput from "@/components/SplInput"
+import ConcernSelectorViewer from "@/components/ConcernSelectorViewer"
+import Spinner from "@/components/Spinner"
+import { toast } from "@/components/ui/use-toast"
+import PageInfoBar from "@/components/PageInfoBar"
+import HomeCreate from "@/components/HomeCreate"
+import HomeUpdate from "@/components/HomeUpdate"
 
 type homeCardType = {
   house: houseType,
@@ -291,7 +291,7 @@ const HomeCard = ({ house }: homeCardType) => {
           </SheetContent>
         </Sheet>
 
-        <Pencil />
+        <HomeUpdate />
       </CardFooter>
     </Card>
   )
