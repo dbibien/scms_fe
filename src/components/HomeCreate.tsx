@@ -123,7 +123,6 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
         await pb.collection("phones").create(phoneData)
       }
 
-
       if (values?.report) {
         await pb.collection("reports").create({
           note: values?.report,
@@ -156,17 +155,25 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
         title: "Success",
         description: "New home added"
       })
-    }
-    catch (e) {
-      console.log("created house error: ", e?.data)
-
-      toast({
-        variant: "destructive",
-        title: "Failure",
-        description: "Error adding home"
-      })
-    }
-    finally {
+    } catch (e) {
+      // @ts-expect-error expected
+      const err = e?.data
+      const validationNotUniqueCode = "validation_not_unique"
+      if (err?.code === 400) {
+        const errData = err?.data
+        if (errData?.address?.code === validationNotUniqueCode ||
+          errData?.city?.code === validationNotUniqueCode ||
+          errData?.state?.code === validationNotUniqueCode ||
+          errData?.zip?.code === validationNotUniqueCode
+        ) {
+          toast({
+            variant: "destructive",
+            title: "Failure",
+            description: "Home already exists"
+          })
+        }
+      }
+    } finally {
       setLoading(false)
     }
   }
