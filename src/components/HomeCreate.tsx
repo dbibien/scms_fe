@@ -156,14 +156,17 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
         title: "Success",
         description: "New home added"
       })
-    } catch (e) {
-      console.log("created house error: ", e)
+    }
+    catch (e) {
+      console.log("created house error: ", e?.data)
+
       toast({
         variant: "destructive",
         title: "Failure",
         description: "Error adding home"
       })
-    } finally {
+    }
+    finally {
       setLoading(false)
     }
   }
