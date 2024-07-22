@@ -291,7 +291,7 @@ const HomeCard = ({ house }: homeCardType) => {
           </SheetContent>
         </Sheet>
 
-        <HomeUpdate />
+        <HomeUpdate house={house} />
       </CardFooter>
     </Card>
   )

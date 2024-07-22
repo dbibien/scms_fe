@@ -11,19 +11,18 @@ import { Separator } from "./ui/separator"
 import { Switch } from "./ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 import Spinner from "./Spinner"
+import PhoneInput from 'react-phone-number-input'
 import { useApplicationStore, useLoggedInUserStore } from '@/common/store'
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "./ui/use-toast"
+import { houseType } from "@/common/types"
 
-// type CProps = {
-//   openHomeUpdateCard: boolean,
-//   setOpenHomeUpdateCard: React.Dispatch<React.SetStateAction<boolean>>,
-//   showCreationButton?: boolean,
-//   buttonFull?: boolean,
-//   getHomeData: () => Promise<void>,
-// }
+type CProps = {
+  house: houseType
+  // getHomeData: () => Promise<void>,
+}
 
 const formSchema = z.object({
   address: z.string().min(1, "Address must be longer than a character").max(100, "Address must not exceed 100 characters "),
@@ -46,7 +45,7 @@ const formSchema = z.object({
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
-const HomeUpdate = () => {
+const HomeUpdate = ({ house }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
@@ -55,20 +54,26 @@ const HomeUpdate = () => {
   const [phoneInputValue, setPhoneInputValue] = useState(undefined)
   const [openHomeUpdateCard, setOpenHomeUpdateCard] = useState(false)
 
+  const resident = house?.residents?.map(res => ({
+    first_name: res?.first_name,
+    last_name: res?.first_name,
+    owner: res?.owner
+  }))
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      address: "",
-      apt: "",
-      city: "",
-      state: "FL",
-      zip: "",
-      note: "",
-      member_number: "",
-      security_code: "",
-      first_name: "",
-      last_name: "",
-      owner: false,
+      address: house?.address,
+      apt: house?.apt,
+      city: house?.city,
+      state: house?.state,
+      zip: house?.zip,
+      note: house?.note,
+      member_number: house?.member_number,
+      security_code: house?.security_code,
+      first_name: resident.length > 0 ? resident[0].first_name : "",
+      last_name: resident.length > 0 ? resident[0].last_name : "",
+      owner: resident.length > 0 ? resident[0].owner : false,
       type: "",
       primary: false,
       report: "",
