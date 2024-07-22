@@ -26,6 +26,7 @@ import HomeUpdate from "@/components/HomeUpdate"
 
 type homeCardType = {
   house: houseType,
+  getHomeData: () => Promise<void>,
 }
 
 const HouseNote = ({ note }: { note: string }) => {
@@ -52,7 +53,7 @@ const HouseNote = ({ note }: { note: string }) => {
   )
 }
 
-const HomeCard = ({ house }: homeCardType) => {
+const HomeCard = ({ house, getHomeData }: homeCardType) => {
   const pb = useApplicationStore(state => state.pb)
   const concerns = useCommunityStore(state => state.concerns)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
@@ -291,7 +292,7 @@ const HomeCard = ({ house }: homeCardType) => {
           </SheetContent>
         </Sheet>
 
-        <HomeUpdate house={house} />
+        <HomeUpdate house={house} getHomeData={getHomeData} />
       </CardFooter>
     </Card>
   )
@@ -438,6 +439,7 @@ const HomePage = () => {
           return <HomeCard
             key={house?.id}
             house={house}
+            getHomeData={getHomeData}
           />
         })}
       </div>

@@ -20,8 +20,8 @@ import { houseType } from "@/common/types"
 import { ScrollArea } from "./ui/scroll-area"
 
 type CProps = {
-  house: houseType
-  // getHomeData: () => Promise<void>,
+  house: houseType,
+  getHomeData: () => Promise<void>,
 }
 
 const formSchema = z.object({
@@ -45,7 +45,7 @@ const formSchema = z.object({
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
 
-const HomeUpdate = ({ house }: CProps) => {
+const HomeUpdate = ({ house, getHomeData }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
@@ -150,7 +150,11 @@ const HomeUpdate = ({ house }: CProps) => {
           type: values?.type,
           house: updatedHouse?.id
         }
-        await pb.collection("phones").update((phone.length > 0 ? phone[0]?.id : ""), phoneData)
+        if (phone.length > 0) {
+          await pb.collection("phones").update((phone.length > 0 ? phone[0]?.id : ""), phoneData)
+        } else {
+          await pb.collection("phones").create(phoneData)
+        }
       }
 
       // if (values?.report) {
@@ -162,7 +166,7 @@ const HomeUpdate = ({ house }: CProps) => {
       //   })
       // }
 
-      // await getHomeData()
+      await getHomeData()
       // form.reset({
       //   address: "",
       //   apt: "",
@@ -189,6 +193,7 @@ const HomeUpdate = ({ house }: CProps) => {
       // @ts-expect-error expected
       const err = e?.data
       const validationNotUniqueCode = "validation_not_unique"
+      let errMessage = ""
       if (err?.code === 400) {
         const errData = err?.data
         if (errData?.address?.code === validationNotUniqueCode ||
@@ -198,12 +203,16 @@ const HomeUpdate = ({ house }: CProps) => {
           errData?.member_number === validationNotUniqueCode ||
           errData?.security_code === validationNotUniqueCode
         ) {
-          toast({
-            variant: "destructive",
-            title: "Failure",
-            description: "Duplicated values"
-          })
+          errMessage = "Duplicate entry"
+        } else {
+          errMessage = err?.message
         }
+
+        toast({
+          variant: "destructive",
+          title: "Failure",
+          description: errMessage,
+        })
       }
     } finally {
       setLoading(false)
