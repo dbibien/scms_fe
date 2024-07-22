@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "./ui/use-toast"
 import { houseType } from "@/common/types"
 import { ScrollArea } from "./ui/scroll-area"
+import HomeAddress from "./HomeAddress"
 
 type CProps = {
   house: houseType,
@@ -229,6 +230,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
         <SheetTitle className="text-center">
           Update Home
         </SheetTitle>
+        <HomeAddress house={house} />
 
         <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
           <Form {...form}>
