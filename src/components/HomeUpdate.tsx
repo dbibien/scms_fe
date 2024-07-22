@@ -1,7 +1,7 @@
 import { Pencil } from "lucide-react"
 import { Button } from "./ui/button"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import SInput from "./SInput"
 import StateSelector from "./StateSelector"
@@ -16,7 +16,7 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "./ui/use-toast"
-import { houseType } from "@/common/types"
+import { houseType, phoneType } from "@/common/types"
 import { ScrollArea } from "./ui/scroll-area"
 
 type CProps = {
@@ -52,12 +52,19 @@ const HomeUpdate = ({ house }: CProps) => {
 
   const [loading, setLoading] = useState(false)
   const [phoneInputValue, setPhoneInputValue] = useState(undefined)
+  const [phoneDataFromBackend, setPhoneDataFromBackend] = useState<phoneType>()
   const [openHomeUpdateCard, setOpenHomeUpdateCard] = useState(false)
 
   const resident = house?.residents?.map(res => ({
     first_name: res?.first_name,
     last_name: res?.last_name,
     owner: res?.owner
+  }))
+
+  const phone = house?.phones?.map(phn => ({
+    phone_number: phn?.phone_number,
+    primary: phn?.primary,
+    type: phn?.type,
   }))
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -74,14 +81,33 @@ const HomeUpdate = ({ house }: CProps) => {
       first_name: resident.length > 0 ? resident[0].first_name : "",
       last_name: resident.length > 0 ? resident[0].last_name : "",
       owner: resident.length > 0 ? resident[0].owner : false,
-      type: "",
-      primary: false,
+      type: phone.length > 0 ? phone[0].type : "",
+      primary: phone.length > 0 ? phone[0].primary : false,
       // report: "",
     },
   })
 
   const watchFirstName = form.watch("first_name")
   const watchLastName = form.watch("last_name")
+
+  useEffect(() => {
+    const getPhoneNumber = async () => {
+      // console.log("getting phone number")
+      try {
+        const record = await pb.collection('phones').getFirstListItem(`house = "${house?.id}"`, {
+          fields: "id, phone_number, primary, type"
+        })
+
+        console.log("record: ", record)
+        setPhoneInputValue(record?.phone_number)
+      } catch (e) {
+        // @ts-expect-error this is fine
+        console.log("e: ", e.data)
+      }
+    }
+
+    if (openHomeUpdateCard) getPhoneNumber()
+  }, [openHomeUpdateCard])
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true)
