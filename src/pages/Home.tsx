@@ -23,6 +23,7 @@ import { toast } from "@/components/ui/use-toast"
 import PageInfoBar from "@/components/PageInfoBar"
 import HomeCreate from "@/components/HomeCreate"
 import HomeUpdate from "@/components/HomeUpdate"
+import HomeAddress from "@/components/HomeAddress";
 
 type homeCardType = {
   house: houseType,
@@ -140,7 +141,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
 
       <div>
         <CardContent className="pt-2">
-          <p className="text-center">{`${house?.address} ${house?.apt}, ${house?.city} ${house?.state} ${house?.zip}`}</p>
+          <HomeAddress house={house} />
 
           <div className="pt-2 flex flex-row justify-center gap-2">
             {house?.residents.map((resident, index) => {
