@@ -51,20 +51,24 @@ const HomeUpdate = ({ house }: CProps) => {
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
 
   const [loading, setLoading] = useState(false)
-  const [phoneInputValue, setPhoneInputValue] = useState(undefined)
+  // const [phoneInputValue, setPhoneInputValue] = useState(undefined)
   const [openHomeUpdateCard, setOpenHomeUpdateCard] = useState(false)
 
   const resident = house?.residents?.map(res => ({
+    id: res?.id,
     first_name: res?.first_name,
     last_name: res?.last_name,
     owner: res?.owner
   }))
 
   const phone = house?.phones?.map(phn => ({
+    id: phn?.id,
     phone_number: phn?.phone_number,
     primary: phn?.primary,
     type: phn?.type,
   }))
+
+  const [phoneInputValue, setPhoneInputValue] = useState(phone[0]?.phone_number)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -89,30 +93,30 @@ const HomeUpdate = ({ house }: CProps) => {
   const watchFirstName = form.watch("first_name")
   const watchLastName = form.watch("last_name")
 
-  useEffect(() => {
-    const getPhoneNumber = async () => {
-      // console.log("getting phone number")
-      try {
-        const record = await pb.collection('phones').getFirstListItem(`house = "${house?.id}"`, {
-          fields: "id, phone_number, primary, type"
-        })
-
-        console.log("record: ", record)
-        setPhoneInputValue(record?.phone_number)
-      } catch (e) {
-        // @ts-expect-error this is fine
-        console.log("e: ", e.data)
-      }
-    }
-
-    if (openHomeUpdateCard) getPhoneNumber()
-  }, [openHomeUpdateCard])
+  // useEffect(() => {
+  //   const getPhoneNumber = async () => {
+  //     // console.log("getting phone number")
+  //     try {
+  //       const record = await pb.collection('phones').getFirstListItem(`house = "${house?.id}"`, {
+  //         fields: "id, phone_number, primary, type"
+  //       })
+  //
+  //       console.log("record: ", record)
+  //       setPhoneInputValue(record?.phone_number)
+  //     } catch (e) {
+  //       // @ts-expect-error this is fine
+  //       console.log("e: ", e.data)
+  //     }
+  //   }
+  //
+  //   if (openHomeUpdateCard) getPhoneNumber()
+  // }, [openHomeUpdateCard])
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true)
     // console.log("values: ", values)
     try {
-      const createHouseData = {
+      const updateHouseData = {
         address: values.address,
         apt: values.apt,
         city: values.city,
@@ -123,16 +127,20 @@ const HomeUpdate = ({ house }: CProps) => {
         security_code: values.security_code,
         community: loggedInUserCommunityId,
       }
-      const createdHouse = await pb.collection("houses").create(createHouseData)
+      const updatedHouse = await pb.collection("houses").update(house?.id, updateHouseData)
 
       if (values?.first_name && values?.last_name) { // note: it is not required for a resident to be created at the time of home creation. Only create a resident if first and last names are provided
         const residentData = {
           first_name: values?.first_name,
           last_name: values?.last_name,
           owner: values?.owner,
-          house: createdHouse?.id,
+          house: updatedHouse?.id,
         }
-        await pb.collection("residents").create(residentData)
+        if (resident.length > 0) {
+          await pb.collection("residents").update((resident.length > 0 ? resident[0]?.id : ""), residentData)
+        } else {
+          await pb.collection("residents").create(residentData)
+        }
       }
 
       if (phoneInputValue) {
@@ -140,9 +148,9 @@ const HomeUpdate = ({ house }: CProps) => {
           phone_number: phoneInputValue,
           primary: values?.primary,
           type: values?.type,
-          house: createdHouse?.id
+          house: updatedHouse?.id
         }
-        await pb.collection("phones").create(phoneData)
+        await pb.collection("phones").update((phone.length > 0 ? phone[0]?.id : ""), phoneData)
       }
 
       // if (values?.report) {
@@ -155,21 +163,21 @@ const HomeUpdate = ({ house }: CProps) => {
       // }
 
       // await getHomeData()
-      form.reset({
-        address: "",
-        apt: "",
-        city: "",
-        zip: "",
-        note: "",
-        member_number: "",
-        security_code: "",
-        first_name: "",
-        last_name: "",
-        owner: false,
-        type: "",
-        primary: false,
-        // report: "",
-      })
+      // form.reset({
+      //   address: "",
+      //   apt: "",
+      //   city: "",
+      //   zip: "",
+      //   note: "",
+      //   member_number: "",
+      //   security_code: "",
+      //   first_name: "",
+      //   last_name: "",
+      //   owner: false,
+      //   type: "",
+      //   primary: false,
+      //   // report: "",
+      // })
       setPhoneInputValue(undefined)
       setOpenHomeUpdateCard(false)
       toast({
@@ -186,12 +194,14 @@ const HomeUpdate = ({ house }: CProps) => {
         if (errData?.address?.code === validationNotUniqueCode ||
           errData?.city?.code === validationNotUniqueCode ||
           errData?.state?.code === validationNotUniqueCode ||
-          errData?.zip?.code === validationNotUniqueCode
+          errData?.zip?.code === validationNotUniqueCode ||
+          errData?.member_number === validationNotUniqueCode ||
+          errData?.security_code === validationNotUniqueCode
         ) {
           toast({
             variant: "destructive",
             title: "Failure",
-            description: "Home already exists"
+            description: "Duplicated values"
           })
         }
       }
