@@ -16,7 +16,7 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "./ui/use-toast"
-import { houseType, phoneType } from "@/common/types"
+import { houseType } from "@/common/types"
 import { ScrollArea } from "./ui/scroll-area"
 
 type CProps = {
@@ -52,7 +52,6 @@ const HomeUpdate = ({ house }: CProps) => {
 
   const [loading, setLoading] = useState(false)
   const [phoneInputValue, setPhoneInputValue] = useState(undefined)
-  const [phoneDataFromBackend, setPhoneDataFromBackend] = useState<phoneType>()
   const [openHomeUpdateCard, setOpenHomeUpdateCard] = useState(false)
 
   const resident = house?.residents?.map(res => ({
@@ -202,7 +201,7 @@ const HomeUpdate = ({ house }: CProps) => {
   }
 
   return (
-    <Sheet open={openHomeUpdateCard} onOpenChange={setOpenHomeUpdateCard} >
+    <Sheet open={openHomeUpdateCard} onOpenChange={setOpenHomeUpdateCard}>
       <SheetTrigger>
         <Pencil />
       </SheetTrigger>
