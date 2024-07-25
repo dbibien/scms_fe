@@ -1,4 +1,5 @@
 import { useApplicationStore, useCommunityStore } from "@/common/store"
+import { userType } from "@/common/types"
 import PageInfoBar from "@/components/PageInfoBar"
 import SplInput from "@/components/SplInput"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
@@ -47,17 +48,20 @@ const UserCard = () => {
 const UsersPage = () => {
   const pb = useApplicationStore(state => state.pb)
   const communityId = useCommunityStore(state => state.community.id)
+  const users = useCommunityStore(state => state.users)
+  const setUsers = useCommunityStore(state => state.setUsers)
 
   const [searchUserValue, setSearchUserValue] = useState("")
 
   const getUsers = async () => {
     try {
-      const users = await pb.collection("users").getFullList({
+      const users: userType[] = await pb.collection("users").getFullList({
         filter: `community.id = "${communityId}"`,
         fields: "id, first_name, last_name, email, type",
       })
 
-      console.log("users: ", users)
+      // console.log("users: ", users)
+      setUsers(users)
     } catch (e) {
       console.log("e: ", e)
     }
