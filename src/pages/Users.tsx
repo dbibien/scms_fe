@@ -1,49 +1,10 @@
 import { useApplicationStore, useCommunityStore } from "@/common/store"
 import { userType } from "@/common/types"
-import PageInfoBar from "@/components/PageInfoBar"
 import SplInput from "@/components/SplInput"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import UserCard from "@/components/UserCard"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
-import { Pencil } from "lucide-react"
 import { useEffect, useState } from "react"
 
-const UserCard = ({ user }: userType) => {
-  const [imageError, setImageError] = useState(false)
-
-  return (
-    <div>
-      <Card className="px-2">
-        <CardHeader className="flex flex-row justify-center">
-          <img
-            // src={imageError ? "src/assets/homeDefault.jpg" : `${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${house?.id}/${house?.image}`}
-            src="src/assets/defaultAvatar.png"
-            alt="Default user avatar"
-            width="50%"
-            // height="auto"
-            onError={() => setImageError(true)}
-            className="object-cover"
-          />
-        </CardHeader>
-
-        <Separator orientation="horizontal" />
-
-        <CardContent className="text-center space-y-2">
-          <p className="font-semibold mt-4">John, Doe</p>
-          <p>Director</p>
-        </CardContent>
-
-        <Separator orientation="horizontal" />
-
-        <CardFooter>
-          <div className="pt-4">
-            <Pencil />
-          </div>
-        </CardFooter>
-      </Card>
-    </div>
-  )
-}
 
 const UsersPage = () => {
   const pb = useApplicationStore(state => state.pb)
@@ -119,7 +80,7 @@ const UsersPage = () => {
       <ScrollArea className="h-[80vh]">
         <div className="space-y-4 lg:grid lg:grid-cols-4 lg:gap-4 lg:space-y-0">
           {filteredUsers?.map(user => (
-            <UserCard user={user} />
+            <UserCard key={user?.id} user={user} />
           ))}
         </div>
       </ScrollArea>
