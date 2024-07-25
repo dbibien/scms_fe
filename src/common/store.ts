@@ -2,7 +2,7 @@
 import { create } from "zustand"
 import { devtools } from "zustand/middleware"
 import PocketBase from 'pocketbase'
-import { communityType, concernType, houseType } from "./types"
+import { communityType, concernType, houseType, userType } from "./types"
 
 const pb = new PocketBase(import.meta.env.VITE_BACKEND_URL)
 
@@ -41,9 +41,11 @@ export type communityStore = {
   community: communityType,
   concerns: concernType[],
   houses: houseType[],
+  users: userType[],
   setCommunity: (data: communityType) => void,
   setConcerns: (data: concernType[]) => void,
   setHouses: (data: houseType[]) => void,
+  setUsers: (data: userType[]) => void,
   setUpdateConcern: (data: concernType) => void,
   setDeleteConcern: (data: string) => void,
 }
@@ -81,6 +83,7 @@ export const useCommunityStore = create<communityStore>()(
     },
     concerns: [],
     houses: [],
+    users: [],
     setCommunity: (data) => (set(() => ({
       community: data,
     }))),
@@ -113,6 +116,9 @@ export const useCommunityStore = create<communityStore>()(
       // return state.setConcerns(updatedList)
       // state.setConcerns(updatedList)
       return { concerns: updatedList }
+    }),
+    setUsers: (data) => set(() => {
+      return { users: data }
     }),
     setDeleteConcern: (data) => set((state) => {
       const updatedList = state.concerns?.filter(item => item?.id !== data)

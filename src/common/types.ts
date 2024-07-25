@@ -52,3 +52,11 @@ export type houseType = {
   phones: phoneType[],
   residents: residentType[],
 }
+
+export type userType = {
+  id: string,
+  first_name: string,
+  last_name: string,
+  email: string,
+  type: string,
+}
