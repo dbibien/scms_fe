@@ -1,6 +1,8 @@
 import PageInfoBar from "@/components/PageInfoBar"
 import SplInput from "@/components/SplInput"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Separator } from "@/components/ui/separator"
 import { Pencil } from "lucide-react"
 import { useState } from "react"
 
@@ -9,7 +11,7 @@ const UserCard = () => {
 
   return (
     <div>
-      <Card className="">
+      <Card className="px-2">
         <CardHeader className="flex flex-row justify-center">
           <img
             // src={imageError ? "src/assets/homeDefault.jpg" : `${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${house?.id}/${house?.image}`}
@@ -22,14 +24,20 @@ const UserCard = () => {
           />
         </CardHeader>
 
-        <CardContent className="text-center space-y-2">
-          <p className="font-semibold">John, Doe</p>
-          <p>Director</p>
+        <Separator orientation="horizontal" />
 
+        <CardContent className="text-center space-y-2">
+          <p className="font-semibold mt-4">John, Doe</p>
+          <p>Director</p>
+        </CardContent>
+
+        <Separator orientation="horizontal" />
+
+        <CardFooter>
           <div className="pt-4">
             <Pencil />
           </div>
-        </CardContent>
+        </CardFooter>
       </Card>
     </div>
   )
@@ -62,16 +70,27 @@ const UsersPage = () => {
       />
       */}
 
-      <div className="lg:grid lg:grid-cols-4 lg:gap-4">
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-      </div>
+
+      <ScrollArea className="h-[80vh]">
+        <div className="lg:grid lg:grid-cols-4 lg:gap-4">
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+        </div>
+      </ScrollArea>
     </div>
   )
 }
