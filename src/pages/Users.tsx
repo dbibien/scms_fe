@@ -1,10 +1,11 @@
+import { useApplicationStore, useCommunityStore } from "@/common/store"
 import PageInfoBar from "@/components/PageInfoBar"
 import SplInput from "@/components/SplInput"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { Pencil } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const UserCard = () => {
   const [imageError, setImageError] = useState(false)
@@ -44,7 +45,27 @@ const UserCard = () => {
 }
 
 const UsersPage = () => {
+  const pb = useApplicationStore(state => state.pb)
+  const communityId = useCommunityStore(state => state.community.id)
+
   const [searchUserValue, setSearchUserValue] = useState("")
+
+  const getUsers = async () => {
+    try {
+      const users = await pb.collection("users").getFullList({
+        filter: `community.id = "${communityId}"`,
+        fields: "id, first_name, last_name, email, type",
+      })
+
+      console.log("users: ", users)
+    } catch (e) {
+      console.log("e: ", e)
+    }
+  }
+
+  useEffect(() => {
+    getUsers()
+  }, [])
 
   return (
     <div>
@@ -73,19 +94,6 @@ const UsersPage = () => {
 
       <ScrollArea className="h-[80vh]">
         <div className="lg:grid lg:grid-cols-4 lg:gap-4">
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
           <UserCard />
           <UserCard />
           <UserCard />
