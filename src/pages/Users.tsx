@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator"
 import { Pencil } from "lucide-react"
 import { useEffect, useState } from "react"
 
-const UserCard = () => {
+const UserCard = ({ user }: userType) => {
   const [imageError, setImageError] = useState(false)
 
   return (
@@ -52,6 +52,7 @@ const UsersPage = () => {
   const setUsers = useCommunityStore(state => state.setUsers)
 
   const [searchUserValue, setSearchUserValue] = useState("")
+  const [filteredUsers, setFilteredUsers] = useState<userType[]>(users)
 
   const getUsers = async () => {
     try {
@@ -67,9 +68,28 @@ const UsersPage = () => {
     }
   }
 
+
+  const filterUsersBySearchedValue = (user: userType) => {
+    const searchedValueLowerCase = searchUserValue.toLowerCase()
+    if (searchedValueLowerCase === "") {
+      return user
+    } else if (
+      user.first_name.toLowerCase().includes(searchedValueLowerCase) ||
+      user.last_name.toLowerCase().includes(searchedValueLowerCase) ||
+      user.email.toLowerCase().includes(searchedValueLowerCase) ||
+      user.type.toLowerCase().includes(searchedValueLowerCase)
+    ) {
+      return user
+    }
+  }
+
   useEffect(() => {
     getUsers()
   }, [])
+
+  useEffect(() => {
+    setFilteredUsers(users?.filter(filterUsersBySearchedValue))
+  }, [searchUserValue])
 
   return (
     <div>
@@ -98,9 +118,9 @@ const UsersPage = () => {
 
       <ScrollArea className="h-[80vh]">
         <div className="space-y-4 lg:grid lg:grid-cols-4 lg:gap-4 lg:space-y-0">
-          <UserCard />
-          <UserCard />
-          <UserCard />
+          {filteredUsers?.map(user => (
+            <UserCard user={user} />
+          ))}
         </div>
       </ScrollArea>
     </div>
