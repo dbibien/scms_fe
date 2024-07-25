@@ -1,7 +1,9 @@
 import { useApplicationStore, useCommunityStore } from "@/common/store"
 import { userType } from "@/common/types"
+import PageInfoBar from "@/components/PageInfoBar"
 import SplInput from "@/components/SplInput"
 import UserCard from "@/components/UserCard"
+import UserCreate from "@/components/UserCreate"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Info } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -15,8 +17,9 @@ const UsersPage = () => {
 
   const [searchUserValue, setSearchUserValue] = useState("")
   const [filteredUsers, setFilteredUsers] = useState<userType[]>(users)
+  const [openUserCreationCard, setOpenUserCreationCard] = useState(false)
 
-  const getUsers = async () => {
+  const getUsersData = async () => {
     try {
       const users: userType[] = await pb.collection("users").getFullList({
         filter: `community.id = "${communityId}"`,
@@ -46,7 +49,7 @@ const UsersPage = () => {
   }
 
   useEffect(() => {
-    getUsers()
+    getUsersData()
   }, [])
 
   useEffect(() => {
@@ -64,19 +67,15 @@ const UsersPage = () => {
         styles="pt-5 pb-5 text-lg"
       />
 
-      {/*
       <PageInfoBar
-        resultLength={filteredHouses.length}
-        resultType=" home(s)"
-        component={<HomeCreate
-          openHomeCreationCard={openHomeCreationCard}
-          setOpenHomeCreationCard={setOpenHomeCreationCard}
-          showCreationButton={filteredHouses.length > 0 && true}
-          getHomeData={getHomeData}
+        resultLength={filteredUsers.length}
+        resultType=" users(s)"
+        component={<UserCreate
+          openUserCreationCard={openUserCreationCard}
+          setOpenUserCreationCard={setOpenUserCreationCard}
+          getUsersData={getUsersData}
         />}
       />
-      */}
-
 
       {filteredUsers.length < 1 && (
         <>
