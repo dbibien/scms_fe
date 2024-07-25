@@ -2,17 +2,16 @@ import { User } from "lucide-react"
 import { Button } from "./ui/button"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { ScrollArea } from "./ui/scroll-area"
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import SInput from "./SInput"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useState } from "react"
-import STextArea from "./STextArea"
 import Spinner from "./Spinner"
-import { Separator } from "./ui/separator"
 import { useApplicationStore, useLoggedInUserStore } from "@/common/store"
 import { toast } from "./ui/use-toast"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 
 type CProps = {
   openUserCreationCard: boolean,
@@ -21,10 +20,10 @@ type CProps = {
 }
 
 const formSchema = z.object({
-  first_name: z.string().max(30, { message: "First name must not exceed 30 characters" }),
-  last_name: z.string().max(30, { message: "Last name must not exceed 30 characters" }),
+  first_name: z.string().min(1, { message: "First name must not be empty" }).max(30, { message: "First name must not exceed 30 characters" }),
+  last_name: z.string().min(1, { message: "Last name must not be empty" }).max(30, { message: "Last name must not exceed 30 characters" }),
   email: z.string().min(1, { message: "Email must be at least one character long" }).email("Not a valid email"),
-  type: z.string(),
+  type: z.string().min(1, { message: "Invalid type" }),
 })
 
 const UserCreate = ({ openUserCreationCard, setOpenUserCreationCard, getUsersData }: CProps) => {
@@ -45,17 +44,22 @@ const UserCreate = ({ openUserCreationCard, setOpenUserCreationCard, getUsersDat
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true)
-    console.log("values: ", values)
+    // console.log("values: ", values)
     try {
       const createUserData = {
         first_name: values?.first_name,
         last_name: values?.last_name,
-        email: values?.email,
         type: values?.type,
+        email: values?.email,
+        emailVisibility: true,
+        password: "skdkoowoieoijja232432nklniaah",
+        passwordConfirm: "skdkoowoieoijja232432nklniaah",
         community: loggedInUserCommunityId,
       }
-      const createdUser = await pb.collection("users").create(createUserData)
-      console.log("createdUser: ", createdUser)
+      await pb.collection("users").create(createUserData, {
+        fields: "id, first_name, last_name, email, type",
+      })
+      // console.log("createdUser: ", createdUser)
 
       await getUsersData()
       form.reset({
@@ -70,21 +74,21 @@ const UserCreate = ({ openUserCreationCard, setOpenUserCreationCard, getUsersDat
         title: "Success",
         description: "New user added"
       })
+
+      setOpenUserCreationCard(false)
     } catch (e) {
       // @ts-expect-error expected
       const err = e?.data
-      const validationNotUniqueCode = "validation_not_unique"
+      const validationRequired = "validation_required"
       if (err?.code === 400) {
         const errData = err?.data
-        if (errData?.address?.code === validationNotUniqueCode ||
-          errData?.city?.code === validationNotUniqueCode ||
-          errData?.state?.code === validationNotUniqueCode ||
-          errData?.zip?.code === validationNotUniqueCode
+        if (errData?.password?.code === validationRequired ||
+          errData?.passwordConfirm?.code === validationRequired
         ) {
           toast({
             variant: "destructive",
             title: "Failure",
-            description: "Home already exists"
+            description: "Passwords do not match"
           })
         }
       }
@@ -112,114 +116,6 @@ const UserCreate = ({ openUserCreationCard, setOpenUserCreationCard, getUsersDat
             <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
 
               <ScrollArea className="h-[70vh]">
-                <p className="text-md font-bold mb-2">Home</p>
-
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Address:</FormLabel>
-                      <FormControl>
-                        <SInput
-                          type="text"
-                          name="address"
-                          placeHolder="Address"
-                          styles=""
-                          fields={field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="apt"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Apt, Suite, etc:</FormLabel>
-                      <FormControl>
-                        <SInput
-                          type="text"
-                          name="apt"
-                          placeHolder="Apt, Suite, etc"
-                          styles=""
-                          fields={field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="city"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>City:</FormLabel>
-                      <FormControl>
-                        <SInput
-                          type="text"
-                          name="city"
-                          placeHolder="City"
-                          styles=""
-                          fields={field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <StateSelector control={form.control} name="state" />
-
-                <FormField
-                  control={form.control}
-                  name="zip"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>ZIP/ Post code:</FormLabel>
-                      <FormControl>
-                        <SInput
-                          type="text"
-                          name="zip"
-                          placeHolder="Zip"
-                          styles=""
-                          fields={field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="note"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Note:</FormLabel>
-                      <FormControl>
-                        <STextArea
-                          name="note"
-                          placeHolder="Write a note for this home..."
-                          helperText=""
-                          styles="h-40"
-                          fields={field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <Separator orientation="horizontal" className="mt-8 mb-6" />
-
-                <p className="text-md font-bold mb-2">Resident</p>
-
                 <FormField
                   control={form.control}
                   name="first_name"
@@ -260,151 +156,44 @@ const UserCreate = ({ openUserCreationCard, setOpenUserCreationCard, getUsersDat
                   )}
                 />
 
-                {/*@ts-expect-error yah */}
-                {watchFirstName?.length > 0 && watchLastName?.length > 0 && (
-                  <>
-                    <FormField
-                      control={form.control}
-                      name="owner"
-                      render={({ field }) => (
-                        <FormItem>
-                          <div className="flex items-center gap-2 mt-4">
-                            <FormLabel>Owner:</FormLabel>
-                            <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </div>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="member_number"
-                      render={({ field }) => (
-                        <FormItem className='mt-4'>
-                          <FormLabel>Member number:</FormLabel>
-                          <FormControl>
-                            <SInput
-                              type="text"
-                              name="member_number"
-                              placeHolder="Member number"
-                              styles=""
-                              fields={field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="security_code"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Security code:</FormLabel>
-                          <FormControl>
-                            <SInput
-                              type="text"
-                              name="security_code"
-                              placeHolder="Security code"
-                              styles=""
-                              fields={field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </>
-                )}
-
-                <Separator orientation="horizontal" className="mt-8 mb-6" />
-
-                <p className="text-md font-bold mb-2">Phone</p>
-
-                <div>
-                  <p className="text-sm font-medium mb-2">Phone:</p>
-                  <PhoneInput
-                    defaultCountry='US'
-                    placeholder="Enter phone number"
-                    value={phoneInputValue}
-                    // @ts-expect-error look into the types at a later time
-                    onChange={setPhoneInputValue}
-                    className="border border-slate-200 p-2 rounded-md"
-                  />
-                </div>
-
-                {/*@ts-expect-error yah */}
-                {phoneInputValue?.length > 0 && (
-                  <>
-                    <FormField
-                      control={form.control}
-                      name="type"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Type:</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="focus-visible:ring-0 focus:ring-0">
-                                <SelectValue placeholder="Select phone type" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="cell">Cell</SelectItem>
-                              <SelectItem value="home">Home</SelectItem>
-                              <SelectItem value="business">Business</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="primary"
-                      render={({ field }) => (
-                        <FormItem>
-                          <div className="flex items-center gap-2 mt-4">
-                            <FormLabel>Primary:</FormLabel>
-                            <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </div>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </>
-                )}
-
-                <Separator orientation="horizontal" className="mt-8 mb-6" />
-
-                <p className="text-md font-bold mb-2">Report</p>
-
                 <FormField
                   control={form.control}
-                  name="report"
+                  name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Report:</FormLabel>
+                      <FormLabel>Email:</FormLabel>
                       <FormControl>
-                        <STextArea
-                          name="report"
-                          placeHolder="Write a report for this home..."
-                          helperText=""
-                          styles="h-40"
+                        <SInput
+                          type="text"
+                          name="email"
+                          placeHolder="Email"
+                          styles=""
                           fields={field}
                         />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Type:</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="focus-visible:ring-0 focus:ring-0">
+                            <SelectValue placeholder="Select user type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="director">Director</SelectItem>
+                          <SelectItem value="manager">Manager</SelectItem>
+                          <SelectItem value="regular">Regular</SelectItem>
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -426,7 +215,7 @@ const UserCreate = ({ openUserCreationCard, setOpenUserCreationCard, getUsersDat
         </div>
 
       </SheetContent>
-    </Sheet>
+    </Sheet >
   )
 }
 

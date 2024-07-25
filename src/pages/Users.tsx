@@ -26,7 +26,7 @@ const UsersPage = () => {
         fields: "id, first_name, last_name, email, type",
       })
 
-      // console.log("users: ", users)
+      console.log("users: ", users)
       setUsers(users)
     } catch (e) {
       console.log("e: ", e)
@@ -54,7 +54,7 @@ const UsersPage = () => {
 
   useEffect(() => {
     setFilteredUsers(users?.filter(filterUsersBySearchedValue))
-  }, [searchUserValue])
+  }, [searchUserValue, users])
 
   return (
     <div>
