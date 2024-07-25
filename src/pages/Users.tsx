@@ -93,7 +93,7 @@ const UsersPage = () => {
 
 
       <ScrollArea className="h-[80vh]">
-        <div className="lg:grid lg:grid-cols-4 lg:gap-4">
+        <div className="space-y-4 lg:grid lg:grid-cols-4 lg:gap-4 lg:space-y-0">
           <UserCard />
           <UserCard />
           <UserCard />
