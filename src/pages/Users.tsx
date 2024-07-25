@@ -3,6 +3,7 @@ import { userType } from "@/common/types"
 import SplInput from "@/components/SplInput"
 import UserCard from "@/components/UserCard"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Info } from "lucide-react"
 import { useEffect, useState } from "react"
 
 
@@ -76,6 +77,15 @@ const UsersPage = () => {
       />
       */}
 
+
+      {filteredUsers.length < 1 && (
+        <>
+          <div className="bg-amber-100 md:max-w-[50%] m-auto mt-4 p-4 rounded-md">
+            <Info color="orange" />
+            <p className="text-center">No users found</p>
+          </div>
+        </>
+      )}
 
       <ScrollArea className="h-[80vh]">
         <div className="space-y-4 lg:grid lg:grid-cols-4 lg:gap-4 lg:space-y-0">
