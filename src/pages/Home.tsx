@@ -364,7 +364,16 @@ const HomePage = () => {
       setHouses(houses)
       setFilteredHouses(houses)
     } catch (e) {
-      console.log("e:", e)
+      // console.log("e:", e)
+      // @ts-expect-error fix types later  
+      const errData = e?.data
+      if (errData?.code === 400) {
+        toast({
+          variant: "destructive",
+          title: "Fail",
+          description: errData?.message,
+        })
+      }
     }
   }
 
