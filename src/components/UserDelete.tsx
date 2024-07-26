@@ -66,18 +66,17 @@ const UserDelete = ({ user, getUsersData }: CProps) => {
           Delete User
         </SheetTitle>
 
-        <div className="text-center space-y-2">
+        <div className="text-center space-y-2 lg:w-[50%] m-auto">
           <p className="text-md">Are you sure you want to delete the user?</p>
           <p className="font-semibold text-lg">{user?.first_name}, {user?.last_name}</p>
           <p className="font-semibold text-lg">{user?.email}</p>
-        </div>
 
-        <SheetFooter>
           <div className="grid grid-cols-2 gap-2">
             <Button
               type="submit"
               disabled={loading}
               onClick={() => deleteUser()}
+              // className="flex flex-row gap-2 items-end mt-4"
               className="flex flex-row  gap-2 items-end w-full mt-4"
             >
               <Trash />
@@ -87,6 +86,7 @@ const UserDelete = ({ user, getUsersData }: CProps) => {
             <SheetClose disabled={loading}>
               <Button
                 color="red"
+                // className={`flex flex-row gap-2 items-end mt-4 bg-red-400 ${!loading ? "hover:bg-red-500" : "hover:bg-red-400"}`}
                 className={`flex flex-row gap-2 items-end w-full mt-4 bg-red-400 ${!loading ? "hover:bg-red-500" : "hover:bg-red-400"}`}
               >
                 <Ban />
@@ -94,7 +94,7 @@ const UserDelete = ({ user, getUsersData }: CProps) => {
               </Button>
             </SheetClose>
           </div>
-        </SheetFooter>
+        </div>
       </SheetContent>
     </Sheet>
   )
