@@ -8,8 +8,6 @@ import { toast } from "@/components/ui/use-toast"
 import { useNavigate } from "react-router-dom"
 import ConcernCardCreate from "@/components/concernCardCreate"
 import PageInfoBar from "@/components/PageInfoBar"
-// import { Button } from "@/components/ui/button"
-// import { Plus } from "lucide-react"
 
 const ConcernsPage = () => {
   // STORE
@@ -39,12 +37,17 @@ const ConcernsPage = () => {
       // const concerns = records[0].expand?.concerns === undefined ? [] : records[0].expand?.concerns
       setConcerns(records)
     } catch (e) {
-      console.log("e:", e)
-      toast({
-        variant: "destructive",
-        title: "Fail",
-        description: "Fail to retrieve concerns"
-      })
+      // console.log("e:", e?.data)
+
+      // @ts-expect-error fix types later
+      const errData = e?.data
+      if (errData?.code === 400) {
+        toast({
+          variant: "destructive",
+          title: "Fail",
+          description: errData?.message,
+        })
+      }
     }
   }
 
