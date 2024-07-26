@@ -1,7 +1,7 @@
 import { Pencil } from "lucide-react"
 import { Button } from "./ui/button"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import SInput from "./SInput"
 import StateSelector from "./StateSelector"
@@ -49,7 +49,7 @@ const formSchema = z.object({
 const HomeUpdate = ({ house, getHomeData }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
-  const loggedInUserId = useLoggedInUserStore(state => state.user.id)
+  // const loggedInUserId = useLoggedInUserStore(state => state.user.id)
 
   const [loading, setLoading] = useState(false)
   // const [phoneInputValue, setPhoneInputValue] = useState(undefined)
@@ -465,7 +465,6 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                   />
                 </div>
 
-                {/*@ts-expect-error yah */}
                 {phoneInputValue?.length > 0 && (
                   <>
                     <FormField
