@@ -30,12 +30,16 @@ const Nav = () => {
         address: record?.address,
       })
     } catch (e) {
-      console.log(e)
-      toast({
-        variant: "destructive",
-        title: "Fail",
-        description: "Community data not loaded",
-      })
+      // console.log(e?.data)
+      // @ts-expect-error fix types later
+      const errData = e?.data
+      if (errData?.code === 404) {
+        toast({
+          variant: "destructive",
+          title: "Fail",
+          description: errData?.message,
+        })
+      }
     }
   }
 
