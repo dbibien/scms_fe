@@ -29,18 +29,20 @@ const UsersPage = () => {
       // console.log("users: ", users)
       setUsers(users)
     } catch (e) {
+      // console.log("e: ", e)
+      // console.log("e.data: ", e?.data)
+
       // @ts-expect-error fix types later
       const errData = e?.data
       let errMessage = "An error occured while retrieving users"
       if (errData?.code === 404) {
         errMessage = errData?.message
+        toast({
+          variant: "destructive",
+          title: "Failure",
+          description: errMessage,
+        })
       }
-
-      toast({
-        variant: "destructive",
-        title: "Failure",
-        description: errMessage,
-      })
     }
   }
 
