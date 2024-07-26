@@ -1,6 +1,11 @@
-import { Trash } from "lucide-react"
-import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
+import { Ban, Trash } from "lucide-react"
+import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { userType } from "@/common/types"
+import { Button } from "./ui/button"
+import { useState } from "react"
+import Spinner from "./Spinner"
+import { toast } from "./ui/use-toast"
+import { useApplicationStore } from "@/common/store"
 
 type CProps = {
   user: userType,
@@ -8,9 +13,37 @@ type CProps = {
 }
 
 const UserDelete = ({ user, getUsersData }: CProps) => {
+  const pb = useApplicationStore(state => state.pb)
+
+  const [loading, setLoading] = useState(false)
+  const [openSheet, setOpenSheet] = useState(false)
+
+  const deleteUser = async () => {
+    setLoading(true)
+    try {
+      await pb.collection("users").delete(user?.id)
+      toast({
+        variant: "default",
+        title: "Success",
+        description: "User deleted"
+      })
+      // setDeleteConcern(concern?.id)
+      await getUsersData()
+      setOpenSheet(false)
+    } catch (e) {
+      // console.log("e: ", e)
+      toast({
+        variant: "destructive",
+        title: "Fail",
+        description: "User not deleted"
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
-    <Sheet>
+    <Sheet open={openSheet} onOpenChange={setOpenSheet}>
       <SheetHeader>
         <SheetTrigger>
           <Trash className="text-slate-500 hover:text-red-400" />
@@ -27,11 +60,31 @@ const UserDelete = ({ user, getUsersData }: CProps) => {
           <p className="font-semibold text-lg">{user?.first_name}, {user?.last_name}</p>
           <p className="font-semibold text-lg">{user?.email}</p>
         </div>
+
+        <SheetFooter>
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              type="submit"
+              disabled={loading}
+              onClick={() => deleteUser()}
+              className="flex flex-row  gap-2 items-end w-full mt-4"
+            >
+              <Trash />
+              {loading ? <Spinner /> : "Delete"}
+            </Button>
+
+            <SheetClose disabled={loading}>
+              <Button
+                color="red"
+                className={`flex flex-row gap-2 items-end w-full mt-4 bg-red-400 ${!loading ? "hover:bg-red-500" : "hover:bg-red-400"}`}
+              >
+                <Ban />
+                Cancel
+              </Button>
+            </SheetClose>
+          </div>
+        </SheetFooter>
       </SheetContent>
-
-      <SheetFooter>
-
-      </SheetFooter>
     </Sheet>
   )
 }

@@ -26,7 +26,7 @@ const ConcernCardDelete = ({ concern }: concernCardType) => {
       setDeleteConcern(concern?.id)
       setOpen(false)
     } catch (e) {
-      console.log("e: ", e)
+      // console.log("e: ", e)
       toast({
         variant: "destructive",
         title: "Fail",

@@ -37,11 +37,9 @@ const UserCard = ({ user, getUsersData }: CProps) => {
 
         <Separator orientation="horizontal" />
 
-        <CardFooter>
-          <div className="pt-4">
-            <UserEdit user={user} getUsersData={getUsersData} />
-            <UserDelete user={user} getUsersData={getUsersData} />
-          </div>
+        <CardFooter className="pt-4 flex justify-between">
+          <UserEdit user={user} getUsersData={getUsersData} />
+          <UserDelete user={user} getUsersData={getUsersData} />
         </CardFooter>
       </Card>
     </div>
