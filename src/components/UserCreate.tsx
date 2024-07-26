@@ -192,7 +192,6 @@ const UserCreate = ({ openUserCreationCard, setOpenUserCreationCard, getUsersDat
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="director">Director</SelectItem>
                           <SelectItem value="manager">Manager</SelectItem>
                           <SelectItem value="regular">Regular</SelectItem>
                         </SelectContent>

@@ -163,7 +163,6 @@ const UserEdit = ({ user, getUsersData }: CProps) => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="director">Director</SelectItem>
                           <SelectItem value="manager">Manager</SelectItem>
                           <SelectItem value="regular">Regular</SelectItem>
                         </SelectContent>
