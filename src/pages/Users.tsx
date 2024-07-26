@@ -42,6 +42,12 @@ const UsersPage = () => {
           title: "Failure",
           description: errMessage,
         })
+      } else if (errData?.code === 400) {
+        toast({
+          variant: "destructive",
+          title: "Failure",
+          description: errData?.message,
+        })
       }
     }
   }
