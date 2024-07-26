@@ -1,5 +1,5 @@
 import { Ban, Trash } from "lucide-react"
-import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
+import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { userType } from "@/common/types"
 import { Button } from "./ui/button"
 import { useState } from "react"
