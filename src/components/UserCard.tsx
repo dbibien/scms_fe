@@ -2,6 +2,7 @@ import { userType } from "@/common/types"
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card"
 import { Separator } from "./ui/separator"
 import { Pencil } from "lucide-react"
+import UserEdit from "./UserEdit"
 
 type CProps = {
   user: userType,
@@ -37,7 +38,7 @@ const UserCard = ({ user }: CProps) => {
 
         <CardFooter>
           <div className="pt-4">
-            <Pencil />
+            <UserEdit />
           </div>
         </CardFooter>
       </Card>
