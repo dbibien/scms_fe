@@ -1,14 +1,14 @@
 import { userType } from "@/common/types"
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card"
 import { Separator } from "./ui/separator"
-import { Pencil } from "lucide-react"
 import UserEdit from "./UserEdit"
 
 type CProps = {
   user: userType,
+  getUsersData: () => Promise<void>
 }
 
-const UserCard = ({ user }: CProps) => {
+const UserCard = ({ user, getUsersData }: CProps) => {
   // const [imageError, setImageError] = useState(false)
 
   return (
@@ -38,7 +38,7 @@ const UserCard = ({ user }: CProps) => {
 
         <CardFooter>
           <div className="pt-4">
-            <UserEdit />
+            <UserEdit user={user} getUsersData={getUsersData} />
           </div>
         </CardFooter>
       </Card>
