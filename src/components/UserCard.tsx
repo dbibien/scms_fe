@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "./ui/card"
 import { Separator } from "./ui/separator"
 import UserEdit from "./UserEdit"
 import UserDelete from "./UserDelete"
+import { useLoggedInUserStore } from "@/common/store"
 
 type CProps = {
   user: userType,
@@ -11,6 +12,7 @@ type CProps = {
 
 const UserCard = ({ user, getUsersData }: CProps) => {
   // const [imageError, setImageError] = useState(false)
+  const loggedInUserType = useLoggedInUserStore(state => state.user.type)
 
   return (
     <div>
@@ -35,12 +37,16 @@ const UserCard = ({ user, getUsersData }: CProps) => {
           <p>{user.email}</p>
         </CardContent>
 
-        <Separator orientation="horizontal" />
+        {loggedInUserType === "director" && (
+          <>
+            <Separator orientation="horizontal" />
 
-        <CardFooter className="pt-4 flex justify-between">
-          <UserEdit user={user} getUsersData={getUsersData} />
-          <UserDelete user={user} getUsersData={getUsersData} />
-        </CardFooter>
+            <CardFooter className="pt-4 flex justify-between">
+              <UserEdit user={user} getUsersData={getUsersData} />
+              <UserDelete user={user} getUsersData={getUsersData} />
+            </CardFooter>
+          </>
+        )}
       </Card>
     </div>
   )
