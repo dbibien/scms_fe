@@ -5,6 +5,7 @@ import SplInput from "@/components/SplInput"
 import UserCard from "@/components/UserCard"
 import UserCreate from "@/components/UserCreate"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { toast } from "@/components/ui/use-toast"
 import { Info } from "lucide-react"
 import { useEffect, useState } from "react"
 
@@ -25,11 +26,21 @@ const UsersPage = () => {
         filter: `community.id = "${communityId}"`,
         fields: "id, first_name, last_name, email, type",
       })
-
-      console.log("users: ", users)
+      // console.log("users: ", users)
       setUsers(users)
     } catch (e) {
-      console.log("e: ", e)
+      // @ts-expect-error fix types later
+      const errData = e?.data
+      let errMessage = "An error occured while retrieving users"
+      if (errData?.code === 404) {
+        errMessage = errData?.message
+      }
+
+      toast({
+        variant: "destructive",
+        title: "Failure",
+        description: errMessage,
+      })
     }
   }
 
