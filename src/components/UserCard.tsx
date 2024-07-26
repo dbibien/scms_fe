@@ -30,7 +30,7 @@ const UserCard = ({ user }: CProps) => {
         <CardContent className="text-center space-y-2">
           <p className="font-semibold mt-4">{`${user?.first_name}, ${user?.last_name}`}</p>
           <p>{user?.type}</p>
-          <p>{user?.email}</p>
+          <p>{user.email}</p>
         </CardContent>
 
         <Separator orientation="horizontal" />
