@@ -29,6 +29,7 @@ const formSchema = z.object({
 const UserCreate = ({ openUserCreationCard, setOpenUserCreationCard, getUsersData }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
+  const loggedInUserType = useLoggedInUserStore(state => state.user.type)
 
   const [loading, setLoading] = useState(false)
 
@@ -96,6 +97,8 @@ const UserCreate = ({ openUserCreationCard, setOpenUserCreationCard, getUsersDat
       setLoading(false)
     }
   }
+
+  if (loggedInUserType !== "director") return <></>
 
   return (
     <Sheet open={openUserCreationCard} onOpenChange={setOpenUserCreationCard} >
