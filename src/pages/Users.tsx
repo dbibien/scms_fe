@@ -87,7 +87,7 @@ const UsersPage = () => {
       )}
 
       <ScrollArea className="h-[80vh]">
-        <div className="space-y-4 lg:grid lg:grid-cols-4 lg:gap-4 lg:space-y-0">
+        <div className="space-y-4 mt-4 lg:grid lg:grid-cols-4 lg:gap-4 lg:space-y-0">
           {filteredUsers?.map(user => (
             <UserCard key={user?.id} user={user} />
           ))}
