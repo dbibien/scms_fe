@@ -16,8 +16,6 @@ import Spinner from "./Spinner"
 
 type CProps = {
   user: userType,
-  // openUserCreationCard: boolean,
-  // setOpenUserCreationCard: React.Dispatch<React.SetStateAction<boolean>>,
   getUsersData: () => Promise<void>,
 }
 
@@ -39,7 +37,6 @@ const UserEdit = ({ user, getUsersData }: CProps) => {
     defaultValues: {
       first_name: user?.first_name,
       last_name: user?.last_name,
-      email: user?.email,
       type: user?.type,
     },
   })
@@ -52,11 +49,6 @@ const UserEdit = ({ user, getUsersData }: CProps) => {
         first_name: values?.first_name,
         last_name: values?.last_name,
         type: values?.type,
-        // email: values?.email,
-        // emailVisibility: true,
-        // password: "skdkoowoieoijja232432nklniaah",
-        // passwordConfirm: "skdkoowoieoijja232432nklniaah",
-        // community: loggedInUserCommunityId,
       }
       await pb.collection("users").update(user?.id, updatedData, {
         fields: "id, first_name, last_name, email, type",
@@ -64,12 +56,6 @@ const UserEdit = ({ user, getUsersData }: CProps) => {
       // console.log("createdUser: ", createdUser)
 
       await getUsersData()
-      // form.reset({
-      //   first_name: "",
-      //   last_name: "",
-      //   email: "",
-      //   type: "",
-      // })
 
       toast({
         variant: "default",
@@ -81,11 +67,6 @@ const UserEdit = ({ user, getUsersData }: CProps) => {
     } catch (e) {
       // @ts-expect-error expected
       const err = e?.data
-
-
-      console.log("e: ", e)
-      console.log("err: ", err)
-
       const validationRequired = "validation_required"
       let errMessage = "An error occured while updating user"
       if (err?.code === 400) {
@@ -94,20 +75,25 @@ const UserEdit = ({ user, getUsersData }: CProps) => {
           errData?.passwordConfirm?.code === validationRequired
         ) {
           errMessage = "Passwords do not match"
+          toast({
+            variant: "destructive",
+            title: "Failure",
+            description: errMessage,
+          })
         }
       } else if (err?.code === 404) {
         errMessage = err?.message
+        toast({
+          variant: "destructive",
+          title: "Failure",
+          description: errMessage,
+        })
       }
-
-      toast({
-        variant: "destructive",
-        title: "Failure",
-        description: errMessage,
-      })
     } finally {
       setLoading(false)
     }
   }
+
   return (
     <Sheet open={openSheet} onOpenChange={setOpenSheet}>
       <SheetTrigger>
