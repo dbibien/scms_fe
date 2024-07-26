@@ -2,6 +2,7 @@ import { userType } from "@/common/types"
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card"
 import { Separator } from "./ui/separator"
 import UserEdit from "./UserEdit"
+import UserDelete from "./UserDelete"
 
 type CProps = {
   user: userType,
@@ -39,6 +40,7 @@ const UserCard = ({ user, getUsersData }: CProps) => {
         <CardFooter>
           <div className="pt-4">
             <UserEdit user={user} getUsersData={getUsersData} />
+            <UserDelete user={user} getUsersData={getUsersData} />
           </div>
         </CardFooter>
       </Card>
