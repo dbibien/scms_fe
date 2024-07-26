@@ -31,12 +31,23 @@ const UserDelete = ({ user, getUsersData }: CProps) => {
       await getUsersData()
       setOpenSheet(false)
     } catch (e) {
-      // console.log("e: ", e)
-      toast({
-        variant: "destructive",
-        title: "Fail",
-        description: "User not deleted"
-      })
+      // console.log("e.data: ", e?.data)
+
+      // @ts-expect-error fix later
+      const errData = e?.data
+      if (errData?.code === 404) {
+        toast({
+          variant: "destructive",
+          title: "Fail",
+          description: errData?.message,
+        })
+      } else if (errData?.code === 400 || errData?.code === 204) {
+        toast({
+          variant: "destructive",
+          title: "Fail",
+          description: "Failed to delete user",
+        })
+      }
     } finally {
       setLoading(false)
     }
