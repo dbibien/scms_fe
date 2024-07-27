@@ -63,23 +63,35 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
   }
 
   const callResident = async () => {
-    const res = await pb.send(`/api/scms/call-resident`, {
-      method: "post",
-      headers: {
-        "Content-type": "application/json",
-        "Authorization": `${pb.authStore.token} `,
-      },
-      body: JSON.stringify(
-        {
-          h_id: house?.id,
-          concerns: selectConcerns
-        }
-      )
-    })
+    try {
+      const res = await pb.send(`/api/scms/call-resident`, {
+        method: "post",
+        headers: {
+          "Content-type": "application/json",
+          "Authorization": `${pb.authStore.token} `,
+        },
+        body: JSON.stringify(
+          {
+            h_id: house?.id,
+            concerns: selectConcerns
+          }
+        )
+      })
 
-
-    const data = res.json()
-    console.log("data: ", data)
+      const data = res.json()
+      console.log("data: ", data)
+    } catch (e) {
+      // console.log("e.data: ", e?.data)
+      // @ts-expect-error fix types later
+      const errData = e?.data
+      if (errData?.error) {
+        toast({
+          variant: "destructive",
+          title: "Fail",
+          description: errData?.message,
+        })
+      }
+    }
   }
 
   const handleRemoveConcern = (id: string) => {
