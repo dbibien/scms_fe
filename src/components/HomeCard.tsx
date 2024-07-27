@@ -19,6 +19,7 @@ import { concernType, houseType, selectConcernsType } from "@/common/types"
 import { useState } from "react";
 import { toast } from "./ui/use-toast";
 import SplInput from "./SplInput";
+import HouseNote from "./HouseNote";
 
 type homeCardType = {
   house: houseType,
@@ -96,7 +97,6 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
   // console.log("house: ", house)
   // console.log("selected concerns: ", selectConcerns)
   // console.log("searchValue: ", searchValue)
-
 
   return (
     <Card className="mb-8 lg:grid lg:grid-cols-[2fr_2fr_2fr]">
