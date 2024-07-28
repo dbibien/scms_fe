@@ -180,10 +180,11 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
           {house?.phones.length === 0 || house?.pending_call_concerns_ids !== "" ? (<>
             <Separator className="mt-6 border border-slate-200" />
             <div className="mt-4">
-              <p className="text-sm underline text-slate-500">To-do:</p>
+              <p className="text-sm underline text-slate-500">Notice:</p>
               <div className="space-y-2 spce-x-2">
                 {house?.phones.length === 0 && <p className="text-sm text-orange-400 p-2 inline-block rounded-md bg-orange-100">Primary phone number missing</p>}
                 {house?.pending_call_concerns_ids && <p className="text-sm text-slate-500 p-2 inline-block rounded-md bg-sky-200 ml-2">Call pending</p>}
+                <p className="text-sm text-pink-500 p-2 inline-block rounded-md bg-pink-200 ml-2">Call in progress...</p>
               </div>
             </div>
           </>) : ""}
