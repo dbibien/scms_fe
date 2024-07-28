@@ -64,7 +64,8 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
 
   const callResident = async () => {
     try {
-      const res = await pb.send(`/api/scms/call-resident`, {
+      // const res = await pb.send(`/api/scms/call-resident`, {
+      await pb.send(`/api/scms/call-resident`, {
         method: "post",
         headers: {
           "Content-type": "application/json",
@@ -78,8 +79,8 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
         )
       })
 
-      const data = res.json()
-      console.log("data: ", data)
+      // const data = res.json()
+      // console.log("data: ", data)
     } catch (e) {
       // console.log("e.data: ", e?.data)
       // @ts-expect-error fix types later
@@ -91,6 +92,8 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
           description: errData?.message,
         })
       }
+    } finally {
+      await getHomeData()
     }
   }
 
