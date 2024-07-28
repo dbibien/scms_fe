@@ -32,6 +32,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
   const setConcerns = useCommunityStore(state => state.setConcerns)
 
+  const [openSheet, setOpenSheet] = useState(false)
   const [loading, setLoading] = useState(true)
   const [selectConcerns, setSelectConcerns] = useState<selectConcernsType[]>([])
   const [searchValue, setSearchValue] = useState("")
@@ -94,6 +95,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
       }
     } finally {
       await getHomeData()
+      setOpenSheet(false)
     }
   }
 
@@ -129,7 +131,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
 
   // console.log("note: ", house?.note)
   // console.log("house: ", house)
-  console.log("selected concerns: ", selectConcerns)
+  // console.log("selected concerns: ", selectConcerns)
   // console.log("searchValue: ", searchValue)
 
   return (
@@ -189,7 +191,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
       </div>
 
       <CardFooter className="flex flex-row justify-between items-center border-t pt-6 lg:border-l lg:border-l-slate-200 lg:items-end lg:pt-4 lg:border-t-0">
-        <Sheet>
+        <Sheet open={openSheet} onOpenChange={setOpenSheet}>
           <SheetTrigger>
             <button onClick={getConcerns}>
               <PhoneCall />
