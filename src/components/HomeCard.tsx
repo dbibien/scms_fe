@@ -16,7 +16,7 @@ import HomeUpdate from "@/components/HomeUpdate"
 import HomeAddress from "@/components/HomeAddress";
 import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
 import { concernType, houseType, selectConcernsType } from "@/common/types"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "./ui/use-toast";
 import SplInput from "./SplInput";
 import HouseNote from "./HouseNote";
@@ -105,9 +105,28 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
     if (concern.name.toLowerCase().includes(searchValue.toLowerCase())) return concern
   }
 
+  useEffect(() => {
+    if (house?.pending_call_concerns_ids) {
+      const concernIds = house?.pending_call_concerns_ids.split(",")
+      const preselectConcerns: selectConcernsType[] = []
+      for (let i = 0; i < concernIds.length; i++) {
+        for (let j = 0; j < concerns.length; j++) {
+          if (concerns[j]?.id === concernIds[i]) {
+            preselectConcerns.push({
+              id: concerns[j]?.id,
+              name: concerns[j]?.name,
+              selected: true,
+            })
+          }
+        }
+      }
+      setSelectConcerns(preselectConcerns)
+    }
+  }, [concerns])
+
   // console.log("note: ", house?.note)
   // console.log("house: ", house)
-  // console.log("selected concerns: ", selectConcerns)
+  console.log("selected concerns: ", selectConcerns)
   // console.log("searchValue: ", searchValue)
 
   return (
