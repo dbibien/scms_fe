@@ -10,7 +10,6 @@ import PageInfoBar from "@/components/PageInfoBar"
 import HomeCreate from "@/components/HomeCreate"
 import HomeCard from "@/components/HomeCard";
 
-
 const HomePage = () => {
   const pb = useApplicationStore(state => state.pb)
   const houses = useCommunityStore(state => state.houses)
@@ -24,7 +23,7 @@ const HomePage = () => {
   const getHomeData = async () => {
     try {
       // fields the backend should return
-      const houseFields = `id, address, apt, city, state, zip, member_number, security_code, image, note`
+      const houseFields = `id, address, apt, city, state, zip, member_number, security_code, pending_call_concerns_ids, image, note`
       const phoneFields = `
         expand.phones_via_house.id, expand.phones_via_house.phone_number, expand.phones_via_house.primary, expand.phones_via_house.type
       `
@@ -63,6 +62,7 @@ const HomePage = () => {
           image: house?.image,
           member_number: house?.member_number,
           security_code: house?.security_code,
+          pending_call_concerns_ids: house?.pending_call_concerns_ids,
           note: house?.note,
           phones: phones || [],
           residents: residents || [],

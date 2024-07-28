@@ -49,6 +49,7 @@ export type houseType = {
   security_code: string,
   image: string,
   note: string,
+  pending_call_concerns_ids: string,
   phones: phoneType[],
   residents: residentType[],
 }
