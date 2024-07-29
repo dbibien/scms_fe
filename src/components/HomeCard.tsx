@@ -63,27 +63,49 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
     }
   }
 
+  const updatePendingCallConcerns = async () => {
+    setLoading(true)
+    // console.log("values: ", values)
+    try {
+      const updateHouseData = {
+        pending_call_concerns_ids: "",
+      }
+      const updatedHouse = await pb.collection("houses").update(house?.id, updateHouseData)
+      console.log("updatedHouse: ", updatedHouse)
+    } catch (e) {
+      // @ts-expect-error fix types later
+      console.log(e.data)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const callResident = async () => {
     try {
-      // const res = await pb.send(`/api/scms/call-resident`, {
-      await pb.send(`/api/scms/call-resident`, {
+      const res = await pb.send(`/api/scms/call-resident`, {
         method: "post",
         headers: {
           "Content-type": "application/json",
           "Authorization": `${pb.authStore.token} `,
         },
-        body: JSON.stringify(
-          {
-            h_id: house?.id,
-            concerns: selectConcerns
-          }
-        )
+        body: JSON.stringify({
+          h_id: house?.id,
+          concerns: selectConcerns
+        })
       })
 
-      // const data = res.json()
-      // console.log("data: ", data)
+      // console.log("res: ", res)
+      if (res?.code === 200) {
+        await getHomeData()
+        toast({
+          variant: "default",
+          title: "Success",
+          description: res?.message,
+        })
+      }
     } catch (e) {
       // console.log("e.data: ", e?.data)
+      // console.log("e: ", e)
       // @ts-expect-error fix types later
       const errData = e?.data
       if (errData?.error) {
