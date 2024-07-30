@@ -37,6 +37,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
   const [selectConcerns, setSelectConcerns] = useState<selectConcernsType[]>([])
   const [searchValue, setSearchValue] = useState("")
   const [imageError, setImageError] = useState(false)
+  const [callInProgress, setCallInProgress] = useState(false)
 
   const getConcerns = async () => {
     // NOTE: duplicated code. Good use for a custom hook
@@ -63,23 +64,6 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
     }
   }
 
-  const updatePendingCallConcerns = async () => {
-    setLoading(true)
-    // console.log("values: ", values)
-    try {
-      const updateHouseData = {
-        pending_call_concerns_ids: "",
-      }
-      const updatedHouse = await pb.collection("houses").update(house?.id, updateHouseData)
-      console.log("updatedHouse: ", updatedHouse)
-    } catch (e) {
-      // @ts-expect-error fix types later
-      console.log(e.data)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const callResident = async () => {
     try {
       const res = await pb.send(`/api/scms/call-resident`, {
@@ -96,7 +80,8 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
 
       // console.log("res: ", res)
       if (res?.code === 200) {
-        await getHomeData()
+        // await getHomeData()
+        setCallInProgress(true)
         toast({
           variant: "default",
           title: "Success",
@@ -118,6 +103,9 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
     } finally {
       await getHomeData()
       setOpenSheet(false)
+      setInterval(() => {
+        setCallInProgress(false)
+      }, 15000)
     }
   }
 
@@ -199,14 +187,15 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
           </>)
           }
 
-          {house?.phones.length === 0 || house?.pending_call_concerns_ids !== "" ? (<>
+          {house?.phones.length === 0 || house?.pending_call_concerns_ids !== "" || callInProgress ? (<>
             <Separator className="mt-6 border border-slate-200" />
             <div className="mt-4">
               <p className="text-sm underline text-slate-500">Notice:</p>
-              <div className="space-y-2 spce-x-2">
+              {/*<div className="space-y-2 spce-x-2">*/}
+              <div className="flex flex-row gap-2">
                 {house?.phones.length === 0 && <p className="text-sm text-orange-400 p-2 inline-block rounded-md bg-orange-100">Primary phone number missing</p>}
                 {house?.pending_call_concerns_ids && <p className="text-sm text-slate-500 p-2 inline-block rounded-md bg-sky-200 ml-2">Call pending</p>}
-                <p className="text-sm text-pink-500 p-2 inline-block rounded-md bg-pink-200 ml-2">Call in progress...</p>
+                {callInProgress && <p className="text-sm text-pink-500 p-2 inline-block rounded-md bg-pink-200 animate-pulse">Call in progress...</p>}
               </div>
             </div>
           </>) : ""}
