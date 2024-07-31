@@ -105,7 +105,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
       setOpenSheet(false)
       setInterval(() => {
         setCallInProgress(false)
-      }, 15000)
+      }, 20000)
     }
   }
 
