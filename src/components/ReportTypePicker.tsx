@@ -7,22 +7,26 @@ import {
 } from "@/components/ui/select"
 
 type CProps = {
+  label: string,
   setValue: React.Dispatch<React.SetStateAction<string>>,
 }
 
-const ReportTypePicker = ({ setValue }: CProps) => {
+const ReportTypePicker = ({ label, setValue }: CProps) => {
 
   return (
-    <Select onValueChange={(e) => setValue(e)}>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Theme" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="light">Something</SelectItem>
-        <SelectItem value="dark">Dark</SelectItem>
-        <SelectItem value="system">System</SelectItem>
-      </SelectContent>
-    </Select>
+    <>
+      <p>{label}</p>
+      <Select onValueChange={(e) => setValue(e)}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Theme" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="light">Something</SelectItem>
+          <SelectItem value="dark">Dark</SelectItem>
+          <SelectItem value="system">System</SelectItem>
+        </SelectContent>
+      </Select>
+    </>
   )
 }
 

@@ -19,10 +19,10 @@ const ReportPage = () => {
         <Button>Create report</Button>
       </div>
 
-      <div className="bg-red-50 mt-2 lg:flex lg:justify-center lg:gap-4">
+      <div className="bg-red-50 mt-2 lg:flex lg:justify-center lg:items-end lg:gap-4">
         <DatePicker label="From" date={fromDate} setDate={setFromDate} />
         <DatePicker label="To" date={toDate} setDate={setToDate} />
-        <ReportTypePicker setValue={setReportType} />
+        <ReportTypePicker lable="Report type" setValue={setReportType} />
       </div>
     </div>
   )
