@@ -14,8 +14,8 @@ type CProps = {
 const ReportTypePicker = ({ label, setValue }: CProps) => {
 
   return (
-    <>
-      <p>{label}</p>
+    <div>
+      <p>{label}:</p>
       <Select onValueChange={(e) => setValue(e)}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Theme" />
@@ -26,7 +26,7 @@ const ReportTypePicker = ({ label, setValue }: CProps) => {
           <SelectItem value="system">System</SelectItem>
         </SelectContent>
       </Select>
-    </>
+    </div>
   )
 }
 
