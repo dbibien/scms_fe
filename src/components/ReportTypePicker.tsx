@@ -8,16 +8,16 @@ import {
 
 type CProps = {
   label: string,
+  styles?: string,
   setValue: React.Dispatch<React.SetStateAction<string>>,
 }
 
-const ReportTypePicker = ({ label, setValue }: CProps) => {
-
+const ReportTypePicker = ({ label, styles = "", setValue }: CProps) => {
   return (
-    <div>
+    <div className={styles}>
       <p>{label}:</p>
       <Select onValueChange={(e) => setValue(e)}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-full">
           <SelectValue placeholder="Theme" />
         </SelectTrigger>
         <SelectContent>

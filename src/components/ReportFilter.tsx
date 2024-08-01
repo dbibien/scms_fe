@@ -24,7 +24,7 @@ const ReportFilter = () => {
       <PopoverContent>
         <DatePicker label="From" date={fromDate} setDate={setFromDate} />
         <DatePicker label="To" date={toDate} setDate={setToDate} />
-        <ReportTypePicker label="Report type" setValue={setReportType} />
+        <ReportTypePicker label="Report type" setValue={setReportType} styles="mt-2" />
       </PopoverContent>
     </Popover>
 
