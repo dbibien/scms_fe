@@ -2,7 +2,8 @@ import { useState } from "react"
 import DatePicker from "./DatePicker"
 import ReportTypePicker from "./ReportTypePicker"
 import { Filter } from "lucide-react"
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
+import { Popover } from "@radix-ui/react-popover"
+import { PopoverContent, PopoverTrigger } from "./ui/popover"
 
 const ReportFilter = () => {
   const [fromDate, setFromDate] = useState<Date | undefined>(undefined)
@@ -14,20 +15,18 @@ const ReportFilter = () => {
   console.log("reportType: ", reportType)
 
   return (
-    <Sheet>
-      <SheetTrigger className="flex flex-row gap-1 items-center">
+    <Popover>
+      <PopoverTrigger className="flex flex-row gap-1 items-center">
         <Filter />
         Filter
-      </SheetTrigger>
+      </PopoverTrigger>
 
-      <SheetContent side="bottom">
-        <div className="bg-red-50 mt-2 lg:flex lg:justify-center lg:items-end lg:gap-4">
-          <DatePicker label="From" date={fromDate} setDate={setFromDate} />
-          <DatePicker label="To" date={toDate} setDate={setToDate} />
-          <ReportTypePicker label="Report type" setValue={setReportType} />
-        </div>
-      </SheetContent>
-    </Sheet>
+      <PopoverContent>
+        <DatePicker label="From" date={fromDate} setDate={setFromDate} />
+        <DatePicker label="To" date={toDate} setDate={setToDate} />
+        <ReportTypePicker label="Report type" setValue={setReportType} />
+      </PopoverContent>
+    </Popover>
 
   )
 }

@@ -24,7 +24,7 @@ const DatePicker = ({ label, date, setDate }: CProps) => {
           <Button
             variant={"outline"}
             className={cn(
-              "w-full lg:w-[280px] justify-start text-left font-normal",
+              "w-full justify-start text-left font-normal",
               !date && "text-muted-foreground"
             )}
           >
