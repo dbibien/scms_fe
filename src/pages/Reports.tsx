@@ -23,7 +23,11 @@ const ReportPage = () => {
           />
         */}
 
-        <ScrollArea className="h-[40rem] mt-2">
+        <ScrollArea className="h-[80vh] mt-2">
+          <ReportCard />
+          <ReportCard />
+          <ReportCard />
+          <ReportCard />
           <ReportCard />
         </ScrollArea>
       </div>

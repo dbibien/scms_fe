@@ -11,7 +11,7 @@ const ReportCardText = ({ title, content }: { title: string, content: string }) 
 
 const ReportCard = () => {
   return (
-    <Card>
+    <Card className="mb-4">
       <CardHeader>
         <p className="text-right text-sm text-slate-400">Aug 12 2025 12:09hrs</p>
       </CardHeader>
