@@ -17,7 +17,7 @@ const ReportFilter = ({ setReports }: CProps) => {
   const [reportType, setReportType] = useState("")
 
   const getReports = () => {
-    // get all reports for the month
+    // query the backend for all reports for the month
     const today = new Date()
     const startDate = new Date(today.getFullYear(), today.getMonth())
     const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0)
