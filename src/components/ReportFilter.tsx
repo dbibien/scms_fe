@@ -30,7 +30,7 @@ const ReportFilter = ({ setReports }: CProps) => {
     try {
       const houseFields = `id, narative, type, weather, incident_time, phone_number, injury, ems_pbso,
                           expand.house.id, expand.house.address, expand.house.apt, expand.house.city, expand.house.city,
-                          expand.house.state, expand.house.zip, expand.house.member_number, expand.house.security_code
+                          expand.house.state, expand.house.zip, expand.house.member_number, expand.house.security_code,
                           expand.created_by.id, expand.created_by.first_name, expand.created_by.last_name`
       const resultList = await pb.collection("reports").getFullList({
         // filter: `created >= '${startDate}' && created <= '${endDate}'`
