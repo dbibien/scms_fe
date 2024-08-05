@@ -5,24 +5,45 @@ import { Filter } from "lucide-react"
 import { Popover } from "@radix-ui/react-popover"
 import { PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
+import { useApplicationStore } from "@/common/store"
 
 type CProps = {
   setReports: React.Dispatch<React.SetStateAction<undefined>>,
 }
 
 const ReportFilter = ({ setReports }: CProps) => {
+  const pb = useApplicationStore(state => state.pb)
+
   const [sheetOpen, setSheetOpen] = useState(false)
   const [fromDate, setFromDate] = useState<Date | undefined>(undefined)
   const [toDate, setToDate] = useState<Date | undefined>(undefined)
   const [reportType, setReportType] = useState("")
 
-  const getReports = () => {
+  const getReports = async () => {
     // query the backend for all reports for the month
     const today = new Date()
     const startDate = new Date(today.getFullYear(), today.getMonth())
     const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0)
     console.log("startDate: ", startDate)
     console.log("endStart: ", endDate)
+
+    try {
+      const houseFields = `id, narative, type, weather, incident_time, phone_number, injury, ems_pbso,
+                          expand.house.id, expand.house.address, expand.house.apt, expand.house.city, expand.house.city,
+                          expand.house.state, expand.house.zip, expand.house.member_number, expand.house.security_code
+                          expand.created_by.id, expand.created_by.first_name, expand.created_by.last_name`
+      const resultList = await pb.collection("reports").getFullList({
+        // filter: `created >= '${startDate}' && created <= '${endDate}'`
+        filter: `created <= '${endDate}'`,
+        fields: houseFields,
+        expand: "house, created_by",
+      })
+
+      console.log("resultList: ", resultList)
+
+    } catch (e) {
+      console.log("e: ", e)
+    }
   }
 
   const handleFilterReports = () => {
