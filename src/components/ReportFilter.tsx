@@ -23,10 +23,10 @@ const ReportFilter = ({ setReports }: CProps) => {
   const getReports = async () => {
     // query the backend for all reports for the month
     const today = new Date()
-    const startDate = new Date(today.getFullYear(), today.getMonth())
-    const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+    // const startDate = new Date(today.getFullYear(), today.getMonth())
+    const endOfMonthDate = new Date(today.getFullYear(), today.getMonth() + 1, 0)
     // console.log("startDate: ", startDate)
-    // console.log("endStart: ", endDate)
+    // console.log("endOfMonthDate : ", endOfMonthDate )
 
     try {
       const houseFields = `id, narative, type, weather, incident_time, phone_number, injury, ems_pbso,
@@ -35,13 +35,13 @@ const ReportFilter = ({ setReports }: CProps) => {
                           expand.created_by.id, expand.created_by.first_name, expand.created_by.last_name,
                           expand.resident.id, expand.resident.first_name, expand.resident.last_name`
       const resultList = await pb.collection("reports").getFullList({
-        // filter: `created >= '${startDate}' && created <= '${endDate}'`
-        filter: `created <= '${endDate}'`,
+        // filter: `created <= '${startDate}' && created >= '${endDate}'`,
+        filter: `created <= '${endOfMonthDate}'`,
         fields: houseFields,
         expand: "house, created_by, resident",
       })
 
-      console.log("resultList: ", resultList)
+      // console.log("resultList: ", resultList)
 
       const x: reportType[] = resultList?.map((result) => {
         return {
