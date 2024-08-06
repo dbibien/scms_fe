@@ -1,5 +1,6 @@
 import { reportType } from "@/common/types"
 import { Card, CardContent, CardHeader } from "./ui/card"
+import Note from "./Note"
 
 type CProps = {
   report: reportType,
@@ -40,7 +41,7 @@ const ReportCard = ({ report }: CProps) => {
 
         <div className="mt-4">
           <ReportCardText title="Narative" content="" />
-          <p>{report?.narative}</p>
+          <Note note={report?.narative} />
         </div>
       </CardContent>
     </Card>

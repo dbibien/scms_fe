@@ -19,7 +19,7 @@ import { concernType, houseType, selectConcernsType } from "@/common/types"
 import { useEffect, useState } from "react";
 import { toast } from "./ui/use-toast";
 import SplInput from "./SplInput";
-import HouseNote from "./HouseNote";
+import Note from "./HouseNote";
 
 type homeCardType = {
   house: houseType,
@@ -182,7 +182,8 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
           {house?.note && (<>
             <Separator className="mt-6 border border-slate-200" />
             <div className="mt-4">
-              <HouseNote note={house?.note} />
+              <p className="text-sm underline text-slate-500">Note:</p>
+              <Note note={house?.note} />
             </div>
           </>)
           }
