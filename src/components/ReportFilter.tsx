@@ -6,9 +6,10 @@ import { Popover } from "@radix-ui/react-popover"
 import { PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
 import { useApplicationStore } from "@/common/store"
+import { reportType } from "@/common/types"
 
 type CProps = {
-  setReports: React.Dispatch<React.SetStateAction<undefined>>,
+  setReports: React.Dispatch<React.SetStateAction<[] | reportType[]>>,
 }
 
 const ReportFilter = ({ setReports }: CProps) => {
@@ -24,8 +25,8 @@ const ReportFilter = ({ setReports }: CProps) => {
     const today = new Date()
     const startDate = new Date(today.getFullYear(), today.getMonth())
     const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0)
-    console.log("startDate: ", startDate)
-    console.log("endStart: ", endDate)
+    // console.log("startDate: ", startDate)
+    // console.log("endStart: ", endDate)
 
     try {
       const houseFields = `id, narative, type, weather, incident_time, phone_number, injury, ems_pbso,
@@ -39,9 +40,9 @@ const ReportFilter = ({ setReports }: CProps) => {
         expand: "house, created_by",
       })
 
-      // console.log("resultList: ", resultList)
+      console.log("resultList: ", resultList)
 
-      const x = resultList?.map(result => {
+      const x: reportType[] = resultList?.map((result) => {
         return {
           id: result?.id,
           address: `${result?.expand?.house?.address} ${result?.expand?.house?.apt} ${result?.expand?.house?.city} ${result?.expand?.house?.state} ${result?.expand?.house?.zip}`,
@@ -53,8 +54,8 @@ const ReportFilter = ({ setReports }: CProps) => {
           type: result?.type,
           phone_number: result?.phone_number,
           weather: result?.weather,
-          narative: result?.narative,
-          created_by: `${result?.expand?.createed_by?.first_name} {result?.expand?.createed_by?.last_name}`,
+          narative: result?.narative?.replace("<p>", "").replace("</p>"),
+          created_by: `${result?.expand?.created_by?.first_name} ${result?.expand?.created_by?.last_name}`,
         }
       })
       setReports(x)
@@ -72,9 +73,9 @@ const ReportFilter = ({ setReports }: CProps) => {
     getReports()
   }, [])
 
-  console.log("fromDate: ", fromDate)
-  console.log("toDate: ", toDate)
-  console.log("reportType: ", reportType)
+  // console.log("fromDate: ", fromDate)
+  // console.log("toDate: ", toDate)
+  // console.log("reportType: ", reportType)
 
   return (
     <Popover open={sheetOpen} onOpenChange={setSheetOpen}>

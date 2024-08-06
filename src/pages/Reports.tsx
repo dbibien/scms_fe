@@ -1,10 +1,13 @@
+import { reportType } from "@/common/types"
 import ReportCardList from "@/components/ReportCardList"
 import ReportFilter from "@/components/ReportFilter"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 
 const ReportPage = () => {
-  const [reports, setReports] = useState([])
+  const [reports, setReports] = useState<reportType[] | []>([])
+
+  console.log("reports: ", reports)
 
   return (
     <div>
@@ -25,7 +28,7 @@ const ReportPage = () => {
           />
         */}
 
-        <ReportCardList />
+        <ReportCardList reports={reports} />
       </div>
     </div>
   )

@@ -1,19 +1,17 @@
+import { reportType } from "@/common/types"
 import ReportCard from "./ReportCard"
 import { ScrollArea } from "./ui/scroll-area"
 
-const ReportCardList = () => {
+type CProps = {
+  reports: reportType[],
+}
+
+const ReportCardList = ({ reports }: CProps) => {
   return (
     <ScrollArea className="h-[80vh] mt-2">
-      <ReportCard />
-      <ReportCard />
-      <ReportCard />
-      <ReportCard />
-      <ReportCard />
-      <ReportCard />
-      <ReportCard />
-      <ReportCard />
-      <ReportCard />
-      <ReportCard />
+      {reports?.map(report => (
+        <ReportCard report={report} />
+      ))}
     </ScrollArea>
   )
 }

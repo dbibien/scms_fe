@@ -1,4 +1,9 @@
+import { reportType } from "@/common/types"
 import { Card, CardContent, CardHeader } from "./ui/card"
+
+type CProps = {
+  report: reportType,
+}
 
 const ReportCardText = ({ title, content }: { title: string, content: string }) => {
   return (
@@ -9,39 +14,35 @@ const ReportCardText = ({ title, content }: { title: string, content: string }) 
   )
 }
 
-const ReportCard = () => {
+const ReportCard = ({ report }: CProps) => {
   return (
     <Card className="mb-4">
       <CardHeader>
-        <p className="text-right text-sm text-slate-400">Aug 12 2025 12:09hrs</p>
+        <p className="text-right text-sm text-slate-400">{`${new Date(report.incident_time)}`}</p>
       </CardHeader>
 
       <CardContent>
         <div className="space-y-2">
-          <ReportCardText title="Officer" content="Bibien Dauphin" />
-          <ReportCardText title="Address" content="11117 Boca Wood Boca Raton, fl 44i879" />
-          <ReportCardText title="Type" content="Non-resident accident" />
-          <ReportCardText title="Weather" content="Rainny" />
+          <ReportCardText title="Officer" content={report?.created_by} />
+          <ReportCardText title="Address" content={report?.address} />
+          <ReportCardText title="Type" content={report?.type} />
+          <ReportCardText title="Weather" content={report?.weather} />
           <div className="lg:flex justify-between">
-            <ReportCardText title="Resident" content="John Doeylucid" />
-            <ReportCardText title="Phone" content="+19546703788" />
-            <ReportCardText title="Member #" content="2343" />
+            <ReportCardText title="Resident" content="Jk" />
+            <ReportCardText title="Phone" content={report?.phone_number} />
+            <ReportCardText title="Member #" content={report?.member_number} />
           </div>
           <div className="flex justify-between">
-            <ReportCardText title="Injury" content="Yes" />
-            <ReportCardText title="EMS/PBSO" content="No" />
+            <ReportCardText title="Injury" content={`${report?.injury ? "Yes" : "No"}`} />
+            <ReportCardText title="EMS/PBSO" content={`${report?.ems_pbso ? "Yes" : "No"}`} />
           </div>
         </div>
 
         <div className="mt-4">
           <ReportCardText title="Narative" content="" />
-          <p>
-            skjdseoinnsneianoilagj gj gjaig g joipwd g g joispai  gjoapgajg a
-            jsdksoidigpwiespijg sgjopaijg ag  gjopagea opgjpajga g
-          </p>
+          <p>{report?.narative}</p>
         </div>
       </CardContent>
-
     </Card>
   )
 }

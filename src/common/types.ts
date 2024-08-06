@@ -62,7 +62,7 @@ export type userType = {
   type: string,
 }
 
-export type reporttype = {
+export type reportType = {
   id: string,
   address: string,
   member_number: string,
