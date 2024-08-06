@@ -18,7 +18,7 @@ const ReportCard = ({ report }: CProps) => {
   return (
     <Card className="mb-4">
       <CardHeader>
-        <p className="text-right text-sm text-slate-400">{`${new Date(report.incident_time)}`}</p>
+        <p className="text-right text-sm text-slate-400">{`${new Date(report.incident_time).toLocaleString()}`}</p>
       </CardHeader>
 
       <CardContent>
