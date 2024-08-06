@@ -61,3 +61,18 @@ export type userType = {
   email: string,
   type: string,
 }
+
+export type reporttype = {
+  id: string,
+  address: string,
+  member_number: string,
+  security_code: string,
+  incident_time: string,
+  ems_pbso: boolean,
+  injury: boolean,
+  type: "garage_check" | "false_alarm",
+  phone_number: string,
+  weather: "clear" | "sunny" | "cloudy" | "rain",
+  narative: string,
+  created_by: string,
+}

@@ -1,12 +1,15 @@
 import ReportCardList from "@/components/ReportCardList"
 import ReportFilter from "@/components/ReportFilter"
 import { Button } from "@/components/ui/button"
+import { useState } from "react"
 
 const ReportPage = () => {
+  const [reports, setReports] = useState([])
+
   return (
     <div>
       <div className="flex justify-between">
-        <ReportFilter />
+        <ReportFilter setReports={setReports} />
         <Button>Create report</Button>
       </div>
 

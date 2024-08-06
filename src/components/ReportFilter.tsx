@@ -39,8 +39,25 @@ const ReportFilter = ({ setReports }: CProps) => {
         expand: "house, created_by",
       })
 
-      console.log("resultList: ", resultList)
+      // console.log("resultList: ", resultList)
 
+      const x = resultList?.map(result => {
+        return {
+          id: result?.id,
+          address: `${result?.expand?.house?.address} ${result?.expand?.house?.apt} ${result?.expand?.house?.city} ${result?.expand?.house?.state} ${result?.expand?.house?.zip}`,
+          member_number: result?.expand?.house?.member_number,
+          security_code: result?.expand?.house?.securty_code,
+          incident_time: result?.incident_time,
+          ems_pbso: result?.ems_pbso,
+          injury: result?.injury,
+          type: result?.type,
+          phone_number: result?.phone_number,
+          weather: result?.weather,
+          narative: result?.narative,
+          created_by: `${result?.expand?.createed_by?.first_name} {result?.expand?.createed_by?.last_name}`,
+        }
+      })
+      setReports(x)
     } catch (e) {
       console.log("e: ", e)
     }
