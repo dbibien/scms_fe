@@ -54,7 +54,7 @@ const ReportFilter = ({ setReports }: CProps) => {
           type: result?.type,
           phone_number: result?.phone_number,
           weather: result?.weather,
-          narative: result?.narative?.replace("<p>", "").replace("</p>"),
+          narative: result?.narative?.replace("<p>", "").replace("</p>", ""),
           // address: `${result?.expand?.house?.address} ${result?.expand?.house?.apt} ${result?.expand?.house?.city} ${result?.expand?.house?.state} ${result?.expand?.house?.zip}`,
           house: {
             id: result?.expand?.house?.id,
