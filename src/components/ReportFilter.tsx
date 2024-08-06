@@ -32,12 +32,13 @@ const ReportFilter = ({ setReports }: CProps) => {
       const houseFields = `id, narative, type, weather, incident_time, phone_number, injury, ems_pbso,
                           expand.house.id, expand.house.address, expand.house.apt, expand.house.city, expand.house.city,
                           expand.house.state, expand.house.zip, expand.house.member_number, expand.house.security_code,
-                          expand.created_by.id, expand.created_by.first_name, expand.created_by.last_name`
+                          expand.created_by.id, expand.created_by.first_name, expand.created_by.last_name,
+                          expand.resident.id, expand.resident.first_name, expand.resident.last_name`
       const resultList = await pb.collection("reports").getFullList({
         // filter: `created >= '${startDate}' && created <= '${endDate}'`
         filter: `created <= '${endDate}'`,
         fields: houseFields,
-        expand: "house, created_by",
+        expand: "house, created_by, resident",
       })
 
       console.log("resultList: ", resultList)
@@ -45,7 +46,6 @@ const ReportFilter = ({ setReports }: CProps) => {
       const x: reportType[] = resultList?.map((result) => {
         return {
           id: result?.id,
-          address: `${result?.expand?.house?.address} ${result?.expand?.house?.apt} ${result?.expand?.house?.city} ${result?.expand?.house?.state} ${result?.expand?.house?.zip}`,
           member_number: result?.expand?.house?.member_number,
           security_code: result?.expand?.house?.securty_code,
           incident_time: result?.incident_time,
@@ -55,7 +55,26 @@ const ReportFilter = ({ setReports }: CProps) => {
           phone_number: result?.phone_number,
           weather: result?.weather,
           narative: result?.narative?.replace("<p>", "").replace("</p>"),
-          created_by: `${result?.expand?.created_by?.first_name} ${result?.expand?.created_by?.last_name}`,
+          // address: `${result?.expand?.house?.address} ${result?.expand?.house?.apt} ${result?.expand?.house?.city} ${result?.expand?.house?.state} ${result?.expand?.house?.zip}`,
+          house: {
+            id: result?.expand?.house?.id,
+            address: result?.expand?.house?.address,
+            apt: result?.expand?.house?.apt,
+            city: result?.expand?.house?.city,
+            state: result?.expand?.house?.state,
+            zip: result?.expand?.house?.zip,
+          },
+          resident: {
+            id: result?.expand?.resident?.id,
+            first_name: result?.expand?.resident?.first_name,
+            last_name: result?.expand?.resident?.last_name,
+          },
+          created_by: {
+            id: result?.expand?.created_by?.id,
+            first_name: result?.expand?.created_by?.first_name,
+            last_name: result?.expand?.created_by?.last_name,
+          },
+          // created_by: `${result?.expand?.created_by?.first_name} ${result?.expand?.created_by?.last_name}`,
         }
       })
       setReports(x)

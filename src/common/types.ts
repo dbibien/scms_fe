@@ -64,7 +64,7 @@ export type userType = {
 
 export type reportType = {
   id: string,
-  address: string,
+  // address: string,
   member_number: string,
   security_code: string,
   incident_time: string,
@@ -74,5 +74,23 @@ export type reportType = {
   phone_number: string,
   weather: "clear" | "sunny" | "cloudy" | "rain",
   narative: string,
-  created_by: string,
+  // created_by: string,
+  house: {
+    id: string,
+    address: string,
+    apt: string,
+    city: string,
+    state: string,
+    zip: string,
+  },
+  resident: {
+    id: string,
+    first_name: string,
+    last_name: string,
+  },
+  created_by: {
+    id: string,
+    first_name: string,
+    last_name: string,
+  },
 }
