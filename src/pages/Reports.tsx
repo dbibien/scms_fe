@@ -7,7 +7,7 @@ import { useState } from "react"
 const ReportPage = () => {
   const [reports, setReports] = useState<reportType[] | []>([])
 
-  console.log("reports: ", reports)
+  // console.log("reports: ", reports)
 
   return (
     <div>
