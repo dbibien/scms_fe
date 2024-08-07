@@ -6,7 +6,6 @@ import {
   CardHeader,
 } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@radix-ui/react-separator"
 import { Phone, PhoneCall, Ban } from 'lucide-react'
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import CheckBox from "@/components/CheckBox"
@@ -20,6 +19,7 @@ import { useEffect, useState } from "react";
 import { toast } from "./ui/use-toast";
 import SplInput from "./SplInput";
 import Note from "./Note";
+import { Separator } from "./ui/separator";
 
 type homeCardType = {
   house: houseType,
