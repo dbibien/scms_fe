@@ -30,8 +30,8 @@ const REPORT_TYPES = [
   },
   {
     id: 4,
-    value: "ems_respond",
-    label: "EMS respond",
+    value: "ems_response",
+    label: "EMS response",
   },
   {
     id: 5,
@@ -60,8 +60,8 @@ const REPORT_TYPES = [
   },
   {
     id: 10,
-    value: "vehicle_tailgaiting",
-    label: "Vehicle tailgating",
+    value: "vehicle_tailgaite",
+    label: "Vehicle tailgate",
   },
   {
     id: 11,
