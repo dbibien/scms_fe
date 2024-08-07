@@ -117,7 +117,6 @@ const ReportFilter = ({ setReports }: CProps) => {
         </Button>
       </PopoverContent>
     </Popover>
-
   )
 }
 
