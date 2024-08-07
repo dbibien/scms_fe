@@ -133,7 +133,7 @@ const ReportFilter = ({ setReports }: CProps) => {
         <DatePicker label="To" date={toDate} setDate={setToDate} />
         <ReportTypePicker label="Report type" setValue={setReportType} styles="mt-2" />
         <Button
-          className="mt-4 w-full flex gap-2"
+          className="mt-6 w-full flex gap-2"
           onClick={handleFilterReports}
         >
           <Filter />
