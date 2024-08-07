@@ -45,21 +45,26 @@ const REPORT_TYPES = [
   },
   {
     id: 7,
+    value: "open_garage_door",
+    label: "Open garage door",
+  },
+  {
+    id: 8,
     value: "unauthorized_entry",
     label: "Unauthorized entry",
   },
   {
-    id: 8,
+    id: 9,
     value: "vehicle_damage",
     label: "Vehicle damage",
   },
   {
-    id: 9,
+    id: 10,
     value: "vehicle_tailgaiting",
     label: "Vehicle tailgating",
   },
   {
-    id: 10,
+    id: 11,
     value: "youths_fishing",
     label: "Youths fishing",
   },
@@ -71,7 +76,7 @@ const ReportTypePicker = ({ label, styles = "", setValue }: CProps) => {
       <p>{label}:</p>
       <Select onValueChange={(e) => setValue(e)}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select type" />
+          <SelectValue defaultValue="" placeholder="Select type" />
         </SelectTrigger>
         <SelectContent>
           {REPORT_TYPES.map(type => (
