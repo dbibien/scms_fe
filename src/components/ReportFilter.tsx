@@ -75,6 +75,8 @@ const ReportFilter = ({ setReports }: CProps) => {
       setReports(x)
     } catch (e) {
       console.log("e: ", e)
+    } finally {
+      setReportType("")
     }
   }
 
