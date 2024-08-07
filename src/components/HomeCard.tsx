@@ -19,7 +19,7 @@ import { concernType, houseType, selectConcernsType } from "@/common/types"
 import { useEffect, useState } from "react";
 import { toast } from "./ui/use-toast";
 import SplInput from "./SplInput";
-import Note from "./HouseNote";
+import Note from "./Note";
 
 type homeCardType = {
   house: houseType,
