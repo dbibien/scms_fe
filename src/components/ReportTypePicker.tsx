@@ -12,18 +12,71 @@ type CProps = {
   setValue: React.Dispatch<React.SetStateAction<string>>,
 }
 
+const REPORT_TYPES = [
+  {
+    id: 1,
+    value: "accident",
+    label: "Accident",
+  },
+  {
+    id: 2,
+    value: "assist_ems",
+    label: "Assist EMS",
+  },
+  {
+    id: 3,
+    value: "damaged_mailbox",
+    label: "Damaged mailbox",
+  },
+  {
+    id: 4,
+    value: "ems_respond",
+    label: "EMS respond",
+  },
+  {
+    id: 5,
+    value: "false_alarm",
+    label: "False alarm",
+  },
+  {
+    id: 6,
+    value: "loud_noise",
+    label: "Loud noise",
+  },
+  {
+    id: 7,
+    value: "unauthorized_entry",
+    label: "Unauthorized entry",
+  },
+  {
+    id: 8,
+    value: "vehicle_damage",
+    label: "Vehicle damage",
+  },
+  {
+    id: 9,
+    value: "vehicle_tailgaiting",
+    label: "Vehicle tailgating",
+  },
+  {
+    id: 10,
+    value: "youths_fishing",
+    label: "Youths fishing",
+  },
+]
+
 const ReportTypePicker = ({ label, styles = "", setValue }: CProps) => {
   return (
     <div className={styles}>
       <p>{label}:</p>
       <Select onValueChange={(e) => setValue(e)}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Theme" />
+          <SelectValue placeholder="Select type" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="light">Something</SelectItem>
-          <SelectItem value="dark">Dark</SelectItem>
-          <SelectItem value="system">System</SelectItem>
+          {REPORT_TYPES.map(type => (
+            <SelectItem key={type.id} value={type.value}>{type.label}</SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>
