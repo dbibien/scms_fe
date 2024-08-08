@@ -1,5 +1,6 @@
 import { useApplicationStore, useCommunityStore } from "@/common/store"
 import { userType } from "@/common/types"
+import NoResultFound from "@/components/NoResultsFound"
 import PageInfoBar from "@/components/PageInfoBar"
 import SplInput from "@/components/SplInput"
 import UserCard from "@/components/UserCard"
@@ -98,10 +99,7 @@ const UsersPage = () => {
 
       {filteredUsers.length < 1 && (
         <>
-          <div className="bg-amber-100 md:max-w-[50%] m-auto mt-4 p-4 rounded-md">
-            <Info color="orange" />
-            <p className="text-center">No users found</p>
-          </div>
+          <NoResultFound message="No user found" />
         </>
       )}
 

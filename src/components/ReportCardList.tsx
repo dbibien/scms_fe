@@ -2,6 +2,7 @@ import { reportType } from "@/common/types"
 import ReportCard from "./ReportCard"
 import { ScrollArea } from "./ui/scroll-area"
 import { useEffect, useState } from "react"
+import NoResultFound from "./NoResultsFound"
 // import { useEffect, useState } from "react"
 
 type CProps = {
@@ -30,7 +31,6 @@ const ReportCardList = ({ reports, searchValue, setSearchResultLength }: CProps)
     return result
   }
 
-
   useEffect(() => {
     const filteredResults = filterReports()
     setSearchResult(filteredResults)
@@ -39,11 +39,13 @@ const ReportCardList = ({ reports, searchValue, setSearchResultLength }: CProps)
 
   return (
     <>
-      <ScrollArea className="h-[80vh] mt-2">
-        {searchResult?.map(report => (
-          <ReportCard report={report} />
-        ))}
-      </ScrollArea>
+      {searchResult.length === 0 ? <NoResultFound message="No user found" /> : (
+        <ScrollArea className="h-[80vh] mt-2">
+          {searchResult?.map(report => (
+            <ReportCard report={report} />
+          ))}
+        </ScrollArea>
+      )}
     </>
   )
 }
