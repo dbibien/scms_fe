@@ -30,7 +30,7 @@ const ReportFilter = ({ setReports, setLoading }: CProps) => {
                           expand.house.state, expand.house.zip, expand.house.member_number, expand.house.security_code,
                           expand.created_by.id, expand.created_by.first_name, expand.created_by.last_name,
                           expand.resident.id, expand.resident.first_name, expand.resident.last_name`
-      const resultList = await pb.collection("reports").getFullList({
+      const resultList = await pb.collection("report").getFullList({
         // filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`,
         filter: `(created  >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `&& type = "${reportType}"` : ""}`,
         // filter: `(created >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`,
@@ -76,7 +76,31 @@ const ReportFilter = ({ setReports, setLoading }: CProps) => {
       })
       setReports(x)
     } catch (e) {
-      console.log("e: ", e)
+      // console.log("e: ", e)
+
+      // @ts-expect-error fix types later
+      const errData = e?.data
+      let errMessage = "An error occured while retrieving reports"
+      if (errData?.code === 404) {
+        errMessage = errData?.message
+        toast({
+          variant: "destructive",
+          title: "Failure",
+          description: errMessage,
+        })
+      } else if (errData?.code === 400) {
+        toast({
+          variant: "destructive",
+          title: "Failure",
+          description: errData?.message,
+        })
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Failure",
+          description: errMessage,
+        })
+      }
     } finally {
       setReportType("")
       setLoading(false)
