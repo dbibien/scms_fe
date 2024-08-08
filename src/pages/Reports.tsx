@@ -1,4 +1,5 @@
 import { reportType } from "@/common/types"
+import PageInfoBar from "@/components/PageInfoBar"
 import ReportCardList from "@/components/ReportCardList"
 import ReportFilter from "@/components/ReportFilter"
 import SplInput from "@/components/SplInput"
@@ -9,9 +10,6 @@ const ReportPage = () => {
   const [reports, setReports] = useState<reportType[] | []>([])
   const [searchReportValue, setSearchReportValue] = useState("")
   const [searchResultLength, setSearchResultLength] = useState<number>(0)
-
-  // console.log("searchReportValue: ", searchReportValue)
-  console.log("searchResultLength:  ", searchResultLength)
 
   return (
     <div>
@@ -30,9 +28,15 @@ const ReportPage = () => {
           styles="pt-5 pb-5 text-lg"
         />
 
+        <PageInfoBar
+          resultLength={searchResultLength}
+          resultType=" report(s)"
+          component={<></>}
+        />
+
         <ReportCardList reports={reports} searchValue={searchReportValue} setSearchResultLength={setSearchResultLength} />
       </div>
-    </div>
+    </div >
   )
 }
 
