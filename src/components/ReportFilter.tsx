@@ -11,6 +11,7 @@ import { toast } from "./ui/use-toast"
 
 type CProps = {
   setReports: React.Dispatch<React.SetStateAction<[] | reportType[]>>,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 const ReportFilter = ({ setReports }: CProps) => {

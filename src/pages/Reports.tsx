@@ -10,11 +10,12 @@ const ReportPage = () => {
   const [reports, setReports] = useState<reportType[] | []>([])
   const [searchReportValue, setSearchReportValue] = useState("")
   const [searchResultLength, setSearchResultLength] = useState<number>(0)
+  const [loading, setLoading] = useState(false)
 
   return (
     <div>
       <div className="flex justify-between mb-2">
-        <ReportFilter setReports={setReports} />
+        <ReportFilter setReports={setReports} setLoading={setLoading} />
         <Button>Create report</Button>
       </div>
 
@@ -34,7 +35,12 @@ const ReportPage = () => {
           component={<></>}
         />
 
-        <ReportCardList reports={reports} searchValue={searchReportValue} setSearchResultLength={setSearchResultLength} />
+        <ReportCardList
+          reports={reports}
+          searchValue={searchReportValue}
+          setSearchResultLength={setSearchResultLength}
+          loading={loading}
+        />
       </div>
     </div >
   )

@@ -3,15 +3,17 @@ import ReportCard from "./ReportCard"
 import { ScrollArea } from "./ui/scroll-area"
 import { useEffect, useState } from "react"
 import NoResultFound from "./NoResultsFound"
+import Spinner from "./Spinner"
 // import { useEffect, useState } from "react"
 
 type CProps = {
+  loading: boolean,
   reports: reportType[],
   searchValue: string,
   setSearchResultLength: React.Dispatch<React.SetStateAction<number>>,
 }
 
-const ReportCardList = ({ reports, searchValue, setSearchResultLength }: CProps) => {
+const ReportCardList = ({ reports, searchValue, loading, setSearchResultLength }: CProps) => {
   const [searchResult, setSearchResult] = useState(() => (reports))
 
   const filterReports = () => {
@@ -39,13 +41,14 @@ const ReportCardList = ({ reports, searchValue, setSearchResultLength }: CProps)
 
   return (
     <>
-      {searchResult.length === 0 ? <NoResultFound message="No reports found" /> : (
-        <ScrollArea className="h-[80vh] mt-2">
-          {searchResult?.map(report => (
-            <ReportCard report={report} />
-          ))}
-        </ScrollArea>
-      )}
+      {loading ? <Spinner /> :
+        searchResult.length === 0 ? <NoResultFound message="No reports found" /> : (
+          <ScrollArea className="h-[80vh] mt-2">
+            {searchResult?.map(report => (
+              <ReportCard report={report} />
+            ))}
+          </ScrollArea>
+        )}
     </>
   )
 }
