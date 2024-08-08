@@ -1,5 +1,5 @@
 // import SInput from "@/components/SInput"
-import { Info } from 'lucide-react'
+// import { Info } from 'lucide-react'
 // import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
 import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
