@@ -1,18 +1,50 @@
 import { reportType } from "@/common/types"
 import ReportCard from "./ReportCard"
 import { ScrollArea } from "./ui/scroll-area"
+import { useEffect, useState } from "react"
+// import { useEffect, useState } from "react"
 
 type CProps = {
   reports: reportType[],
+  searchValue: string,
+  setSearchResultLength: React.Dispatch<React.SetStateAction<number>>,
 }
 
-const ReportCardList = ({ reports }: CProps) => {
+const ReportCardList = ({ reports, searchValue, setSearchResultLength }: CProps) => {
+  const [searchResult, setSearchResult] = useState(() => (reports))
+
+  const filterReports = () => {
+    const result = reports.filter(report => {
+      if (searchValue === "") return report
+      if (report.house.address.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report.house.apt.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report.house.city.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report.house.state.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report.house.zip.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report.type.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report.resident.first_name.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report.resident.last_name.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report.member_number.toLowerCase().includes(searchValue.toLowerCase())
+      ) return report
+    })
+    return result
+  }
+
+
+  useEffect(() => {
+    const filteredResults = filterReports()
+    setSearchResult(filteredResults)
+    setSearchResultLength(filteredResults.length)
+  }, [searchValue, reports])
+
   return (
-    <ScrollArea className="h-[80vh] mt-2">
-      {reports?.map(report => (
-        <ReportCard report={report} />
-      ))}
-    </ScrollArea>
+    <>
+      <ScrollArea className="h-[80vh] mt-2">
+        {searchResult?.map(report => (
+          <ReportCard report={report} />
+        ))}
+      </ScrollArea>
+    </>
   )
 }
 
