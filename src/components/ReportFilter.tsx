@@ -12,9 +12,10 @@ import { toast } from "./ui/use-toast"
 type CProps = {
   setReports: React.Dispatch<React.SetStateAction<[] | reportType[]>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-const ReportFilter = ({ setReports, setLoading }: CProps) => {
+const ReportFilter = ({ setReports, setLoading, setIsFiltered }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
 
   const [sheetOpen, setSheetOpen] = useState(false)
@@ -30,7 +31,7 @@ const ReportFilter = ({ setReports, setLoading }: CProps) => {
                           expand.house.state, expand.house.zip, expand.house.member_number, expand.house.security_code,
                           expand.created_by.id, expand.created_by.first_name, expand.created_by.last_name,
                           expand.resident.id, expand.resident.first_name, expand.resident.last_name`
-      const resultList = await pb.collection("report").getFullList({
+      const resultList = await pb.collection("reports").getFullList({
         // filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`,
         filter: `(created  >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `&& type = "${reportType}"` : ""}`,
         // filter: `(created >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`,
@@ -123,6 +124,7 @@ const ReportFilter = ({ setReports, setLoading }: CProps) => {
       new Date(toDate?.getFullYear(), toDate?.getMonth(), toDate?.getDate() - 1, 23, 59, 59, 59)
     )
     setSheetOpen(false)
+    setIsFiltered(true)
   }
 
   useEffect(() => {
