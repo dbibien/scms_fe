@@ -39,7 +39,7 @@ const ReportCardList = ({ reports, searchValue, setSearchResultLength }: CProps)
 
   return (
     <>
-      {searchResult.length === 0 ? <NoResultFound message="No user found" /> : (
+      {searchResult.length === 0 ? <NoResultFound message="No reports found" /> : (
         <ScrollArea className="h-[80vh] mt-2">
           {searchResult?.map(report => (
             <ReportCard report={report} />
