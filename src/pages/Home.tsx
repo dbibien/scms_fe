@@ -9,6 +9,7 @@ import { toast } from "@/components/ui/use-toast"
 import PageInfoBar from "@/components/PageInfoBar"
 import HomeCreate from "@/components/HomeCreate"
 import HomeCard from "@/components/HomeCard";
+import NoResultFound from '@/components/NoResultsFound'
 
 const HomePage = () => {
   const pb = useApplicationStore(state => state.pb)
@@ -141,10 +142,7 @@ const HomePage = () => {
 
       {filteredHouses.length < 1 && (
         <>
-          <div className="bg-amber-100 md:max-w-[50%] m-auto mt-4 p-4 rounded-md">
-            <Info color="orange" />
-            <p className="text-center">No homes found</p>
-          </div>
+          <NoResultFound message='No homes found' />
 
           <div className="mt-4 flex flex-row justify-center">
             <HomeCreate

@@ -8,6 +8,7 @@ import { toast } from "@/components/ui/use-toast"
 import { useNavigate } from "react-router-dom"
 import ConcernCardCreate from "@/components/concernCardCreate"
 import PageInfoBar from "@/components/PageInfoBar"
+import NoResultFound from "@/components/NoResultsFound"
 
 const ConcernsPage = () => {
   // STORE
@@ -102,7 +103,7 @@ const ConcernsPage = () => {
       />
 
       {filteredConcerns?.length === 0 && (
-        <p className="text-center mt-4 text-gray-400">No concerns</p>
+        <NoResultFound message='No concerns found' />
       )}
 
       <ScrollArea className="h-[80vh] mt-4 pb-8">
