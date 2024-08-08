@@ -10,7 +10,7 @@ const ReportPage = () => {
   const [reports, setReports] = useState<reportType[] | []>([])
   const [searchReportValue, setSearchReportValue] = useState("")
   const [searchResultLength, setSearchResultLength] = useState<number>(0)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   return (
     <div>

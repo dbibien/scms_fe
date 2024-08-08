@@ -14,7 +14,7 @@ type CProps = {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-const ReportFilter = ({ setReports }: CProps) => {
+const ReportFilter = ({ setReports, setLoading }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
 
   const [sheetOpen, setSheetOpen] = useState(false)
@@ -23,6 +23,7 @@ const ReportFilter = ({ setReports }: CProps) => {
   const [reportType, setReportType] = useState("")
 
   const getReports = async (startDate: Date, endDate: Date) => {
+    setLoading(true)
     try {
       const houseFields = `id, narative, type, weather, incident_time, phone_number, injury, ems_pbso,
                           expand.house.id, expand.house.address, expand.house.apt, expand.house.city, expand.house.city,
@@ -78,6 +79,7 @@ const ReportFilter = ({ setReports }: CProps) => {
       console.log("e: ", e)
     } finally {
       setReportType("")
+      setLoading(false)
     }
   }
 

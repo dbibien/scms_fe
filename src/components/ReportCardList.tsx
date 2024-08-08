@@ -41,14 +41,20 @@ const ReportCardList = ({ reports, searchValue, loading, setSearchResultLength }
 
   return (
     <>
-      {loading ? <Spinner /> :
-        searchResult.length === 0 ? <NoResultFound message="No reports found" /> : (
-          <ScrollArea className="h-[80vh] mt-2">
-            {searchResult?.map(report => (
-              <ReportCard report={report} />
-            ))}
-          </ScrollArea>
-        )}
+      {loading ? (
+        <div className="flex justify-center items-center h-[50vh]">
+          <Spinner color="black" />
+
+        </div>
+      ) : searchResult.length === 0 ? (
+        <NoResultFound message="No reports found" />
+      ) : (
+        <ScrollArea className="h-[80vh] mt-2">
+          {searchResult?.map(report => (
+            <ReportCard report={report} />
+          ))}
+        </ScrollArea>
+      )}
     </>
   )
 }
