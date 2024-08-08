@@ -10,12 +10,13 @@ import { reportType } from "@/common/types"
 import { toast } from "./ui/use-toast"
 
 type CProps = {
+  isFiltered: boolean,
   setReports: React.Dispatch<React.SetStateAction<[] | reportType[]>>,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-const ReportFilter = ({ setReports, setLoading, setIsFiltered }: CProps) => {
+const ReportFilter = ({ isFiltered, setReports, setLoading, setIsFiltered }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
 
   const [sheetOpen, setSheetOpen] = useState(false)
@@ -131,20 +132,23 @@ const ReportFilter = ({ setReports, setLoading, setIsFiltered }: CProps) => {
     // query the backend for all reports for the month.
     // NOTE: due to timezone differences, I am querying the backend from the prev month at 12am to the next month at 11:59p
 
-    const today = new Date()
-    const startDate = new Date(today.getFullYear(), today.getMonth())
-    const endOfMonthDate = new Date(today.getFullYear(), today.getMonth() + 1, -1)
-    // console.log("startDate: ", startDate.toISOString())
-    // console.log("endOfMonthDate : ", endOfMonthDate)
+    if (!isFiltered) { // this condition ensure the code queries for all of the report of the current month only on the first render and when the user have cleared a previous filter
+      const today = new Date()
+      const startDate = new Date(today.getFullYear(), today.getMonth())
+      const endOfMonthDate = new Date(today.getFullYear(), today.getMonth() + 1, -1)
+      // console.log("startDate: ", startDate.toISOString())
+      // console.log("endOfMonthDate : ", endOfMonthDate)
 
-    // setting the dates so the user can visually see they are filtering for reports from the 1st to the end of the month
-    setFromDate(startDate)
-    setToDate(endOfMonthDate)
+      // setting the dates so the user can visually see they are filtering for reports from the 1st to the end of the month
+      setFromDate(startDate)
+      setToDate(endOfMonthDate)
 
-    getReports( // passing in the modified dates to the function that will send the request to the backend
-      new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() - 1, 0, 0, 0, 0),
-      new Date(today.getFullYear(), today.getMonth() + 1, -1, 23, 59, 59, 59))
-  }, [])
+      getReports( // passing in the modified dates to the function that will send the request to the backend
+        new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() - 1, 0, 0, 0, 0),
+        new Date(today.getFullYear(), today.getMonth() + 1, -1, 23, 59, 59, 59)
+      )
+    }
+  }, [isFiltered])
 
   // console.log("fromDate: ", fromDate)
   // console.log("toDate: ", toDate)
