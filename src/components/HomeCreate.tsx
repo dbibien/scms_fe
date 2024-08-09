@@ -132,7 +132,6 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
       //   })
       // }
 
-      await getHomeData()
       form.reset({
         address: "",
         apt: "",
@@ -174,6 +173,7 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
         }
       }
     } finally {
+      await getHomeData()
       setLoading(false)
     }
   }
