@@ -27,9 +27,7 @@ function App() {
 
 export default App
 
-
 const Layout = () => {
-
   // <div className='ml-1 mr-1'>
   return (
     <>
@@ -44,9 +42,6 @@ const Layout = () => {
 
 const PrivateRoutes = () => {
   const pb = useApplicationStore(state => state.pb)
-
-  console.log("authStore.isValid: ", pb.authStore.isValid);
-  console.log("authStore.token: ", pb.authStore.token);
 
   const auth = pb.authStore.isValid
   return auth ? <Layout /> : <Navigate to="/login" />
