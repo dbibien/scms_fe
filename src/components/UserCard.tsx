@@ -20,7 +20,7 @@ const UserCard = ({ user, getUsersData }: CProps) => {
         <CardHeader className="flex flex-row justify-center">
           <img
             // src={imageError ? "src/assets/homeDefault.jpg" : `${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${house?.id}/${house?.image}`}
-            src="src/assets/defaultAvatar.png"
+            src="/assets/defaultAvatar.png"
             alt="Default user avatar"
             width="30%"
             // height="auto"

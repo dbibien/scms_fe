@@ -148,7 +148,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
     <Card className="mb-8 lg:grid lg:grid-cols-[2fr_2fr_2fr]">
       <CardHeader className="p-0 bg-black flex flex-row items-center">
         <img
-          src={imageError ? "src/assets/homeDefault.jpg" : `${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${house?.id}/${house?.image}`}
+          src={imageError ? "/assets/homeDefault.jpg" : `${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${house?.id}/${house?.image}`}
           width="100%"
           height="auto"
           onError={() => setImageError(true)}
