@@ -106,7 +106,7 @@ const ConcernsPage = () => {
         <NoResultFound message='No concerns found' />
       )}
 
-      <ScrollArea className="h-[80vh] mt-4 pb-8">
+      <ScrollArea className="h-[73vh] lg:h-[80vh] mt-4 pb-8">
         {filteredConcerns?.map(concern => (
           <ConcernCard
             key={concern?.id}
