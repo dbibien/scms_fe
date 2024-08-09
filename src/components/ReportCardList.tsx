@@ -49,7 +49,7 @@ const ReportCardList = ({ reports, searchValue, loading, setSearchResultLength }
       ) : searchResult.length === 0 ? (
         <NoResultFound message="No reports found" />
       ) : (
-        <ScrollArea className="h-[80vh] mt-2">
+        <ScrollArea className="h-[73vh] mt-2">
           {searchResult?.map(report => (
             <ReportCard report={report} />
           ))}
