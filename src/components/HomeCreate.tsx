@@ -123,14 +123,14 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
         await pb.collection("phones").create(phoneData)
       }
 
-      if (values?.report) {
-        await pb.collection("reports").create({
-          note: values?.report,
-          created_by: loggedInUserId,
-          // type: ""  TODO: figure out what to do about the type field
-          house: createdHouse?.id,
-        })
-      }
+      // if (values?.report) {
+      //   await pb.collection("reports").create({
+      //     note: values?.report,
+      //     created_by: loggedInUserId,
+      //     // type: ""  TODO: figure out what to do about the type field
+      //     house: createdHouse?.id,
+      //   })
+      // }
 
       await getHomeData()
       form.reset({
