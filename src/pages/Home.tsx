@@ -154,7 +154,7 @@ const HomePage = () => {
         </>
       )}
 
-      <div className="mt-4 pb-40 h-[100vh] overflow-hidden overflow-y-auto">
+      <div className="mt-4 h-[73vh] overflow-hidden overflow-y-auto">
         {filteredHouses?.map((house: houseType) => {
           return <HomeCard
             key={house?.id}
