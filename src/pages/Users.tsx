@@ -10,7 +10,6 @@ import { toast } from "@/components/ui/use-toast"
 // import { Info } from "lucide-react"
 import { useEffect, useState } from "react"
 
-
 const UsersPage = () => {
   const pb = useApplicationStore(state => state.pb)
   const communityId = useCommunityStore(state => state.community.id)
@@ -52,7 +51,6 @@ const UsersPage = () => {
       }
     }
   }
-
 
   const filterUsersBySearchedValue = (user: userType) => {
     const searchedValueLowerCase = searchUserValue.toLowerCase()
@@ -103,7 +101,7 @@ const UsersPage = () => {
         </>
       )}
 
-      <ScrollArea className="h-[80vh]">
+      <ScrollArea className="h-[70vh]">
         <div className="space-y-4 mt-4 lg:grid lg:grid-cols-4 lg:gap-4 lg:space-y-0">
           {filteredUsers?.map(user => (
             <UserCard key={user?.id} user={user} getUsersData={getUsersData} />

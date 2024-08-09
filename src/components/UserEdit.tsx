@@ -97,7 +97,7 @@ const UserEdit = ({ user, getUsersData }: CProps) => {
   return (
     <Sheet open={openSheet} onOpenChange={setOpenSheet}>
       <SheetTrigger>
-        <Pencil />
+        <Pencil className="text-slate-500 hover:text-black" />
       </SheetTrigger>
 
       <SheetContent side="bottom">

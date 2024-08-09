@@ -22,7 +22,7 @@ const UserCard = ({ user, getUsersData }: CProps) => {
             // src={imageError ? "src/assets/homeDefault.jpg" : `${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${house?.id}/${house?.image}`}
             src="src/assets/defaultAvatar.png"
             alt="Default user avatar"
-            width="50%"
+            width="30%"
             // height="auto"
             // onError={() => setImageError(true)}
             className="object-cover"
