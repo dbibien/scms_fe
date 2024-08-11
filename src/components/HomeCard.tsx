@@ -244,7 +244,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
                   <p className="text-center text-slate-400">Loading concerns...</p>
                 </>
               ) : (
-                <ScrollArea className="max-h-80 pl-2 pr-2 bg-slate-50">
+                <ScrollArea className="max-h-56 pl-2 pr-2 bg-slate-50">
                   {
                     concerns.filter(handleSearchConcerns).map(concern => (
                       <div key={concern?.id} className="mt-4">
