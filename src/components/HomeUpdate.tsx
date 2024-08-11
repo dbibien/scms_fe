@@ -236,7 +236,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
 
-              <ScrollArea className="h-[70vh]">
+              <ScrollArea className="h-[55vh]">
                 <p className="text-md font-bold mb-2">Home</p>
 
                 <FormField
