@@ -86,7 +86,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <div className="bg-black h-[40vh] flex justify-center items-end">
+      <div className="bg-black h-[20vh] flex justify-center items-end">
         <p className="text-white text-3xl font-bold">SCMS</p>
       </div>
 
