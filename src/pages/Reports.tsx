@@ -1,9 +1,9 @@
 import { reportType } from "@/common/types"
 import PageInfoBar from "@/components/PageInfoBar"
 import ReportCardList from "@/components/ReportCardList"
+import ReportCreate from "@/components/ReportCreate"
 import ReportFilter from "@/components/ReportFilter"
 import SplInput from "@/components/SplInput"
-import { Button } from "@/components/ui/button"
 import { Trash } from "lucide-react"
 import { useState } from "react"
 
@@ -24,6 +24,7 @@ const ReportPage = () => {
   const [searchResultLength, setSearchResultLength] = useState<number>(0)
   const [loading, setLoading] = useState(true)
   const [isFiltered, setIsFiltered] = useState(false)
+  const [openReportCreate, setOpenReportCreate] = useState(false)
 
   return (
     <div>
@@ -34,7 +35,7 @@ const ReportPage = () => {
           setLoading={setLoading}
           setIsFiltered={setIsFiltered}
         />
-        <Button>Create report</Button>
+        <ReportCreate openSheet={openReportCreate} setOpenSheet={setOpenReportCreate} />
       </div>
 
       <div>
