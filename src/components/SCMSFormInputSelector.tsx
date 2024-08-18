@@ -1,20 +1,11 @@
 import { Control } from "react-hook-form";
 import { FormControl, FormField, FormItem, FormLabel } from "./ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
+import { createReportFormSchema } from "@/common/formSchemas";
+import { z } from "zod";
 
 type CProps = {
-  control: Control<{
-    type: string;
-    weather: string;
-    incidentTime: string;
-    injury: boolean;
-    ems_pbso: boolean;
-    phoneNumber: string;
-    narative: string;
-    house?: string | undefined;
-    resident?: string | undefined;
-    createdBy?: string | undefined;
-  }>,
+  control: Control<z.infer<typeof createReportFormSchema>>,
   name: "type" | "weather",
   label: string,
   placeHolder: string,
