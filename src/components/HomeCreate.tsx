@@ -501,7 +501,6 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
                     */}
                   </ScrollArea>
 
-
                   <div className="mt-8">
                     <Button
                       type="submit"

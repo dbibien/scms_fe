@@ -6,13 +6,14 @@ import { ScrollArea } from "./ui/scroll-area"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import SInput from "./SInput"
+// import SInput from "./SInput"
 import STextArea from "./STextArea"
 import Spinner from "./Spinner"
 import { useState } from "react"
 import SCMSFormInputSelector from "./SCMSFormInputSelector"
 import { REPORT_TYPES } from "@/common/utils"
 import SCMSFormInputSwitch from "./SCMSFormInputSwitch"
+import SCMSFormInputTimePicker from "./SCMSFormInputTimePicker"
 
 type CProps = {
   openSheet: boolean,
@@ -90,8 +91,8 @@ const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
         <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
-              <ScrollArea className="h-[50vh]">
 
+              <ScrollArea className="h-[50vh]">
                 <SCMSFormInputSelector
                   control={form.control}
                   name="type"
@@ -108,7 +109,13 @@ const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
                   data={WEATHER_TYPES}
                 />
 
-                // TODO: incident time
+
+                <SCMSFormInputTimePicker
+                  control={form.control}
+                  name="incidentTime"
+                  label="Incident time"
+                  placeHolder="Hour"
+                />
                 // TODO: house search
 
                 <SCMSFormInputSwitch

@@ -133,7 +133,7 @@ const ConcernCardCreate = () => {
                           name="name"
                           placeHolder="name"
                           helperText="Name of the concern"
-                          max={70}
+                          maxCharacters={70}
                           styles=""
                           fields={field}
                         />
@@ -155,7 +155,7 @@ const ConcernCardCreate = () => {
                           name="hint"
                           helperText="Short description of what the concern does"
                           placeHolder="hint"
-                          max={100}
+                          maxCharacters={100}
                           styles=""
                           fields={field}
                         />
