@@ -2,13 +2,43 @@ import { Search } from "lucide-react"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
 import { useCommunityStore } from "@/common/store"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import HomeAddress from "./HomeAddress"
+import { houseType } from "@/common/types"
 
 const SCMSHouseSearch = () => {
   const houses = useCommunityStore(state => state.houses)
 
   const [searchInput, setSearchInput] = useState("")
+  const [expand, setExpand] = useState(false)
+  const [filteredResult, setFilteredResult] = useState<houseType[]>([])
+
+  const filterHousesBySearchedValue = (house: houseType) => {
+    const searchedValueLowerCase = searchInput.toLowerCase()
+    if (searchedValueLowerCase === "") {
+      return
+    } else if (
+      house.address.toLowerCase().includes(searchedValueLowerCase) ||
+      house.apt.toLowerCase().includes(searchedValueLowerCase) ||
+      house.city.toLowerCase().includes(searchedValueLowerCase) ||
+      house.state.toLowerCase().includes(searchedValueLowerCase) ||
+      house.zip.toLowerCase().includes(searchedValueLowerCase) ||
+      house.security_code.toLowerCase().includes(searchedValueLowerCase) ||
+      house.member_number.toLowerCase().includes(searchedValueLowerCase)
+    ) {
+      return house
+    }
+  }
+
+  useEffect(() => {
+    const result = houses?.filter(filterHousesBySearchedValue)
+    setFilteredResult(result)
+    if (result.length > 0) {
+      setExpand(true)
+    } else {
+      setExpand(false)
+    }
+  }, [searchInput])
 
   return (
     <div className="mt-4">
@@ -23,16 +53,18 @@ const SCMSHouseSearch = () => {
         />
       </div>
 
-      <div className="flex flex-col border-l-[1px] border-r-[1px] border-b-[1px] border-slate-200 p-1 rounded-b-md space-y-3 max-h-40 overflow-scroll">
-        {houses?.map(house => (
-          <Button
-            key={house?.id}
-            className="bg-slate-50 text-black hover:bg-slate-100 inline-block"
-          >
-            <HomeAddress house={house} />
-          </Button>
-        ))}
-      </div>
+      {expand && (
+        <div className="flex flex-col border-l-[1px] border-r-[1px] border-b-[1px] border-slate-200 p-1 rounded-b-md space-y-3 max-h-40 overflow-scroll">
+          {filteredResult.map(house => (
+            <Button
+              key={house?.id}
+              className="bg-slate-50 text-black hover:bg-slate-100 inline-block"
+            >
+              <HomeAddress house={house} />
+            </Button>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
