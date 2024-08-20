@@ -96,9 +96,9 @@ const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
 
         <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)}>
 
-              <ScrollArea className="h-[50vh]">
+              <ScrollArea className="h-[50vh] space-y-8">
                 <SCMSFormInputSelector
                   control={form.control}
                   name="type"
@@ -115,9 +115,16 @@ const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
                   data={WEATHER_TYPES}
                 />
 
-                <SCMSFormInputCalendar control={form.control} />
+                <div>
+                  <p className="text-sm  font-medium">Incident date: </p>
 
-                <SCMSFormInputTimePicker control={form.control} />
+                  <SCMSFormInputCalendar control={form.control} />
+
+                  <p className="text-sm font-medium">Incident time: </p>
+
+                  <SCMSFormInputTimePicker control={form.control} />
+                </div>
+
                 // TODO: house search
 
                 <SCMSFormInputSwitch
