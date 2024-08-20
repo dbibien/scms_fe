@@ -18,6 +18,8 @@ import { createReportFormSchema } from "@/common/formSchemas"
 import SCMSFormInputCalendar from "./SCMSFormInputCalendar"
 import SCMSHouseSearch from "./SCMSHouseSearch"
 import { houseType } from "@/common/types"
+import { useApplicationStore, useLoggedInUserStore } from "@/common/store"
+import { toast } from "./ui/use-toast"
 
 type CProps = {
   openSheet: boolean,
@@ -48,6 +50,9 @@ const WEATHER_TYPES = [
 ]
 
 const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
+  const pb = useApplicationStore(state => state.pb)
+  const loggedInUserId = useLoggedInUserStore(state => state.user.id)
+
   const [loading, setLoading] = useState(false)
   const [selectedHouse, setSelectedHouse] = useState<houseType>()
 
@@ -60,13 +65,49 @@ const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
     // },
   })
 
-  function onSubmit(values: z.infer<typeof createReportFormSchema>) {
+  async function onSubmit(values: z.infer<typeof createReportFormSchema>) {
     setLoading(true)
     console.log("submiting...")
     console.log("values: ", values)
-  }
 
-  console.log("selectedHouse: ", selectedHouse)
+    try {
+      const record = await pb.collection('reports').create({
+        narative: values?.narative,
+        type: values?.type,
+        incident_time: values?.incidentTimeDate, // TODO: use the hour and the minutes to create the actual and correct time
+        weather: values?.weather,
+        // "phone_number": values?.phoo,
+        created_by: loggedInUserId,
+        house: selectedHouse?.id,
+        // @ts-expect-error this is ok
+        resident: selectedHouse?.residents?.length > 0 ? selectedHouse?.residents[0]?.id : "",
+        injury: values?.injury,
+        ems_pbso: values?.ems_pbso,
+      })
+
+      console.log("record: ", record)
+
+      setSelectedHouse(undefined)
+      setOpenSheet(false)
+      // TODO: query the latest list of reports
+      toast({
+        variant: "default",
+        title: "Success",
+        description: "Report created successfully",
+      })
+    } catch (e) {
+      console.log("e: ", e)
+      // @ts-expect-error fix at a later time
+      const errData = e?.data
+      toast({
+        variant: "destructive",
+        title: "Fail",
+        description: errData?.message,
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <Sheet open={openSheet} onOpenChange={setOpenSheet}>
