@@ -17,6 +17,7 @@ import SCMSFormInputTimePicker from "./SCMSFormInputTimePicker"
 import { createReportFormSchema } from "@/common/formSchemas"
 import SCMSFormInputCalendar from "./SCMSFormInputCalendar"
 import SCMSHouseSearch from "./SCMSHouseSearch"
+import { houseType } from "@/common/types"
 
 type CProps = {
   openSheet: boolean,
@@ -48,6 +49,7 @@ const WEATHER_TYPES = [
 
 const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
   const [loading, setLoading] = useState(false)
+  const [selectedHouse, setSelectedHouse] = useState<houseType>()
 
   const form = useForm<z.infer<typeof createReportFormSchema>>({
     resolver: zodResolver(createReportFormSchema),
@@ -63,6 +65,8 @@ const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
     console.log("submiting...")
     console.log("values: ", values)
   }
+
+  console.log("selectedHouse: ", selectedHouse)
 
   return (
     <Sheet open={openSheet} onOpenChange={setOpenSheet}>
@@ -109,7 +113,7 @@ const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
                   <SCMSFormInputTimePicker control={form.control} />
                 </div>
 
-                <SCMSHouseSearch />
+                <SCMSHouseSearch setHouse={setSelectedHouse} />
 
                 <SCMSFormInputSwitch
                   control={form.control}

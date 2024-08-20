@@ -6,7 +6,11 @@ import { useEffect, useState } from "react"
 import HomeAddress from "./HomeAddress"
 import { houseType } from "@/common/types"
 
-const SCMSHouseSearch = () => {
+type CProps = {
+  setHouse: React.Dispatch<React.SetStateAction<houseType | undefined>>,
+}
+
+const SCMSHouseSearch = ({ setHouse }: CProps) => {
   const houses = useCommunityStore(state => state.houses)
 
   const [searchInput, setSearchInput] = useState("")
@@ -30,14 +34,23 @@ const SCMSHouseSearch = () => {
     }
   }
 
+  const handleSelectHouse = (house: houseType) => {
+    setSearchInput(`${house?.address} ${house?.apt} ${house?.city} ${house?.state} ${house?.zip}`)
+    setHouse(house)
+    setExpand(false)
+  }
+
   useEffect(() => {
     const result = houses?.filter(filterHousesBySearchedValue)
     setFilteredResult(result)
+
     if (result.length > 0) {
       setExpand(true)
     } else {
       setExpand(false)
     }
+
+    if (searchInput.length === 0) setHouse(undefined) // remove the selected house if no result is found
   }, [searchInput])
 
   return (
@@ -49,6 +62,7 @@ const SCMSHouseSearch = () => {
           type="text"
           placeholder="Search home..."
           className="focus-visible:ring-0 border-none rounded-none"
+          value={searchInput}
           onChange={e => setSearchInput(e.target.value)}
         />
       </div>
@@ -59,6 +73,7 @@ const SCMSHouseSearch = () => {
             <Button
               key={house?.id}
               className="bg-slate-50 text-black hover:bg-slate-100 inline-block"
+              onClick={() => handleSelectHouse(house)}
             >
               <HomeAddress house={house} />
             </Button>
