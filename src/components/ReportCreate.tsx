@@ -15,8 +15,6 @@ import { REPORT_TYPES } from "@/common/utils"
 import SCMSFormInputSwitch from "./SCMSFormInputSwitch"
 import SCMSFormInputTimePicker from "./SCMSFormInputTimePicker"
 import { createReportFormSchema } from "@/common/formSchemas"
-import DatePicker from "./DatePicker"
-import { Calendar } from "./ui/calendar"
 import SCMSFormInputCalendar from "./SCMSFormInputCalendar"
 
 type CProps = {
@@ -64,7 +62,6 @@ const WEATHER_TYPES = [
 
 const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
   const [loading, setLoading] = useState(false)
-  const [date, setDate] = useState(new Date())
 
   const form = useForm<z.infer<typeof createReportFormSchema>>({
     resolver: zodResolver(createReportFormSchema),
@@ -76,6 +73,7 @@ const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
   })
 
   function onSubmit(values: z.infer<typeof createReportFormSchema>) {
+    setLoading(true)
     console.log("submiting...")
     console.log("values: ", values)
   }
