@@ -70,11 +70,30 @@ const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
     console.log("submiting...")
     console.log("values: ", values)
 
+    let incidentTimeHour = 0
+    let incidentTimeMinute = 0
+    try {
+      incidentTimeHour = parseInt(values?.incidentTimeHour)
+      incidentTimeMinute = parseInt(values?.incidentTimeMinute)
+    } catch (e) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Incorrect hour and/or minute"
+      })
+      setLoading(false)
+      return
+    }
+
+    // const incidentDateTime = new Date(values?.incidentTimeDate).setHours(incidentTimeHour, incidentTimeMinute)
+    const incidentDateTime = new Date(values?.incidentTimeDate.getFullYear(), values?.incidentTimeDate.getMonth(), values?.incidentTimeDate.getDate(), incidentTimeHour, incidentTimeMinute)
+    console.log("incidentDateTiime: ", incidentDateTime)
+
     try {
       const record = await pb.collection('reports').create({
         narative: values?.narative,
         type: values?.type,
-        incident_time: values?.incidentTimeDate, // TODO: use the hour and the minutes to create the actual and correct time
+        incident_time: incidentDateTime, // TODO: use the hour and the minutes to create the actual and correct time
         weather: values?.weather,
         // "phone_number": values?.phoo,
         created_by: loggedInUserId,

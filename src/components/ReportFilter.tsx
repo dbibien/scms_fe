@@ -33,8 +33,8 @@ const ReportFilter = ({ isFiltered, setReports, setLoading, setIsFiltered }: CPr
                           expand.created_by.id, expand.created_by.first_name, expand.created_by.last_name,
                           expand.resident.id, expand.resident.first_name, expand.resident.last_name`
       const resultList = await pb.collection("reports").getFullList({
-        // filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`,
-        filter: `(created  >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `&& type = "${reportType}"` : ""}`,
+        filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`,
+        // filter: `(created  >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `&& type = "${reportType}"` : ""}`,
         // filter: `(created >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`,
         fields: houseFields,
         expand: "house, created_by, resident",
