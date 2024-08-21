@@ -1,5 +1,5 @@
 import { Control } from "react-hook-form";
-import { FormControl, FormField, FormItem, FormLabel } from "./ui/form"
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 import { createReportFormSchema } from "@/common/formSchemas";
 import { z } from "zod";
@@ -36,6 +36,7 @@ const SCMSFormInputSelector = ({ control, name, label, placeHolder, data }: CPro
               ))}
             </SelectContent>
           </Select>
+          <FormMessage />
         </FormItem>
       )}
     />

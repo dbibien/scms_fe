@@ -26,8 +26,8 @@ export const REPORT_TYPES = [
   },
   {
     id: 12,
-    value: "house_lights_check",
-    label: "House lights check",
+    value: "garage_door_light_check",
+    label: "Garage door light check",
   },
   {
     id: 6,

@@ -1,7 +1,7 @@
 import { z } from "zod"
 
 export const createReportFormSchema = z.object({
-  type: z.string().min(1, "Invalid choice").max(20, "Invalid choice"),
+  type: z.string().min(1, "Invalid choice").max(50, "Invalid choice"),
   weather: z.string().min(1, "Invalid choice").max(20, "Invalid choice"),
   incidentTimeDate: z.date({ required_error: "An incident date is required" }), //.datetime({ message: "Invalid date and time" }),
   incidentTimeHour: z.string().min(0, "Hour must be between 0 and 23").max(23, "Hour must be between 0 and 23"),

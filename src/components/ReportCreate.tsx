@@ -135,6 +135,8 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
     }
   }
 
+  // console.log("form: ", form)
+
   return (
     <Sheet open={openSheet} onOpenChange={setOpenSheet}>
       <SheetTrigger asChild>
