@@ -33,7 +33,7 @@ const ReportFilter = ({ isFiltered, setReports, setLoading, setIsFiltered }: CPr
                           expand.created_by.id, expand.created_by.first_name, expand.created_by.last_name,
                           expand.resident.id, expand.resident.first_name, expand.resident.last_name`
       const resultList = await pb.collection("reports").getFullList({
-        filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`,
+        filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`, // it makes sense to filter by when the incident occured. Users will ask; "when did the incident occured?" not "When was the incident created on the software"
         // filter: `(created  >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `&& type = "${reportType}"` : ""}`,
         // filter: `(created >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`,
         fields: houseFields,
@@ -119,10 +119,16 @@ const ReportFilter = ({ isFiltered, setReports, setLoading, setIsFiltered }: CPr
     }
 
     getReports(
+      // // @ts-expect-error expected and handled
+      // new Date(fromDate?.getFullYear(), fromDate?.getMonth(), fromDate?.getDate() - 1, 0, 0, 0, 0),
+      // // @ts-expect-error expected and handled
+      // new Date(toDate?.getFullYear(), toDate?.getMonth(), toDate?.getDate() - 1, 23, 59, 59, 59)
+
+
       // @ts-expect-error expected and handled
-      new Date(fromDate?.getFullYear(), fromDate?.getMonth(), fromDate?.getDate() - 1, 0, 0, 0, 0),
+      new Date(fromDate?.getFullYear(), fromDate?.getMonth(), fromDate?.getDate(), 0, 0),
       // @ts-expect-error expected and handled
-      new Date(toDate?.getFullYear(), toDate?.getMonth(), toDate?.getDate() - 1, 23, 59, 59, 59)
+      new Date(toDate?.getFullYear(), toDate?.getMonth(), toDate?.getDate(), 23, 59, 59)
     )
     setSheetOpen(false)
     setIsFiltered(true)
