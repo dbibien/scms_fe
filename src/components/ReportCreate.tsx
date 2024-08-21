@@ -11,7 +11,7 @@ import STextArea from "./STextArea"
 import Spinner from "./Spinner"
 import { useState } from "react"
 import SCMSFormInputSelector from "./SCMSFormInputSelector"
-import { REPORT_TYPES } from "@/common/utils"
+import { REPORT_TYPES, reportFilterStartAndEndOfMonthDates } from "@/common/utils"
 import SCMSFormInputSwitch from "./SCMSFormInputSwitch"
 import SCMSFormInputTimePicker from "./SCMSFormInputTimePicker"
 import { createReportFormSchema } from "@/common/formSchemas"
@@ -24,6 +24,7 @@ import { toast } from "./ui/use-toast"
 type CProps = {
   openSheet: boolean,
   setOpenSheet: React.Dispatch<React.SetStateAction<boolean>>
+  getReports: (startDate: Date, endDate: Date) => Promise<void>,
 }
 
 const WEATHER_TYPES = [
@@ -49,7 +50,7 @@ const WEATHER_TYPES = [
   },
 ]
 
-const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
+const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
 
@@ -67,8 +68,8 @@ const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
 
   async function onSubmit(values: z.infer<typeof createReportFormSchema>) {
     setLoading(true)
-    console.log("submiting...")
-    console.log("values: ", values)
+    // console.log("submiting...")
+    // console.log("values: ", values)
 
     let incidentTimeHour = 0
     let incidentTimeMinute = 0
@@ -85,12 +86,11 @@ const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
       return
     }
 
-    // const incidentDateTime = new Date(values?.incidentTimeDate).setHours(incidentTimeHour, incidentTimeMinute)
     const incidentDateTime = new Date(values?.incidentTimeDate.getFullYear(), values?.incidentTimeDate.getMonth(), values?.incidentTimeDate.getDate(), incidentTimeHour, incidentTimeMinute)
-    console.log("incidentDateTiime: ", incidentDateTime)
 
     try {
-      const record = await pb.collection('reports').create({
+      // const record = await pb.collection('reports').create({
+      await pb.collection('reports').create({
         narative: values?.narative,
         type: values?.type,
         incident_time: incidentDateTime, // TODO: use the hour and the minutes to create the actual and correct time
@@ -104,18 +104,22 @@ const ReportCreate = ({ openSheet, setOpenSheet }: CProps) => {
         ems_pbso: values?.ems_pbso,
       })
 
-      console.log("record: ", record)
+      // console.log("record: ", record)
 
       setSelectedHouse(undefined)
+
+      const { startOfMonthDate, endOfMonthDate } = reportFilterStartAndEndOfMonthDates()
+      await getReports(startOfMonthDate, endOfMonthDate)
+
       setOpenSheet(false)
-      // TODO: query the latest list of reports
+
       toast({
         variant: "default",
         title: "Success",
         description: "Report created successfully",
       })
     } catch (e) {
-      console.log("e: ", e)
+      // console.log("e: ", e)
       // @ts-expect-error fix at a later time
       const errData = e?.data
       toast({
