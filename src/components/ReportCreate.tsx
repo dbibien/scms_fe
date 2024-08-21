@@ -108,8 +108,11 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
 
       setSelectedHouse(undefined)
 
-      const { startOfMonthDate, endOfMonthDate } = reportFilterStartAndEndOfMonthDates()
-      await getReports(startOfMonthDate, endOfMonthDate)
+      const { today, startOfMonthDate } = reportFilterStartAndEndOfMonthDates()
+      await getReports( // passing in the modified dates to the function that will send the request to the backend
+        new Date(startOfMonthDate.getFullYear(), startOfMonthDate.getMonth(), startOfMonthDate.getDate() - 1, 0, 0, 0, 0),
+        new Date(today.getFullYear(), today.getMonth() + 1, -1, 23, 59, 59, 59)
+      )
 
       setOpenSheet(false)
 
