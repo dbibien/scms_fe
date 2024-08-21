@@ -25,6 +25,11 @@ export const REPORT_TYPES = [
     label: "False alarm",
   },
   {
+    id: 12,
+    value: "house_lights_check",
+    label: "House lights check",
+  },
+  {
     id: 6,
     value: "loud_noise",
     label: "Loud noise",
