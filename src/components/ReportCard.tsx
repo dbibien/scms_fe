@@ -1,5 +1,5 @@
 import { reportType } from "@/common/types"
-import { Card, CardContent, CardHeader } from "./ui/card"
+import { Card, CardContent, CardFooter, CardHeader } from "./ui/card"
 import Note from "./Note"
 
 type CProps = {
@@ -44,6 +44,10 @@ const ReportCard = ({ report }: CProps) => {
           <Note note={report?.narative} />
         </div>
       </CardContent>
+
+      <CardFooter>
+        <p className="text-sm text-slate-400">Created: {`${new Date(report.created).toLocaleString()}`}</p>
+      </CardFooter>
     </Card>
   )
 }

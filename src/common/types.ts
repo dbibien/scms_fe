@@ -68,6 +68,7 @@ export type reportType = {
   member_number: string,
   security_code: string,
   incident_time: string,
+  created: string,
   ems_pbso: boolean,
   injury: boolean,
   type: "garage_check" | "false_alarm",

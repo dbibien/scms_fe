@@ -27,7 +27,7 @@ const ReportFilter = ({ isFiltered, setReports, setLoading, setIsFiltered }: CPr
   const getReports = async (startDate: Date, endDate: Date) => {
     setLoading(true)
     try {
-      const houseFields = `id, narative, type, weather, incident_time, phone_number, injury, ems_pbso,
+      const houseFields = `id, narative, type, weather, incident_time, created, phone_number, injury, ems_pbso,
                           expand.house.id, expand.house.address, expand.house.apt, expand.house.city, expand.house.city,
                           expand.house.state, expand.house.zip, expand.house.member_number, expand.house.security_code,
                           expand.created_by.id, expand.created_by.first_name, expand.created_by.last_name,
@@ -48,6 +48,7 @@ const ReportFilter = ({ isFiltered, setReports, setLoading, setIsFiltered }: CPr
           member_number: result?.expand?.house?.member_number,
           security_code: result?.expand?.house?.securty_code,
           incident_time: result?.incident_time,
+          created: result?.created,
           ems_pbso: result?.ems_pbso,
           injury: result?.injury,
           type: result?.type,
