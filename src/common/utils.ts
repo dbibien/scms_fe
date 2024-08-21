@@ -55,3 +55,15 @@ export const REPORT_TYPES = [
     label: "Youths fishing",
   },
 ]
+
+export const reportFilterStartAndEndOfMonthDates = () => {
+  const today = new Date()
+  const startOfMonthDate = new Date(today.getFullYear(), today.getMonth())
+  const endOfMonthDate = new Date(today.getFullYear(), today.getMonth() + 1, -1)
+
+  return {
+    today: today,
+    startOfMonthDate: startOfMonthDate,
+    endOfMonthDate: endOfMonthDate,
+  }
+}
