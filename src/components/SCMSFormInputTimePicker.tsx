@@ -24,7 +24,7 @@ const SCMSFormInputTimePicker = ({ control }: CProps) => {
                 max={23}
                 name="incidentTimeHour"
                 placeHolder="H"
-                styles=""
+                styles="lg:w-18"
                 fields={field}
               />
             </FormControl>
@@ -46,7 +46,7 @@ const SCMSFormInputTimePicker = ({ control }: CProps) => {
                 max={59}
                 name="incidentTimeMinute"
                 placeHolder="M"
-                styles=""
+                styles="lg:w-18"
                 fields={field}
               />
             </FormControl>
