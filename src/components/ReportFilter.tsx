@@ -20,7 +20,6 @@ type CProps = {
 }
 
 const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: CProps) => {
-
   const [sheetOpen, setSheetOpen] = useState(false)
   const [fromDate, setFromDate] = useState<Date>()
   const [toDate, setToDate] = useState<Date>()
