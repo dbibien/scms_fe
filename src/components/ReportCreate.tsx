@@ -120,13 +120,21 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
       })
     } catch (e) {
       // console.log("e: ", e)
-      // @ts-expect-error fix at a later time
+      // @ts-expect-error fix types later
       const errData = e?.data
-      toast({
-        variant: "destructive",
-        title: "Fail",
-        description: errData?.message,
-      })
+      if (errData?.code) {
+        toast({
+          variant: "destructive",
+          title: "Fail",
+          description: errData?.message,
+        })
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Fail",
+          description: "An error occured while performing action",
+        })
+      }
     } finally {
       setLoading(false)
     }
