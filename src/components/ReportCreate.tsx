@@ -6,7 +6,6 @@ import { ScrollArea } from "./ui/scroll-area"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-// import SInput from "./SInput"
 import STextArea from "./STextArea"
 import Spinner from "./Spinner"
 import { useState } from "react"
@@ -59,11 +58,9 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
 
   const form = useForm<z.infer<typeof createReportFormSchema>>({
     resolver: zodResolver(createReportFormSchema),
-    // defaultValues: {
-    //   type: "",
-    //   hint: "",
-    //   say: "",
-    // },
+    defaultValues: {
+      incidentTimeDate: new Date(),
+    },
   })
 
   async function onSubmit(values: z.infer<typeof createReportFormSchema>) {
