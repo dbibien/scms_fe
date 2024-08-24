@@ -5,8 +5,9 @@ import ReportCardList from "@/components/ReportCardList"
 import ReportCreate from "@/components/ReportCreate"
 import ReportFilter from "@/components/ReportFilter"
 import SplInput from "@/components/SplInput"
+// import { Separator } from "@/components/ui/separator"
 import { toast } from "@/components/ui/use-toast"
-import { Trash } from "lucide-react"
+// import { ArrowDownUp, Trash } from "lucide-react"
 import { useState } from "react"
 
 const ClearFilter = ({ setIsFiltered }: { setIsFiltered: React.Dispatch<React.SetStateAction<boolean>> }) => {
@@ -117,15 +118,34 @@ const ReportPage = () => {
     }
   }
 
+  // TODO: implement sort for reports 
+  // const handleReportSort = () => {
+  //   console.log("Need to implement sorting for reports")
+  // }
+
   return (
     <div>
       <div className="flex justify-between mb-2">
-        <ReportFilter
-          isFiltered={isFiltered}
-          setIsFiltered={setIsFiltered}
-          setReportType={setReportType}
-          getReports={getReports}
-        />
+        <div className="flex items-center gap-2">
+          <ReportFilter
+            isFiltered={isFiltered}
+            setIsFiltered={setIsFiltered}
+            setReportType={setReportType}
+            getReports={getReports}
+          />
+
+          {/*
+            <Separator orientation="vertical" />
+
+            <button
+              className="flex items-center gap-1"
+              onClick={handleReportSort}
+            >
+              <ArrowDownUp />
+              Sort
+            </button>
+          */}
+        </div>
         <ReportCreate
           openSheet={openReportCreate}
           setOpenSheet={setOpenReportCreate}
