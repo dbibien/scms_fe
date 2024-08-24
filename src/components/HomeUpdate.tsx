@@ -193,26 +193,22 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
     } catch (e) {
       // @ts-expect-error expected
       const err = e?.data
-      const validationNotUniqueCode = "validation_not_unique"
       let errMessage = ""
       if (err?.code === 400) {
         const errData = err?.data
-        if (errData?.address?.code === validationNotUniqueCode ||
-          errData?.city?.code === validationNotUniqueCode ||
-          errData?.state?.code === validationNotUniqueCode ||
-          errData?.zip?.code === validationNotUniqueCode ||
-          errData?.member_number === validationNotUniqueCode ||
-          errData?.security_code === validationNotUniqueCode
-        ) {
-          errMessage = "Duplicate entry"
-        } else {
-          errMessage = err?.message
+        for (const key in errData) {
+          errMessage += key + ": " + errData[key].message + ". "
         }
-
         toast({
           variant: "destructive",
           title: "Failure",
           description: errMessage,
+        })
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Failure",
+          description: err?.message,
         })
       }
     } finally {
