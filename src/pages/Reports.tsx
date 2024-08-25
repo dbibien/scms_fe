@@ -7,7 +7,7 @@ import ReportFilter from "@/components/ReportFilter"
 import SplInput from "@/components/SplInput"
 // import { Separator } from "@/components/ui/separator"
 import { toast } from "@/components/ui/use-toast"
-// import { ArrowDownUp, Trash } from "lucide-react"
+import { Trash } from "lucide-react"
 import { useState } from "react"
 
 const ClearFilter = ({ setIsFiltered }: { setIsFiltered: React.Dispatch<React.SetStateAction<boolean>> }) => {
