@@ -113,6 +113,20 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
 
       setOpenSheet(false)
 
+      form.reset({
+        type: "",
+        weather: "",
+        incidentTimeDate: new Date(),
+        incidentTimeHour: "",
+        incidentTimeMinute: "",
+        narative: "",
+        injury: false,
+        ems_pbso: false,
+        house: undefined,
+        resident: undefined,
+        createdBy: undefined,
+      })
+
       toast({
         variant: "default",
         title: "Success",
