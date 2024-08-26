@@ -19,15 +19,15 @@ const ReportCardList = ({ reports, searchValue, loading, setSearchResultLength }
   const filterReports = () => {
     const result = reports.filter(report => {
       if (searchValue === "") return report
-      if (report.house.address.toLowerCase().includes(searchValue.toLowerCase()) ||
-        report.house.apt.toLowerCase().includes(searchValue.toLowerCase()) ||
-        report.house.city.toLowerCase().includes(searchValue.toLowerCase()) ||
-        report.house.state.toLowerCase().includes(searchValue.toLowerCase()) ||
-        report.house.zip.toLowerCase().includes(searchValue.toLowerCase()) ||
-        report.type.toLowerCase().includes(searchValue.toLowerCase()) ||
-        report.resident.first_name.toLowerCase().includes(searchValue.toLowerCase()) ||
-        report.resident.last_name.toLowerCase().includes(searchValue.toLowerCase()) ||
-        report.member_number.toLowerCase().includes(searchValue.toLowerCase())
+      if (report?.house.address?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report?.house.apt?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report?.house.city?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report?.house.state?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report?.house.zip?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report?.type?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report?.resident.first_name?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report?.resident.last_name?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        report?.member_number?.toLowerCase().includes(searchValue.toLowerCase())
       ) return report
     })
     return result
