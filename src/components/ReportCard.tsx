@@ -16,6 +16,7 @@ const ReportCardText = ({ title, content }: { title: string, content: string }) 
 }
 
 const ReportCard = ({ report }: CProps) => {
+  const addressString = `${report?.house?.address} ${report?.house?.apt}, ${report?.house?.city} ${report?.house?.state}, ${report?.house?.zip}`
   return (
     <Card className="mb-4">
       <CardHeader>
@@ -25,11 +26,11 @@ const ReportCard = ({ report }: CProps) => {
       <CardContent>
         <div className="space-y-2">
           <ReportCardText title="Officer" content={`${report?.created_by?.first_name} ${report?.created_by?.last_name}`} />
-          <ReportCardText title="Address" content={`${report?.house?.address} ${report?.house?.apt}, ${report?.house?.city} ${report?.house?.state}, ${report?.house?.zip}`} />
+          <ReportCardText title="Address" content={addressString.includes("undefined") || addressString == "" ? "N/A" : addressString} />
           <ReportCardText title="Type" content={report?.type} />
           <ReportCardText title="Weather" content={report?.weather} />
           <div className="lg:flex justify-between">
-            <ReportCardText title="Resident" content={`${report?.resident?.first_name} ${report?.resident?.last_name}`} />
+            <ReportCardText title="Resident" content={`${report?.resident?.first_name || ""} ${report?.resident?.last_name || "N/A"}`} />
             <ReportCardText title="Phone" content={report?.phone_number} />
             <ReportCardText title="Member #" content={report?.member_number} />
           </div>
