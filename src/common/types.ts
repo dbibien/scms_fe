@@ -50,6 +50,9 @@ export type houseType = {
   image: string,
   note: string,
   pending_call_concerns_ids: string,
+  house_check: boolean,
+  house_check_start_date: string,
+  house_check_end_date: string,
   phones: phoneType[],
   residents: residentType[],
 }
