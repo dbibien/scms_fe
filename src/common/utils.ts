@@ -40,6 +40,11 @@ export const REPORT_TYPES = [
     label: "Open garage door",
   },
   {
+    id: 13,
+    value: "ticket_issued",
+    label: "Ticket issued",
+  },
+  {
     id: 8,
     value: "unauthorized_entry",
     label: "Unauthorized entry",
