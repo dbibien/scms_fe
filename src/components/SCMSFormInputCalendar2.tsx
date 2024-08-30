@@ -1,5 +1,5 @@
 import { CalendarIcon } from "lucide-react"
-import { FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
+import { FormDescription, FormField, FormItem, FormLabel } from "./ui/form"
 import { Calendar } from "./ui/calendar"
 import { useState } from "react"
 import { format } from "date-fns"
@@ -20,12 +20,11 @@ const SCMSFormInputCalendar2 = ({ control, name, label, description = "" }: CPro
 
     const newSelectedDate = new Date(e)
 
-    console.log("newSelectedDate: ", newSelectedDate)
-    console.log("selectedDate: ", selectedDate)
+    // console.log("newSelectedDate: ", newSelectedDate)
+    // console.log("selectedDate: ", selectedDate)
 
     if (newSelectedDate?.getTime() === selectedDate?.getTime()) {
-      console.log("ran...", control)
-      control._defaultValues.house_check_start_date = undefined
+      // control._defaultValues[name] = undefined
       setSelectedDate(undefined)
       setOpen(false)
       return
@@ -53,31 +52,35 @@ const SCMSFormInputCalendar2 = ({ control, name, label, description = "" }: CPro
 
       <p className="text-red-500 text-sm">{control?._formState?.errors[name]?.message}</p>
 
-      {open && (
-        <div>
-          <FormField
-            control={control}
-            name={name}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel></FormLabel>
-                <Calendar
-                  className="z-50 w-72 overflow-hidden mt-1 rounded-md border bg-popover text-popover-foreground shadow-md outline-none"
-                  mode="single"
-                  selected={field.value}
-                  onSelect={field.onChange}
-                  onDayClick={(e) => handleDayClick(e)}
-                  // disabled={(date) =>
-                  //   date > new Date() || date < new Date("1900-01-01")
-                  // }
-                  initialFocus
-                />
-                <FormDescription>{description}</FormDescription>
-              </FormItem>
-            )}
-          />
-        </div>
-      )}
+      {/*
+
+        {open && (
+        )}
+      */}
+
+      <div>
+        <FormField
+          control={control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel></FormLabel>
+              <Calendar
+                className="z-50 w-72 overflow-hidden mt-1 rounded-md border bg-popover text-popover-foreground shadow-md outline-none"
+                mode="single"
+                selected={field.value}
+                onSelect={field.onChange}
+                onDayClick={(e) => handleDayClick(e)}
+                // disabled={(date) =>
+                //   date > new Date() || date < new Date("1900-01-01")
+                // }
+                initialFocus
+              />
+              <FormDescription>{description}</FormDescription>
+            </FormItem>
+          )}
+        />
+      </div>
     </div>
   )
 }

@@ -182,6 +182,8 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
     }
   }
 
+  console.log("ran...", form.control)
+
   return (
     <Sheet open={openHomeUpdateCard} onOpenChange={setOpenHomeUpdateCard}>
       <SheetTrigger>
