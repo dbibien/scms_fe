@@ -1,20 +1,11 @@
 import { Control } from "react-hook-form";
 import { FormControl, FormField, FormItem, FormLabel } from "./ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
+import { homeUpdateFormSchema } from "@/common/formSchemas";
+import { z } from "zod";
 
 type CProps = {
-  control: Control<{
-    address: string;
-    city: string;
-    state: string,
-    zip: string;
-    type?: string | undefined;
-    apt?: string | undefined;
-    note?: string | undefined;
-    member_number?: string | undefined;
-    security_code?: string | undefined;
-    report?: string | undefined;
-  }> | undefined,
+  control: Control<z.infer<typeof homeUpdateFormSchema>>,
   name: string,
 }
 
