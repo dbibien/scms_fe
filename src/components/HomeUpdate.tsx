@@ -1,8 +1,8 @@
-import { CalendarIcon, Pencil } from "lucide-react"
+import { Pencil } from "lucide-react"
 import { Button } from "./ui/button"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { useState } from "react"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import SInput from "./SInput"
 import StateSelector from "./StateSelector"
 import STextArea from "./STextArea"
@@ -20,10 +20,6 @@ import { houseType } from "@/common/types"
 import { ScrollArea } from "./ui/scroll-area"
 import HomeAddress from "./HomeAddress"
 import { homeUpdateFormSchema } from "@/common/formSchemas"
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-import { cn } from "@/lib/utils"
-import { format } from "date-fns"
-import { Calendar } from "./ui/calendar"
 import SCMSFormInputCalendar2 from "./SCMSFormInputCalendar2"
 
 type CProps = {
@@ -504,6 +500,13 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                     control={form.control}
                     name="house_check_start_date"
                     label="Start date: "
+                    description=""
+                  />
+
+                  <SCMSFormInputCalendar2
+                    control={form.control}
+                    name="house_check_end_date"
+                    label="End date: "
                     description=""
                   />
                 </div>

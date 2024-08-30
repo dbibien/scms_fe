@@ -73,7 +73,6 @@ const SCMSFormInputCalendar2 = ({ control, name, label, description = "" }: CPro
                   initialFocus
                 />
                 <FormDescription>{description}</FormDescription>
-                // <FormMessage />
               </FormItem>
             )}
           />
