@@ -77,6 +77,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
 
   const watchFirstName = form.watch("first_name")
   const watchLastName = form.watch("last_name")
+  const houseCheck = form.watch("house_check")
 
   const onSubmit = async (values: z.infer<typeof homeUpdateFormSchema>) => {
     setLoading(true)
@@ -496,19 +497,23 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                     )}
                   />
 
-                  <SCMSFormInputCalendar2
-                    control={form.control}
-                    name="house_check_start_date"
-                    label="Start date: "
-                    description=""
-                  />
+                  {houseCheck && (
+                    <>
+                      <SCMSFormInputCalendar2
+                        control={form.control}
+                        name="house_check_start_date"
+                        label="Start date: "
+                        description=""
+                      />
 
-                  <SCMSFormInputCalendar2
-                    control={form.control}
-                    name="house_check_end_date"
-                    label="End date: "
-                    description=""
-                  />
+                      <SCMSFormInputCalendar2
+                        control={form.control}
+                        name="house_check_end_date"
+                        label="End date: "
+                        description=""
+                      />
+                    </>
+                  )}
                 </div>
 
               </ScrollArea>
