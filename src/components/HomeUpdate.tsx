@@ -1,8 +1,8 @@
-import { Pencil } from "lucide-react"
+import { CalendarIcon, Pencil } from "lucide-react"
 import { Button } from "./ui/button"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { useState } from "react"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import SInput from "./SInput"
 import StateSelector from "./StateSelector"
 import STextArea from "./STextArea"
@@ -19,39 +19,32 @@ import { toast } from "./ui/use-toast"
 import { houseType } from "@/common/types"
 import { ScrollArea } from "./ui/scroll-area"
 import HomeAddress from "./HomeAddress"
+import { homeUpdateFormSchema } from "@/common/formSchemas"
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
+import { cn } from "@/lib/utils"
+import { format } from "date-fns"
+import { Calendar } from "./ui/calendar"
 
 type CProps = {
   house: houseType,
   getHomeData: () => Promise<void>,
 }
 
-const formSchema = z.object({
-  address: z.string().min(1, "Address must be longer than a character").max(100, "Address must not exceed 100 characters "),
-  apt: z.string().max(100, { message: "Apt. must not exceed 100 characters" }).optional(),
-  city: z.string().min(1, { message: "City must be at least 1 character long" }).max(100, { message: "City must not exceed 100 characters" }),
-  state: z.string().min(2, { message: "State must be selected" }),
-  zip: z.string().min(1, { message: "Zip must be at least 1 character longk" }).max(100, { message: "Zip must not exceed 100 characters" }),
-  note: z.string().max(256, { message: "Note must not exceed 256 characters" }).optional(),
-  member_number: z.string().max(14, { message: "Member number must not exceed 14 characters" }).optional(),
-  security_code: z.string().max(8, { message: "Security code must not exceed 8 characters" }).optional(),
-
-  first_name: z.string().max(30, { message: "First name must not exceed 30 characters" }).optional(),
-  last_name: z.string().max(30, { message: "Last name must not exceed 30 characters" }).optional(),
-  owner: z.boolean().optional(),
-
-  type: z.string().optional(),
-  primary: z.boolean().optional(),
-  house_check: z.boolean().optional(),
-  house_check_start_date: z.string(),
-  house_check_end_date: z.string(),
-
-  // report: z.string().max(256, { message: "Note must not exceed 256 characters" }).optional(),
-  // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
-}).refine((data) => {
-  if (data.house_check && data.house_check_start_date === "") return false
-
-  if (data?.house_check && data?.house_check_end_date === "") return false
-})
+const SCMSCalendar = () => {
+  return (
+    <div>
+      <button
+        className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-colors
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none 
+        disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground 
+        h-10 px-4 py-2 w-[240px] pl-3 text-left font-normal text-muted-foreground"
+      >
+        <span>Pick a date</span>
+        <CalendarIcon className="lucide lucide-calendar ml-auto h-4 w-4 opacity-50" />
+      </button>
+    </div>
+  )
+}
 
 const HomeUpdate = ({ house, getHomeData }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
@@ -78,8 +71,8 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
 
   const [phoneInputValue, setPhoneInputValue] = useState(phone[0]?.phone_number)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof homeUpdateFormSchema>>({
+    resolver: zodResolver(homeUpdateFormSchema),
     defaultValues: {
       address: house?.address,
       apt: house?.apt,
@@ -94,7 +87,9 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
       owner: resident.length > 0 ? resident[0].owner : false,
       type: phone.length > 0 ? phone[0].type : "",
       primary: phone.length > 0 ? phone[0].primary : false,
-      house_check: house?.house_ckeck,
+      house_check: house?.house_check,
+      house_check_start_date: house?.house_check_start_date,
+      house_check_end_date: house?.house_check_end_date,
       // report: "",
     },
   })
@@ -102,26 +97,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
   const watchFirstName = form.watch("first_name")
   const watchLastName = form.watch("last_name")
 
-  // useEffect(() => {
-  //   const getPhoneNumber = async () => {
-  //     // console.log("getting phone number")
-  //     try {
-  //       const record = await pb.collection('phones').getFirstListItem(`house = "${house?.id}"`, {
-  //         fields: "id, phone_number, primary, type"
-  //       })
-  //
-  //       console.log("record: ", record)
-  //       setPhoneInputValue(record?.phone_number)
-  //     } catch (e) {
-  //       // @ts-expect-error this is fine
-  //       console.log("e: ", e.data)
-  //     }
-  //   }
-  //
-  //   if (openHomeUpdateCard) getPhoneNumber()
-  // }, [openHomeUpdateCard])
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof homeUpdateFormSchema>) => {
     setLoading(true)
     // console.log("values: ", values)
     try {
@@ -538,6 +514,52 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                   )}
                 />
 
+                <FormField
+                  control={form.control}
+                  name="house_check_start_date"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Start date:</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-[240px] pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormDescription>
+                        Start date of the house should be check
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <SCMSCalendar />
 
               </ScrollArea>
 
