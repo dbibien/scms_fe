@@ -53,6 +53,7 @@ export type houseType = {
   house_check: boolean,
   house_check_start_date: string,
   house_check_end_date: string,
+  house_check_last_date: string,
   phones: phoneType[],
   residents: residentType[],
 }
