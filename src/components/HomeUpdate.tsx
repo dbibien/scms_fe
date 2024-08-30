@@ -24,27 +24,13 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { Calendar } from "./ui/calendar"
+import SCMSFormInputCalendar2 from "./SCMSFormInputCalendar2"
 
 type CProps = {
   house: houseType,
   getHomeData: () => Promise<void>,
 }
 
-const SCMSCalendar = () => {
-  return (
-    <div>
-      <button
-        className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-colors
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none 
-        disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground 
-        h-10 px-4 py-2 w-[240px] pl-3 text-left font-normal text-muted-foreground"
-      >
-        <span>Pick a date</span>
-        <CalendarIcon className="lucide lucide-calendar ml-auto h-4 w-4 opacity-50" />
-      </button>
-    </div>
-  )
-}
 
 const HomeUpdate = ({ house, getHomeData }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
@@ -559,7 +545,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                   )}
                 />
 
-                <SCMSCalendar />
+                <SCMSFormInputCalendar2 />
 
               </ScrollArea>
 
