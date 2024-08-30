@@ -24,7 +24,7 @@ const HomePage = () => {
   const getHomeData = async () => {
     try {
       // fields the backend should return
-      const houseFields = `id, address, apt, city, state, zip, member_number, security_code, pending_call_concerns_ids, image, note`
+      const houseFields = `id, address, apt, city, state, zip, member_number, security_code, pending_call_concerns_ids, image, note, house_check, house_check_start_date, house_check_end_date, house_check_last_date`
       const phoneFields = `
         expand.phones_via_house.id, expand.phones_via_house.phone_number, expand.phones_via_house.primary, expand.phones_via_house.type
       `
@@ -65,6 +65,10 @@ const HomePage = () => {
           security_code: house?.security_code,
           pending_call_concerns_ids: house?.pending_call_concerns_ids,
           note: house?.note,
+          house_check: house?.house_check,
+          house_check_start_date: house?.house_check_start_date,
+          house_check_end_date: house?.house_check_end_date,
+          house_check_last_date: house?.house_check_last_date,
           phones: phones || [],
           residents: residents || [],
         }
