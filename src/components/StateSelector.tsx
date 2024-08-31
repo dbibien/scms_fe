@@ -1,11 +1,12 @@
-import { Control } from "react-hook-form";
+// import { Control } from "react-hook-form";
 import { FormControl, FormField, FormItem, FormLabel } from "./ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
-import { homeUpdateFormSchema } from "@/common/formSchemas";
-import { z } from "zod";
+// import { homeUpdateFormSchema } from "@/common/formSchemas";
+// import { z } from "zod";
 
 type CProps = {
-  control: Control<z.infer<typeof homeUpdateFormSchema>>,
+  // control: Control<z.infer<typeof homeUpdateFormSchema>>,
+  control: any,
   name: string,
 }
 
