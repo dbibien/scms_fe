@@ -93,6 +93,9 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
         member_number: values.member_number,
         security_code: values.security_code,
         community: loggedInUserCommunityId,
+        house_check: values?.house_check,
+        house_check_start_date: values?.house_check_start_date,
+        house_check_end_date: values?.house_check_end_date,
       }
       const updatedHouse = await pb.collection("houses").update(house?.id, updateHouseData)
 
