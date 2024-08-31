@@ -34,7 +34,7 @@ const SCMSFormInputCalendar2 = ({ form, name, label, description = "" }: CProps)
     setOpen(false)
   }
 
-  const watchedHouseChecktDate = form.watch(name)
+  const watchedField = form.watch(name)
 
   // console.log("selectedDate: ", selectedDate)
   // console.log("control: ", control)
@@ -54,7 +54,7 @@ const SCMSFormInputCalendar2 = ({ form, name, label, description = "" }: CProps)
         h-10 px-4 py-2 w-[240px] pl-3 text-left font-normal text-muted-foreground"
       >
         {selectedDate ? <span className="text-black">{format(selectedDate, "PPP")}</span> :
-          watchedHouseChecktDate ? <span className="text-black">{format(new Date(watchedHouseChecktDate), "PPP")}</span> :
+          watchedField ? <span className="text-black">{format(new Date(watchedField), "PPP")}</span> :
             <span>Pick a date</span>
         }
 
