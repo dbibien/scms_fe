@@ -18,17 +18,32 @@ export const homeUpdateFormSchema = z.object({
   primary: z.boolean().optional(),
 
   house_check: z.boolean(),
-  house_check_start_date: z.date(),
-  house_check_end_date: z.date(),
+  house_check_start_date: z.date().optional(),
+  house_check_end_date: z.date().optional(),
 
   // report: z.string().max(256, { message: "Note must not exceed 256 characters" }).optional(),
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),
 })
-// .refine((data) => {
-//   if (data.house_check && !data.house_check_start_date) return false
-//
-//   if (data?.house_check && !data?.house_check_end_date) return false
-// })
+  .refine((data) => {
+    if (data?.house_check && !data.house_check_start_date) {
+      return false
+    }
+
+    return true
+  }, {
+    message: "Field required",
+    path: ["house_check_start_date"],
+  })
+  .refine(data => {
+    if (data?.house_check && !data.house_check_end_date) {
+      return false
+    }
+    return true
+  },
+    {
+      message: "Field required",
+      path: ["house_check_end_date"]
+    })
 
 export const createReportFormSchema = z.object({
   type: z.string().min(1, "Invalid choice").max(50, "Invalid choice"),

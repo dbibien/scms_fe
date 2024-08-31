@@ -69,8 +69,8 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
       type: phone.length > 0 ? phone[0].type : "",
       primary: phone.length > 0 ? phone[0].primary : false,
       house_check: house?.house_check,
-      house_check_start_date: new Date(house?.house_check_start_date),
-      house_check_end_date: new Date(house?.house_check_end_date),
+      house_check_start_date: house?.house_check_start_date ? new Date(house?.house_check_start_date) : undefined,
+      house_check_end_date: house?.house_check_end_date !== "" ? new Date(house?.house_check_end_date) : undefined,
       // report: "",
     },
   })
@@ -78,6 +78,9 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
   const watchFirstName = form.watch("first_name")
   const watchLastName = form.watch("last_name")
   const houseCheck = form.watch("house_check")
+
+  // console.log("house?.house_check_start_date: ", house?.house_check_start_date)
+  // console.log("house?.house_check_end_date: ", house?.house_check_end_date)
 
   const onSubmit = async (values: z.infer<typeof homeUpdateFormSchema>) => {
     setLoading(true)
@@ -185,7 +188,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
     }
   }
 
-  // console.log("ran...", form.control)
+  // console.log("ran...", form.control._formState.errors)
 
   return (
     <Sheet open={openHomeUpdateCard} onOpenChange={setOpenHomeUpdateCard}>
