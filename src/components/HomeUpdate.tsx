@@ -505,7 +505,6 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                   {houseCheck && (
                     <>
                       <SCMSFormInputCalendar2
-                        control={form.control}
                         form={form}
                         name="house_check_start_date"
                         label="Start date: "
@@ -513,7 +512,6 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                       />
 
                       <SCMSFormInputCalendar2
-                        control={form.control}
                         form={form}
                         name="house_check_end_date"
                         label="End date: "
