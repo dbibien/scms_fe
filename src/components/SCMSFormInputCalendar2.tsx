@@ -5,13 +5,13 @@ import { useState } from "react"
 import { format } from "date-fns"
 
 type CProps = {
-  control: any,
+  form: any,
   name: string,
   label: string,
   description?: string,
 }
 
-const SCMSFormInputCalendar2 = ({ control, name, label, description = "" }: CProps) => {
+const SCMSFormInputCalendar2 = ({ form, name, label, description = "" }: CProps) => {
   const [open, setOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
 
@@ -34,53 +34,62 @@ const SCMSFormInputCalendar2 = ({ control, name, label, description = "" }: CPro
     setOpen(false)
   }
 
+  const watchedHouseChecktDate = form.watch(name)
+
+  // console.log("selectedDate: ", selectedDate)
+  // console.log("control: ", control)
+  // console.log("control._defaultValues: ", control._defaultValues[name])
+  // console.log("watchedHouseChecktDate: ", watchedHouseChecktDate)
+
   return (
     <div>
-      <p className={`text-sm font-medium ${control?._formState?.errors[name]?.message && "text-red-500"}`}>{label}</p>
+      <p className={`text-sm font-medium ${form.control?._formState?.errors[name]?.message && "text-red-500"}`}>{label}</p>
 
       <button
+        type="button"
         onClick={() => setOpen(!open)}
         className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-colors
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none 
         disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground 
         h-10 px-4 py-2 w-[240px] pl-3 text-left font-normal text-muted-foreground"
       >
-        {selectedDate ? <span className="text-black">{format(selectedDate, "PPP")}</span> : <span>Pick a date</span>}
+        {selectedDate ? <span className="text-black">{format(selectedDate, "PPP")}</span> :
+          watchedHouseChecktDate ? <span className="text-black">{format(new Date(watchedHouseChecktDate), "PPP")}</span> :
+            <span>Pick a date</span>
+        }
 
         <CalendarIcon className="lucide lucide-calendar ml-auto h-4 w-4 opacity-50" />
       </button>
 
-      <p className="text-red-500 text-sm">{control?._formState?.errors[name]?.message}</p>
+      <p className="text-red-500 text-sm">{form.control?._formState?.errors[name]?.message}</p>
 
-      {/*
 
-        {open && (
-        )}
-      */}
+      {open && (
+        <div>
+          <FormField
+            control={form.control}
+            name={name}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel></FormLabel>
+                <Calendar
+                  className="z-50 w-72 overflow-hidden mt-1 rounded-md border bg-popover text-popover-foreground shadow-md outline-none"
+                  mode="single"
+                  selected={field.value}
+                  onSelect={field.onChange}
+                  onDayClick={(e) => handleDayClick(e)}
+                  // disabled={(date) =>
+                  //   date > new Date() || date < new Date("1900-01-01")
+                  // }
+                  initialFocus
+                />
+                <FormDescription>{description}</FormDescription>
+              </FormItem>
+            )}
+          />
+        </div>
+      )}
 
-      <div>
-        <FormField
-          control={control}
-          name={name}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel></FormLabel>
-              <Calendar
-                className="z-50 w-72 overflow-hidden mt-1 rounded-md border bg-popover text-popover-foreground shadow-md outline-none"
-                mode="single"
-                selected={field.value}
-                onSelect={field.onChange}
-                onDayClick={(e) => handleDayClick(e)}
-                // disabled={(date) =>
-                //   date > new Date() || date < new Date("1900-01-01")
-                // }
-                initialFocus
-              />
-              <FormDescription>{description}</FormDescription>
-            </FormItem>
-          )}
-        />
-      </div>
     </div>
   )
 }

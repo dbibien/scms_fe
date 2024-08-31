@@ -69,8 +69,8 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
       type: phone.length > 0 ? phone[0].type : "",
       primary: phone.length > 0 ? phone[0].primary : false,
       house_check: house?.house_check,
-      house_check_start_date: house?.house_check_start_date,
-      house_check_end_date: house?.house_check_end_date,
+      house_check_start_date: new Date(house?.house_check_start_date),
+      house_check_end_date: new Date(house?.house_check_end_date),
       // report: "",
     },
   })
@@ -185,7 +185,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
     }
   }
 
-  console.log("ran...", form.control)
+  // console.log("ran...", form.control)
 
   return (
     <Sheet open={openHomeUpdateCard} onOpenChange={setOpenHomeUpdateCard}>
@@ -506,6 +506,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                     <>
                       <SCMSFormInputCalendar2
                         control={form.control}
+                        form={form}
                         name="house_check_start_date"
                         label="Start date: "
                         description=""
@@ -513,6 +514,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
 
                       <SCMSFormInputCalendar2
                         control={form.control}
+                        form={form}
                         name="house_check_end_date"
                         label="End date: "
                         description=""
