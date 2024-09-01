@@ -15,7 +15,7 @@ type CPropsTypes = {
 const SplInput = ({ type, name, placeHolder, searchValue, setSearchValue, styles }: CPropsTypes) => {
   return (
     <div className="flex items-center border rounded-md pl-2 mb-4">
-      <Search />
+      <Search className="text-slate-500" />
       <Input
         type={type}
         name={name}
