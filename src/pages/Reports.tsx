@@ -1,3 +1,4 @@
+import HouseCheckComponent from "@/components/HouseCheckComponent"
 import ReportComponent from "@/components/ReportComponent"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
@@ -13,7 +14,7 @@ const ReportPage = () => {
         <ReportComponent />
       </TabsContent>
       <TabsContent value="house_checks">
-        Change your house checks here.
+        <HouseCheckComponent />
       </TabsContent>
     </Tabs>
   )
