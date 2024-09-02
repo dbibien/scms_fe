@@ -71,6 +71,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
       house_check: house?.house_check,
       house_check_start_date: house?.house_check_start_date ? new Date(house?.house_check_start_date) : undefined,
       house_check_end_date: house?.house_check_end_date !== "" ? new Date(house?.house_check_end_date) : undefined,
+      house_check_note: house?.house_check_note,
       // report: "",
     },
   })
@@ -99,6 +100,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
         house_check: values?.house_check,
         house_check_start_date: values?.house_check_start_date,
         house_check_end_date: values?.house_check_end_date,
+        house_check_note: values?.house_check_note,
       }
       const updatedHouse = await pb.collection("houses").update(house?.id, updateHouseData)
 
@@ -519,6 +521,26 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                         name="house_check_end_date"
                         label="End date: "
                         description=""
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="house_check_note"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>House check note:</FormLabel>
+                            <FormControl>
+                              <STextArea
+                                name="house_check_note"
+                                placeHolder="Write house check note..."
+                                helperText=""
+                                styles="h-40"
+                                fields={field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
                     </>
                   )}

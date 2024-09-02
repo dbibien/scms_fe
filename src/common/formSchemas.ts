@@ -20,6 +20,7 @@ export const homeUpdateFormSchema = z.object({
   house_check: z.boolean(),
   house_check_start_date: z.date().optional(),
   house_check_end_date: z.date().optional(),
+  house_check_note: z.string().max(256, { message: "Note must not exceed 256 characters" }).optional(),
 
   // report: z.string().max(256, { message: "Note must not exceed 256 characters" }).optional(),
   // password: z.string().min(8, { message: "Password must be between 8 and 24 characters" }).max(24, { message: "Password must be between 8 and 24 characters" }),

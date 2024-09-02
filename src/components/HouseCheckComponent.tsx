@@ -32,9 +32,7 @@ const HouseCheckComponent = () => {
         styles="pt-5 pb-5 text-lg"
       />
 
-      <HouseCheckList
-        housesToBeChecked={housesToBeChecked}
-      />
+      <HouseCheckList housesToBeChecked={housesToBeChecked} />
     </div>
   )
 }

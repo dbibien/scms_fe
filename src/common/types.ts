@@ -54,6 +54,7 @@ export type houseType = {
   house_check_start_date: string,
   house_check_end_date: string,
   house_check_last_date: string,
+  house_check_note: string,
   phones: phoneType[],
   residents: residentType[],
 }
