@@ -24,23 +24,11 @@ type loggedInUserType = {
   setLoggedInUserData: (data: loggedInUserType["user"]) => void,
 }
 
-// type housesDataFromBackend = {
-//   id: string,
-//   address: string,
-//   member_id: string,
-//   security_code: string,
-//   image: string,
-//   note: string,
-//   expand: {
-//     phones: phoneType[],
-//     residents: residentType[],
-//   }
-// }
-
 export type communityStore = {
   community: communityType,
   concerns: concernType[],
   houses: houseType[],
+  housesToBeChecked: houseType[],
   users: userType[],
   setCommunity: (data: communityType) => void,
   setConcerns: (data: concernType[]) => void,
@@ -48,9 +36,10 @@ export type communityStore = {
   setUsers: (data: userType[]) => void,
   setUpdateConcern: (data: concernType) => void,
   setDeleteConcern: (data: string) => void,
+  setHousesToBeChecked: (data: houseType[]) => void,
 }
 
-// STORE
+// STORES
 export const useApplicationStore = create<applicationStoreType>()(
   devtools(() => ({
     pb: pb,
@@ -83,6 +72,7 @@ export const useCommunityStore = create<communityStore>()(
     },
     concerns: [],
     houses: [],
+    housesToBeChecked: [],
     users: [],
     setCommunity: (data) => (set(() => ({
       community: data,
@@ -124,6 +114,7 @@ export const useCommunityStore = create<communityStore>()(
       const updatedList = state.concerns?.filter(item => item?.id !== data)
       return { concerns: updatedList }
     }),
+    setHousesToBeChecked: (data) => set(() => ({ housesToBeChecked: data }))
   }))
 )
 

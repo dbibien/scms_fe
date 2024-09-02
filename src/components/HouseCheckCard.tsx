@@ -20,6 +20,7 @@ import { Button } from "./ui/button"
 import Spinner from "./Spinner"
 import { useState } from "react"
 import { NotebookPen } from "lucide-react"
+import { useApplicationStore, useLoggedInUserStore, useCommunityStore } from "@/common/store"
 
 const FormSchema = z.object({
   everything_ok: z.enum(["yes", "no"], { required_error: "Required" }),
@@ -27,6 +28,11 @@ const FormSchema = z.object({
 })
 
 const HouseCheckCard = ({ house }: { house: houseType }) => {
+  const pb = useApplicationStore(state => state.pb)
+  const loggedInUserId = useLoggedInUserStore(state => state.user.id)
+  const housesToBeChecked = useCommunityStore(state => state.housesToBeChecked)
+  const setHousesToBeChecked = useCommunityStore(state => state.setHousesToBeChecked)
+
   const [loading, setLoading] = useState(false)
   const [showRemarkField, setShowRemarkField] = useState(false)
 
@@ -36,8 +42,55 @@ const HouseCheckCard = ({ house }: { house: houseType }) => {
 
   const watchedOk = form.watch("everything_ok")
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log("data: ", data)
+  const createReport = async (values: { everything_ok: "yes" | "no", remark?: string | undefined }) => {
+    console.log("values: ", values)
+    const yesMessage = "House was inspected on the date and time mentioned above and everything is ok."
+    const noMessage = "House was inpected and issues were found"
+
+    try {
+      // const record = await pb.collection('reports').create({
+      await pb.collection('reports').create({
+        narative: values?.remark && values?.remark !== "" ? values?.remark : values.everything_ok === "yes" ? yesMessage : noMessage,
+        type: "house_check",
+        incident_time: new Date(),
+        weather: "clear",
+        // "phone_number": values?.phoo,
+        created_by: loggedInUserId,
+        house: house?.id,
+        resident: house?.residents?.length > 0 ? house?.residents[0]?.id : "",
+        injury: false,
+        ems_pbso: false,
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const updateHome = async () => {
+    try {
+      await pb.collection("houses").update(house?.id, {
+        house_check_last_date: new Date(),
+      })
+
+      // filtering the just updated home from the list of houses to be checked
+      setHousesToBeChecked(housesToBeChecked.filter(ahouse => (ahouse?.id !== house?.id)))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    // console.log("data: ", data)
+    setLoading(true)
+
+    try {
+      createReport(data)
+      updateHome()
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setLoading(false)
+    }
   }
 
   // console.log("watchedOk: ", watchedOk)
