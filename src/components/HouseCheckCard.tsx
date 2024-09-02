@@ -2,17 +2,23 @@
 import { houseType } from "@/common/types"
 import HomeAddress from "./HomeAddress"
 import { Card, CardContent, CardTitle } from "./ui/card"
+import Note from "./Note"
 
 const HouseCheckCard = ({ house }: { house: houseType }) => {
   return (
-    <Card>
-      <CardTitle>
+    <Card className="p-2">
+      <CardTitle className="text-lg text-slate-600">
         <HomeAddress house={house} />
       </CardTitle>
 
       <CardContent>
-        <p>Note:</p>
-        <p>Some very important note to be said</p>
+        {house?.note && (<>
+          <div className="mt-4">
+            <p className="text-sm underline text-slate-500">Note:</p>
+            <Note note={house?.note} />
+          </div>
+        </>)
+        }
       </CardContent>
     </Card>
   )
