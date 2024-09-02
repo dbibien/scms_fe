@@ -44,7 +44,7 @@ const HouseCheckCard = ({ house }: { house: houseType }) => {
 
   return (
     <Card className="p-2 mb-8">
-      <CardTitle className="text-lg text-slate-600">
+      <CardTitle className="text-lg">
         <HomeAddress house={house} />
       </CardTitle>
 
