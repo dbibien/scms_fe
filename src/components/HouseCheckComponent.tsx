@@ -17,6 +17,8 @@ const HouseCheckComponent = () => {
     setHousesToBeChecked(filterForHousesToBeChecked())
   }, [])
 
+  console.log("housesToBeChecked: ", housesToBeChecked)
+
   return (
     <div>
       <ArrowDownUp />
