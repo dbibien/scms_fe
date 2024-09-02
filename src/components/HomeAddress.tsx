@@ -1,12 +1,13 @@
 import { houseType } from "@/common/types"
 
 type CProps = {
-  house: houseType
+  house: houseType,
+  styles?: string,
 }
 
-const HomeAddress = ({ house }: CProps) => {
+const HomeAddress = ({ house, styles = "text-center" }: CProps) => {
   return (
-    <p className="text-center">{`${house?.address} ${house?.apt}, ${house?.city} ${house?.state} ${house?.zip}`}</p>
+    <p className={`${styles}`}>{`${house?.address} ${house?.apt}, ${house?.city} ${house?.state} ${house?.zip}`}</p>
   )
 }
 
