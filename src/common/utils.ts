@@ -1,3 +1,9 @@
+type backend400ErrorMessageType = {
+  code: number,
+  message: string,
+  data: object,
+}
+
 export const REPORT_TYPES = [
   {
     id: 1,
@@ -81,4 +87,16 @@ export const reportFilterStartAndEndOfMonthDates = () => {
     startOfMonthDate: startOfMonthDate,
     endOfMonthDate: endOfMonthDate,
   }
+}
+
+export const retrieve400ErrorMessage = (errData: backend400ErrorMessageType) => {
+  if (!errData?.code) return "An error occured"
+
+  let errMessage = ""
+  for (const key in errData) {
+    // @ts-expect-error just ignore this
+    errMessage += key + ": " + errData[key].message + ". "
+  }
+
+  return errMessage
 }
