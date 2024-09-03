@@ -1,7 +1,12 @@
 type backend400ErrorMessageType = {
   code: number,
   message: string,
-  data: object,
+  data: {
+    [key: string]: {
+      code: string,
+      message: string,
+    }
+  },
 }
 
 export const REPORT_TYPES = [
@@ -93,9 +98,8 @@ export const retrieve400ErrorMessage = (errData: backend400ErrorMessageType) => 
   if (!errData?.code) return "An error occured"
 
   let errMessage = ""
-  for (const key in errData) {
-    // @ts-expect-error just ignore this
-    errMessage += key + ": " + errData[key].message + ". "
+  for (const key in errData?.data) {
+    errMessage += key + ": " + errData?.data[key].message + ". "
   }
 
   return errMessage

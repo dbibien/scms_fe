@@ -25,6 +25,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { useApplicationStore, useLoggedInUserStore } from '@/common/store'
 import { toast } from './ui/use-toast'
 import StateSelector from './StateSelector'
+import { retrieve400ErrorMessage } from '@/common/utils'
 
 type CProps = {
   openHomeCreationCard: boolean,
@@ -157,20 +158,24 @@ const HomeCreate = ({ openHomeCreationCard, setOpenHomeCreationCard, getHomeData
     } catch (e) {
       // @ts-expect-error expected
       const err = e?.data
-      const validationNotUniqueCode = "validation_not_unique"
       if (err?.code === 400) {
-        const errData = err?.data
-        if (errData?.address?.code === validationNotUniqueCode ||
-          errData?.city?.code === validationNotUniqueCode ||
-          errData?.state?.code === validationNotUniqueCode ||
-          errData?.zip?.code === validationNotUniqueCode
-        ) {
-          toast({
-            variant: "destructive",
-            title: "Failure",
-            description: "Home already exists"
-          })
-        }
+        toast({
+          variant: "destructive",
+          title: "Fail",
+          description: retrieve400ErrorMessage(err)
+        })
+      } else if (err?.code === 403) {
+        toast({
+          variant: "destructive",
+          title: "Fail",
+          description: err?.message,
+        })
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Fail",
+          description: "An error occured",
+        })
       }
     } finally {
       await getHomeData()
