@@ -43,7 +43,7 @@ const HouseCheckCard = ({ house }: { house: houseType }) => {
   const watchedOk = form.watch("everything_ok")
 
   const createReport = async (values: { everything_ok: "yes" | "no", remark?: string | undefined }) => {
-    console.log("values: ", values)
+    // console.log("values: ", values)
     const yesMessage = "House was inspected on the date and time mentioned above and everything is ok."
     const noMessage = "House was inpected and issues were found"
 
@@ -72,7 +72,7 @@ const HouseCheckCard = ({ house }: { house: houseType }) => {
         house_check_last_date: new Date(),
       })
 
-      // filtering the just updated home from the list of houses to be checked
+      // filtering the just updated home out of the list of houses to be checked
       setHousesToBeChecked(housesToBeChecked.filter(ahouse => (ahouse?.id !== house?.id)))
     } catch (e) {
       console.log(e)
@@ -97,8 +97,8 @@ const HouseCheckCard = ({ house }: { house: houseType }) => {
 
   return (
     <Card className="p-2 mb-8">
-      <CardTitle className="text-lg">
-        <HomeAddress house={house} />
+      <CardTitle className="text-lg pt-4">
+        <HomeAddress house={house} styles="text-center text-md font-semibold" />
       </CardTitle>
 
       <CardContent>

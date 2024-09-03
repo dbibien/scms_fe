@@ -104,3 +104,36 @@ export const retrieve400ErrorMessage = (errData: backend400ErrorMessageType) => 
 
   return errMessage
 }
+
+export const getFirstDateOfWeek = (date: Date, startDay: 'sunday' | 'monday' = 'monday'): Date => {
+  const dayOfWeek = date.getDay(); // 0 (Sunday) to 6 (Saturday)
+  let diff: number;
+
+  if (startDay === 'sunday') {
+    diff = dayOfWeek; // Sunday is 0, so no adjustment needed for it.
+  } else {
+    diff = (dayOfWeek + 6) % 7; // For Monday start, shift the days so Monday is 0.
+  }
+
+  const firstDateOfWeek = new Date(date);
+  firstDateOfWeek.setDate(date.getDate() - diff);
+  return firstDateOfWeek;
+}
+
+export const shouldHouseBeAddedToHouseCheckList = (houseCheckStartDate: Date, houseCheckEndDate: Date, houseCheckLastCheckedDate: Date, currentDate: Date, startOfWeekDate: Date): boolean => {
+  // console.log("houseId: ", houseId)
+  // console.log("start: ", houseCheckStartDate)
+  // console.log("end: ", houseCheckEndDate)
+  // console.log("week start: ", startOfWeekDate)
+  // console.log("last: ", houseCheckLastCheckedDate)
+  // console.log("current: ", currentDate)
+  // console.log()
+
+  // if (!houseCheckLastCheckedDate) console.log("no last check")
+
+  const currentDateInTime = currentDate.getTime()
+
+  if ((houseCheckStartDate.getTime() <= currentDateInTime && currentDateInTime <= houseCheckEndDate.getTime()) && houseCheckLastCheckedDate.getTime() < startOfWeekDate.getTime()) return true
+  return false
+}
+
