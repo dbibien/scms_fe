@@ -133,7 +133,11 @@ export const shouldHouseBeAddedToHouseCheckList = (houseCheckStartDate: Date, ho
 
   const currentDateInTime = currentDate.getTime()
 
-  if ((houseCheckStartDate.getTime() <= currentDateInTime && currentDateInTime <= houseCheckEndDate.getTime()) && houseCheckLastCheckedDate.getTime() < startOfWeekDate.getTime()) return true
+  const areDatesTheSame = currentDate.getFullYear() === houseCheckEndDate.getFullYear() && currentDate.getMonth() === houseCheckEndDate.getMonth() && currentDate.getDate() === houseCheckEndDate.getDate()
+  // console.log("areDatesTheSame: ", areDatesTheSame)
+
+  if ((houseCheckStartDate.getTime() <= currentDateInTime && (areDatesTheSame || currentDateInTime <= houseCheckEndDate.getTime())) && houseCheckLastCheckedDate.getTime() < startOfWeekDate.getTime()) return true
+
   return false
 }
 
