@@ -69,6 +69,7 @@ const HomePage = () => {
           house_check_start_date: house?.house_check_start_date,
           house_check_end_date: house?.house_check_end_date,
           house_check_last_date: house?.house_check_last_date,
+          house_check_note: house?.house_check_note,
           phones: phones || [],
           residents: residents || [],
         }
