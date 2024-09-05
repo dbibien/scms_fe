@@ -9,6 +9,7 @@ import PageInfoBar from "./PageInfoBar"
 
 const HouseCheckComponent = () => {
   const allHouses = useCommunityStore(state => state.houses)
+  const housesToBeChecked = useCommunityStore(state => state.housesToBeChecked)
   const setHousesToBeChecked = useCommunityStore(state => state.setHousesToBeChecked)
 
   const [searchValue, setSearchValue] = useState("")
@@ -28,8 +29,16 @@ const HouseCheckComponent = () => {
       const shouldReturnHouse = shouldHouseBeAddedToHouseCheckList(start, end, lastChecked, currentDate, startOfWeekDate)
       // console.log("shouldReturnHouse: ", shouldReturnHouse)
 
-      if (house?.house_check && shouldReturnHouse) {
+      if (house?.house_check && shouldReturnHouse && searchValue === "") {
         // console.log("house: ", house)
+        return house
+      } else if (house?.house_check && shouldReturnHouse && (
+        house.address?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        house.apt?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        house.city?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        house.state?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        house.zip?.toLowerCase().includes(searchValue.toLowerCase()))
+      ) {
         return house
       }
     })
@@ -43,9 +52,10 @@ const HouseCheckComponent = () => {
 
   useEffect(() => {
     setHousesToBeChecked(filterForHousesToBeChecked())
-  }, [])
+  }, [searchValue])
 
   // console.log("housesToBeChecked: ", housesToBeChecked)
+  // console.log("searchValue: ", searchValue)
 
   return (
     <div>
@@ -59,7 +69,7 @@ const HouseCheckComponent = () => {
       />
 
       <PageInfoBar
-        resultLength={filterForHousesToBeChecked.length}
+        resultLength={housesToBeChecked.length}
         resultType=" house(s)"
         component={
           <button
