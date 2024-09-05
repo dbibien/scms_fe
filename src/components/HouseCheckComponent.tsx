@@ -4,6 +4,7 @@ import HouseCheckList from "./HouseCheckList"
 import { useCommunityStore } from "@/common/store"
 import { useEffect, useState } from "react"
 import { getFirstDateOfWeek, shouldHouseBeAddedToHouseCheckList } from "@/common/utils"
+import PageInfoBar from "./PageInfoBar"
 // import { houseType } from "@/common/types"
 
 const HouseCheckComponent = () => {
@@ -36,6 +37,10 @@ const HouseCheckComponent = () => {
     return filterdList
   }
 
+  const sortHouseCheckList = () => {
+    console.log("sorting...")
+  }
+
   useEffect(() => {
     setHousesToBeChecked(filterForHousesToBeChecked())
   }, [])
@@ -44,8 +49,6 @@ const HouseCheckComponent = () => {
 
   return (
     <div>
-      <ArrowDownUp />
-
       <SplInput
         type="text"
         name="search"
@@ -54,6 +57,19 @@ const HouseCheckComponent = () => {
         placeHolder="Address, type, resident, member number, etc..."
         styles="pt-5 pb-5 text-lg"
       />
+
+      <PageInfoBar
+        resultLength={filterForHousesToBeChecked.length}
+        resultType=" house(s)"
+        component={
+          <button
+            onClick={sortHouseCheckList}
+            className="text-slate-500 hover:text-black flex items-center gap-1">
+            <ArrowDownUp />
+            Sort
+          </button>}
+      />
+
 
       <HouseCheckList />
     </div>
