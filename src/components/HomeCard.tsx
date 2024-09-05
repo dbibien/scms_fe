@@ -188,7 +188,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
           </>)
           }
 
-          {house?.phones.length === 0 || house?.pending_call_concerns_ids !== "" || callInProgress ? (<>
+          {house?.phones.length === 0 || house?.pending_call_concerns_ids !== "" || callInProgress || house?.house_check ? (<>
             <Separator className="mt-6 border border-slate-200" />
             <div className="mt-4">
               <p className="text-sm underline text-slate-500">Notice:</p>
@@ -197,6 +197,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
                 {house?.phones.length === 0 && <p className="text-sm text-orange-400 p-2 inline-block rounded-md bg-orange-100">Primary phone number missing</p>}
                 {house?.pending_call_concerns_ids && <p className="text-sm text-slate-500 p-2 inline-block rounded-md bg-sky-200 ml-2">Call pending</p>}
                 {callInProgress && <p className="text-sm text-pink-500 p-2 inline-block rounded-md bg-pink-200 animate-pulse">Call in progress...</p>}
+                {house?.house_check && <p className="text-sm text-purple-500 p-2 inline-block rounded-md bg-purple-200">House check</p>}
               </div>
             </div>
           </>) : ""}
