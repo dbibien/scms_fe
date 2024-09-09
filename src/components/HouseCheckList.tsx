@@ -9,7 +9,7 @@ const HouseCheckList = () => {
   const housesToBeChecked = useCommunityStore(state => state.housesToBeChecked)
 
   return (
-    <ScrollArea className="h-[70vh]">
+    <ScrollArea className="h-[70vh] mt-2">
       {
         housesToBeChecked.length < 1 ? <NoResultFound message='No houses found' /> :
 

@@ -5,6 +5,7 @@ import { useCommunityStore } from "@/common/store"
 import { useEffect, useState } from "react"
 import { getFirstDateOfWeek, shouldHouseBeAddedToHouseCheckList } from "@/common/utils"
 import PageInfoBar from "./PageInfoBar"
+import { houseType } from "@/common/types"
 // import { houseType } from "@/common/types"
 
 const HouseCheckComponent = () => {
@@ -13,6 +14,7 @@ const HouseCheckComponent = () => {
   const setHousesToBeChecked = useCommunityStore(state => state.setHousesToBeChecked)
 
   const [searchValue, setSearchValue] = useState("")
+  const [sort, setSort] = useState(false)
 
   const filterForHousesToBeChecked = () => {
     const filterdList = allHouses.filter(house => {
@@ -46,15 +48,56 @@ const HouseCheckComponent = () => {
     return filterdList
   }
 
-  const sortHouseCheckList = () => {
-    console.log("sorting...")
+  const sortHouseCheckList = (bool: boolean) => {
+    // console.log("sorting...")
+
+    const sortedItems = [...housesToBeChecked].sort((a: houseType, b: houseType) => {
+      const addressA = a.address.toLowerCase()
+      const addressB = b.address.toLowerCase()
+
+      if (bool) {
+        // ascending order
+        console.log("ascending order")
+
+        if (addressA < addressB) {
+          return -1;
+        }
+        if (addressA > addressB) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
+      } else {
+        // descending order
+        console.log("ascending order")
+
+        if (addressA < addressB) {
+          return 1;
+        }
+        if (addressA > addressB) {
+          return -1;
+        }
+
+        // names must be equal
+        return 0;
+      }
+
+    })
+
+    return sortedItems
   }
 
   useEffect(() => {
     setHousesToBeChecked(filterForHousesToBeChecked())
   }, [searchValue])
 
+  useEffect(() => {
+    setHousesToBeChecked(sortHouseCheckList(sort))
+  }, [sort])
+
   // console.log("housesToBeChecked: ", housesToBeChecked)
+  // console.log("sort: ", sort)
   // console.log("searchValue: ", searchValue)
 
   return (
@@ -73,7 +116,7 @@ const HouseCheckComponent = () => {
         resultType=" house(s)"
         component={
           <button
-            onClick={sortHouseCheckList}
+            onClick={() => setSort(!sort)}
             className="text-slate-500 hover:text-black flex items-center gap-1">
             <ArrowDownUp />
             Sort
