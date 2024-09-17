@@ -57,7 +57,7 @@ const HouseCheckComponent = () => {
 
       if (bool) {
         // ascending order
-        console.log("ascending order")
+        // console.log("ascending order")
 
         if (addressA < addressB) {
           return -1;
@@ -70,7 +70,7 @@ const HouseCheckComponent = () => {
         return 0;
       } else {
         // descending order
-        console.log("ascending order")
+        // console.log("ascending order")
 
         if (addressA < addressB) {
           return 1;
