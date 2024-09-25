@@ -2,14 +2,14 @@
 
 ## Screenshots
 [Live demo link]
-Allow your security team better control over managing the safety of your community
+Equip your security team with improved tools to ensure community safety.
 
 ## SCMS: A community management software for security teams
-SCMS enables security teams of gated communities and country clubs better control over the management of the property.
+SCMS streamlines property management, giving security teams in gated communities and country clubs improved oversight.
 
 ###  Problem:
 - Officers do not have an efficient way to inform residents of discrepancies with their home and around the community
- - Reports being completed manually or using pen and paper
+- Reports being completed manually or using pen and paper
 - Too many resources/team members allocated to complete tasks such as: garage door check, house checks, garage door light checks, etc 
 
 
