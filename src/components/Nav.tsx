@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 import {
   Sheet,
   SheetContent,
@@ -55,13 +55,13 @@ const Nav = () => {
   }, [])
 
   return (
-    <nav className="sticky top-0 z-40 bg-black flex items-center p-4 justify-between">
+    <nav className="sticky top-0 z-40 bg-black flex items-center justify-between">
       <div>
         <h1 className="text-white">SCMS</h1>
       </div>
 
       <div className="flex flex-row gap-2">
-        <div className="hidden lg:block lg:flex lg:items-center lg:gap-4">
+        <div className="hidden lg:block lg:flex lg:gap-4">
           <AppNavLinks mobile={false} />
           <Button onClick={logOut}>Log out</Button>
         </div>
@@ -78,8 +78,12 @@ export default Nav
 
 
 const NavListItem = ({ to, title, mobile = true, setOpen }: { to: string, title: string, mobile: boolean, setOpen?: React.Dispatch<React.SetStateAction<boolean>> }) => {
+  const location = useLocation()
+
   const mobileStyles = "pt-4 pb-4 text-black text-center"
-  const deskTopStyles = "text-white"
+  const deskTopStyles = `flex items-center text-white px-4 hover:cursor-pointer hover:text-black hover:bg-white 
+                          ${location.pathname === "/" && title.toLowerCase() === "homes" ? "text-black bg-white" :
+      location.pathname.toLowerCase() === `/${title.toLowerCase()}` ? "text-black bg-white" : ""}`
 
   const handleSetOpen = () => {
     if (mobile) {
@@ -92,12 +96,11 @@ const NavListItem = ({ to, title, mobile = true, setOpen }: { to: string, title:
     <>
       <li className={mobile ? mobileStyles : deskTopStyles} >
         <button
-          className="w-full hover:cursor-pointer"
+          className={`w-full ${location.pathname === "/" && title.toLowerCase() === "homes" ? "text-black" :
+            location.pathname.toLowerCase() === `/${title.toLowerCase()}` ? "text-black" : ""}`}
           onClick={handleSetOpen}
         >
-          <Link
-            to={to}
-          >
+          <Link to={to}>
             {title}
           </Link>
         </button>
@@ -114,7 +117,7 @@ const AppNavLinks = ({ mobile = true, setOpen }: { mobile: boolean, setOpen?: Re
 
   return (
     <ul className={mobile ? mobileStyles : deskTopStyles}>
-      <NavListItem to="/" title="Home" mobile={mobile} setOpen={setOpen} />
+      <NavListItem to="/" title="Homes" mobile={mobile} setOpen={setOpen} />
       <NavListItem to="/users" title="Users" mobile={mobile} setOpen={setOpen} />
       <NavListItem to="/concerns" title="Concerns" mobile={mobile} setOpen={setOpen} />
       <NavListItem to="/reports" title="Reports" mobile={mobile} setOpen={setOpen} />
