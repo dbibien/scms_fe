@@ -1,4 +1,5 @@
-# React + TypeScript + Vite
+# Security Community Management Software (SCMS)
+### Community management software for security teams
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
