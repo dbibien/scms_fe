@@ -55,7 +55,7 @@ const Nav = () => {
   }, [])
 
   return (
-    <nav className="sticky top-0 z-40 bg-black flex items-center justify-between">
+    <nav className="sticky top-0 z-40 px-4 bg-black flex items-center justify-between">
       <div>
         <h1 className="text-white">SCMS</h1>
       </div>
