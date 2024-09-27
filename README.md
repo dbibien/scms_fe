@@ -3,7 +3,7 @@
 ## Screenshots
 [Live demo link]
 
-![SCMS home page]("https://github.com/user-attachments/assets/c6472924-6ca7-4f56-991f-9853053326ed")
+![SCMS home page](https://github.com/user-attachments/assets/c6472924-6ca7-4f56-991f-9853053326ed)
 
 Equip your security team with improved tools to ensure community safety.
 
