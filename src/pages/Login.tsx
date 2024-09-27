@@ -147,7 +147,14 @@ const LoginPage = () => {
             </div>
           </form>
         </Form>
+
+        <div className="text-gray-400 text-center mt-4">
+          <p>Demo Account:</p>
+          <p>Email: demouser@demo.com</p>
+          <p>Password: @demouser1234</p>
+        </div>
       </div>
+
     </>
   )
 }
