@@ -1,6 +1,6 @@
 # Security Community Management Software (SCMS)
 
-[Live Demo](https://scms-fe.onrender.com)
+-[Live Demo](https://scms-fe.onrender.com)
 
 ## Screenshots
 
