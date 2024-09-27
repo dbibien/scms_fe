@@ -22,4 +22,7 @@ SCMS streamlines property management, giving security teams in gated communities
 - All reports are produced either through automatic generation by SCMS or through digital completion by officers
 - By optimizing the task completion process, SCMS dramatically cuts down on the resources required
 
+## Demo
+Live demo at: [Live Demo](https://scms-fe.onrender.com)
+
 <!-- ## Video -->
