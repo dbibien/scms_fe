@@ -1,7 +1,8 @@
 # Security Community Management Software (SCMS)
 
+[Live Demo](https://scms-fe.onrender.com)
+
 ## Screenshots
-[Live demo link]
 
 ![SCMS home page](https://github.com/user-attachments/assets/c6472924-6ca7-4f56-991f-9853053326ed)
 
