@@ -32,12 +32,13 @@ const ConcernCardCreate = () => {
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
   const concerns = useCommunityStore(state => state.concerns)
+  const communityName = useCommunityStore(state => state.community.name)
   const setConcerns = useCommunityStore(state => state.setConcerns)
 
   const [openSheet, setOpenSheet] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const greeting = "Hello. This is Boca Woods Security."
+  const greeting = `Hello. This is ${communityName} security team.`
   const goodBye = "Thank you. Good bye."
 
   const { toast } = useToast()
