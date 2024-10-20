@@ -110,11 +110,10 @@ const HouseCheckCard = ({ house }: { house: houseType }) => {
         </>)
         }
 
-
         {house?.house_check_note && (<>
           <div className="mt-4">
             <p className="text-sm underline text-slate-500">House check note:</p>
-            <Note note={house?.note} />
+            <Note note={house?.house_check_note} />
           </div>
         </>)
         }
