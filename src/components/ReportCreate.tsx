@@ -56,8 +56,6 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
   const [loading, setLoading] = useState(false)
   const [selectedHouse, setSelectedHouse] = useState<houseType>()
 
-
-
   const form = useForm<z.infer<typeof createReportFormSchema>>({
     resolver: zodResolver(createReportFormSchema),
     defaultValues: {
