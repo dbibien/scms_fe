@@ -1,9 +1,16 @@
 import { reportType } from "@/common/types"
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card"
 import Note from "./Note"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
+import { useState } from "react"
 
 type CProps = {
   report: reportType,
+}
+
+const NARATIVE_TYPE = {
+  aiAssist: "Ai assist",
+  original: "original",
 }
 
 const ReportCardText = ({ title, content }: { title: string, content: string }) => {
@@ -15,8 +22,25 @@ const ReportCardText = ({ title, content }: { title: string, content: string }) 
   )
 }
 
+const ReportCardNarativeTypeSelector = ({ narativeType, setNarativeType }: { narativeType: string, setNarativeType: React.Dispatch<React.SetStateAction<string>> }) => {
+  return (
+    <Select onValueChange={(e) => setNarativeType(e)}>
+      <SelectTrigger className="w-40">
+        <SelectValue defaultValue={narativeType} placeholder="Select narative type" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem defaultChecked value={NARATIVE_TYPE.aiAssist}>Ai assist</SelectItem>
+        <SelectItem value={NARATIVE_TYPE.original}>Orginal</SelectItem>
+      </SelectContent>
+    </Select>
+  )
+}
+
 const ReportCard = ({ report }: CProps) => {
+  const [narativeType, setNarativeType] = useState(NARATIVE_TYPE.aiAssist)
+
   const addressString = `${report?.house?.address} ${report?.house?.apt}, ${report?.house?.city} ${report?.house?.state}, ${report?.house?.zip}`
+
   return (
     <Card className="mb-4">
       <CardHeader>
@@ -41,7 +65,13 @@ const ReportCard = ({ report }: CProps) => {
         </div>
 
         <div className="mt-4">
-          <ReportCardText title="Narative" content="" />
+          <div className="flex flex-row justify-between items-center">
+            <ReportCardText title="Narative" content="" />
+            <ReportCardNarativeTypeSelector
+              narativeType={narativeType}
+              setNarativeType={setNarativeType}
+            />
+          </div>
           <Note note={report?.narative} />
         </div>
       </CardContent>
