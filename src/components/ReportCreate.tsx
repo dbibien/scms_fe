@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react"
+import { Plus, Brain } from "lucide-react"
 import { Button } from "./ui/button"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
@@ -219,8 +219,17 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
                   control={form.control}
                   name="narative"
                   render={({ field }) => (
-                    <FormItem className="mb-4">
-                      <FormLabel>Narative: </FormLabel>
+                    <FormItem className="mb-4 mt-4">
+                      <div className="flex flex-row justify-between items-center">
+                        <FormLabel>Narative: </FormLabel>
+                        <Button
+                          size="sm"
+                          disabled
+                        >
+                          <Brain className="pr-1" />
+                          Ai Assist
+                        </Button>
+                      </div>
                       <FormControl>
                         <STextArea
                           name="say"
