@@ -228,7 +228,7 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
                         <FormLabel>Narative: </FormLabel>
                         <Button
                           size="sm"
-                          disabled={reportNarative?.length === 0}
+                          disabled={reportNarative?.length === 0 || reportNarative === undefined}
                         >
                           <Brain className="pr-1" />
                           Ai Assist
