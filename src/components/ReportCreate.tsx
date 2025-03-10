@@ -226,7 +226,7 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
                           name="say"
                           placeHolder="Date, time, who, what, where"
                           helperText="Narative of what occured"
-                          max={1500}
+                          max={4500}
                           styles="h-40"
                           fields={field}
                         />
