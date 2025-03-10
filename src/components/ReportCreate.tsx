@@ -56,12 +56,16 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
   const [loading, setLoading] = useState(false)
   const [selectedHouse, setSelectedHouse] = useState<houseType>()
 
+
+
   const form = useForm<z.infer<typeof createReportFormSchema>>({
     resolver: zodResolver(createReportFormSchema),
     defaultValues: {
       incidentTimeDate: new Date(),
     },
   })
+
+  const reportNarative = form.watch("narative")
 
   async function onSubmit(values: z.infer<typeof createReportFormSchema>) {
     setLoading(true)
@@ -224,7 +228,7 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
                         <FormLabel>Narative: </FormLabel>
                         <Button
                           size="sm"
-                          disabled
+                          disabled={reportNarative?.length === 0}
                         >
                           <Brain className="pr-1" />
                           Ai Assist
