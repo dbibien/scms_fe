@@ -22,11 +22,12 @@ const ReportCardText = ({ title, content }: { title: string, content: string }) 
   )
 }
 
+// TODO: by the default, "Ai assist should be selected"
 const ReportCardNarativeTypeSelector = ({ narativeType, setNarativeType }: { narativeType: string, setNarativeType: React.Dispatch<React.SetStateAction<string>> }) => {
   return (
-    <Select onValueChange={(e) => setNarativeType(e)}>
+    <Select defaultValue={narativeType} onValueChange={(e) => setNarativeType(e)}>
       <SelectTrigger className="w-40">
-        <SelectValue defaultValue={narativeType} placeholder="Select narative type" />
+        <SelectValue placeholder="Select narative type" />
       </SelectTrigger>
       <SelectContent>
         <SelectItem defaultChecked value={NARATIVE_TYPE.aiAssist}>Ai assist</SelectItem>
