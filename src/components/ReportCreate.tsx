@@ -156,6 +156,33 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
     }
   }
 
+  const handleAIAssist = async () => {
+    setLoading(true)
+
+    try {
+      const res = await pb.send(`/api/scms/ai-assist`, {
+        method: "post",
+        headers: {
+          "Content-type": "application/json",
+          "Authorization": `${pb.authStore.token} `,
+        },
+        body: JSON.stringify({
+          user_input: reportNarative,
+        })
+      })
+      console.log("res: ", res)
+    } catch (e) {
+      toast({
+        variant: "destructive",
+        title: "Fail",
+        // @ts-expect-error ok for now
+        description: e.data?.message,
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
   // console.log("form: ", form)
 
   return (
@@ -225,8 +252,10 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
                       <div className="flex flex-row justify-between items-center">
                         <FormLabel>Narative: </FormLabel>
                         <Button
+                          type="button"
                           size="sm"
                           disabled={reportNarative?.length === 0 || reportNarative === undefined}
+                          onClick={handleAIAssist}
                         >
                           <Brain className="pr-1" />
                           Ai Assist
