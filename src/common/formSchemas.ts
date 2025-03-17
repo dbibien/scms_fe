@@ -56,6 +56,7 @@ export const createReportFormSchema = z.object({
   ems_pbso: z.boolean().optional(),
   // phoneNumber: z.string().min(1, "Invalid phone number").max(17, "Invalid phone number"),
   narative: z.string().min(1, "Missing content").max(500, "Exeeced 500 characters count"),
+  aiGeneartedNarative: z.string().min(1, "Missing content").max(500, "Exeeced 500 characters count"),
   house: z.string().max(17, "Invalid house").optional(),
   resident: z.string().max(17, "Invalid resident").optional(),
   createdBy: z.string().max(17, "Invalid user").optional(),
