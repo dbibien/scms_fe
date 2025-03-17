@@ -21,7 +21,8 @@ const STextArea = ({ name, placeHolder, helperText, max = undefined, styles, fie
         placeholder={placeHolder}
         maxLength={max}
         // value={searchValue}
-        className={styles} {...fields} />
+        className={styles} {...fields}
+      />
 
       <p className="text-sm text-muted-foreground">{helperText}</p>
     </div>
