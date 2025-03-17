@@ -6,7 +6,6 @@ import { ScrollArea } from "./ui/scroll-area"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import STextArea from "./STextArea"
 import Spinner from "./Spinner"
 import { useState } from "react"
 import SCMSFormInputSelector from "./SCMSFormInputSelector"
@@ -19,6 +18,10 @@ import SCMSHouseSearch from "./SCMSHouseSearch"
 import { houseType } from "@/common/types"
 import { useApplicationStore, useLoggedInUserStore } from "@/common/store"
 import { toast } from "./ui/use-toast"
+import ReportCreateNarative from "./ReportCreateNarative"
+import { Tabs, TabsList, TabsTrigger } from "./ui/tabs"
+import { TabsContent } from "@radix-ui/react-tabs"
+import NarativeTextArea from "./NarativeTextArea"
 
 type CProps = {
   openSheet: boolean,
@@ -49,12 +52,18 @@ const WEATHER_TYPES = [
   },
 ]
 
+const TABS_HEADER = {
+  original: "original",
+  aiGenerated: "ai-generated",
+}
+
 const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
 
   const [loading, setLoading] = useState(false)
   const [selectedHouse, setSelectedHouse] = useState<houseType>()
+  // const [aiGeneratedNarative, setAiGeneratedNarative] = useState("")
 
   const form = useForm<z.infer<typeof createReportFormSchema>>({
     resolver: zodResolver(createReportFormSchema),
@@ -64,6 +73,7 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
   })
 
   const reportNarative = form.watch("narative")
+  const aiGeneratedNarative = form.watch("aiGeneartedNarative")
 
   async function onSubmit(values: z.infer<typeof createReportFormSchema>) {
     setLoading(true)
@@ -171,6 +181,8 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
         })
       })
       console.log("res: ", res)
+      // setAiGeneratedNarative(res?.data)
+      form.setValue("aiGeneartedNarative", res?.data)
     } catch (e) {
       toast({
         variant: "destructive",
@@ -244,37 +256,75 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
                   label="EMS/PBSO"
                 />
 
-                <FormField
-                  control={form.control}
-                  name="narative"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 mt-4">
-                      <div className="flex flex-row justify-between items-center">
-                        <FormLabel>Narative: </FormLabel>
-                        <Button
-                          type="button"
-                          size="sm"
-                          disabled={reportNarative?.length === 0 || reportNarative === undefined}
-                          onClick={handleAIAssist}
-                        >
-                          <Brain className="pr-1" />
-                          Ai Assist
-                        </Button>
-                      </div>
-                      <FormControl>
-                        <STextArea
-                          name="say"
-                          placeHolder="Date, time, who, what, where"
-                          helperText="Narative of what occured"
-                          max={4500}
-                          styles="h-40"
-                          fields={field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="flex flex-row justify-between items-center mt-2">
+                  <FormLabel>Narative: </FormLabel>
+                  <Button
+                    type="button"
+                    size="sm"
+                    disabled={reportNarative?.length === 0 || reportNarative === undefined}
+                    onClick={handleAIAssist}
+                  >
+                    <Brain className="pr-1" />
+                    Ai Assist
+                  </Button>
+                </div>
+
+
+                <Tabs defaultValue={aiGeneratedNarative?.length > 0 ? TABS_HEADER.aiGenerated : TABS_HEADER.original}>
+                  <TabsList>
+                    <TabsTrigger value={TABS_HEADER.original}>Original</TabsTrigger>
+                    {aiGeneratedNarative && (
+                      <TabsTrigger value={TABS_HEADER.aiGenerated}>Ai Generated</TabsTrigger>
+                    )}
+                  </TabsList>
+
+                  <TabsContent value={TABS_HEADER.original}>
+                    <FormField
+                      control={form.control}
+                      name="narative"
+                      render={({ field }) => (
+                        <FormItem className="mb-4 mt-1">
+                          <FormControl>
+                            <NarativeTextArea
+                              name="say"
+                              placeHolder="Date, time, who, what, where"
+                              value={reportNarative}
+                              helperText="Narative of what occured"
+                              max={4500}
+                              styles="h-40"
+                              fields={field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </TabsContent>
+
+                  <TabsContent value={TABS_HEADER.aiGenerated}>
+                    <FormField
+                      control={form.control}
+                      name="aiGeneartedNarative"
+                      render={({ field }) => (
+                        <FormItem className="mb-4 mt-1">
+                          <FormControl>
+                            <NarativeTextArea
+                              name="say"
+                              placeHolder="Date, time, who, what, where"
+                              value={aiGeneratedNarative}
+                              helperText="Narative of what occured"
+                              max={4500}
+                              styles="h-40"
+                              fields={field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                  </TabsContent>
+                </Tabs>
               </ScrollArea>
 
               <div className="mt-8">
@@ -295,3 +345,39 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
 }
 
 export default ReportCreate
+
+
+// <FormField
+//   control={form.control}
+//   name="narative"
+//   render={({ field }) => (
+//     <FormItem className="mb-4 mt-4">
+//       <div className="flex flex-row justify-between items-center">
+//         <FormLabel>Narative: </FormLabel>
+//         <Button
+//           type="button"
+//           size="sm"
+//           disabled={reportNarative?.length === 0 || reportNarative === undefined}
+//           onClick={handleAIAssist}
+//         >
+//           <Brain className="pr-1" />
+//           Ai Assist
+//         </Button>
+//       </div>
+//       <FormControl>
+//         <ReportCreateNarative
+//           name="say"
+//           placeHolder="Date, time, who, what, where"
+//           originalValue={reportNarative}
+//           aiGeneratedValue={aiGeneratedNarative}
+//           helperText="Narative of what occured"
+//           max={4500}
+//           styles="h-40"
+//           fields={field}
+//         // setAiGeneratedNarative={setAiGeneratedNarative}
+//         />
+//       </FormControl>
+//       <FormMessage />
+//     </FormItem>
+//   )}
+// />
