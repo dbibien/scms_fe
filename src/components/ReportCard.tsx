@@ -22,7 +22,6 @@ const ReportCardText = ({ title, content }: { title: string, content: string }) 
   )
 }
 
-// TODO: by the default, "Ai assist should be selected"
 const ReportCardNarativeTypeSelector = ({ narativeType, setNarativeType }: { narativeType: string, setNarativeType: React.Dispatch<React.SetStateAction<string>> }) => {
   return (
     <Select defaultValue={narativeType} onValueChange={(e) => setNarativeType(e)}>
@@ -30,8 +29,8 @@ const ReportCardNarativeTypeSelector = ({ narativeType, setNarativeType }: { nar
         <SelectValue placeholder="Select narative type" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem defaultChecked value={NARATIVE_TYPE.aiAssist}>Ai assist</SelectItem>
-        <SelectItem value={NARATIVE_TYPE.original}>Orginal</SelectItem>
+        <SelectItem defaultChecked value={NARATIVE_TYPE.original}>Original</SelectItem>
+        <SelectItem value={NARATIVE_TYPE.aiAssist}>Ai assist</SelectItem>
       </SelectContent>
     </Select>
   )
@@ -73,7 +72,7 @@ const ReportCard = ({ report }: CProps) => {
               setNarativeType={setNarativeType}
             />
           </div>
-          <Note note={narativeType === NARATIVE_TYPE.aiAssist && report?.ai_generated_narative ? report?.ai_generated_narative : report?.narative} />
+          <Note note={narativeType === NARATIVE_TYPE.aiAssist ? report?.ai_generated_narative || "N/A" : report?.narative} />
         </div>
       </CardContent>
 
