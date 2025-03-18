@@ -35,7 +35,7 @@ const ReportComponent = () => {
   const getReports = async (startDate: Date, endDate: Date) => {
     setLoading(true)
     try {
-      const houseFields = `id, narative, type, weather, incident_time, created, phone_number, injury, ems_pbso,
+      const houseFields = `id, narative, ai_generated_narative, type, weather, incident_time, created, phone_number, injury, ems_pbso,
                           expand.house.id, expand.house.address, expand.house.apt, expand.house.city, expand.house.city,
                           expand.house.state, expand.house.zip, expand.house.member_number, expand.house.security_code,
                           expand.created_by.id, expand.created_by.first_name, expand.created_by.last_name,
@@ -63,6 +63,7 @@ const ReportComponent = () => {
           phone_number: result?.phone_number,
           weather: result?.weather,
           narative: result?.narative?.replace("<p>", "").replace("</p>", ""),
+          ai_generated_narative: result?.ai_generated_narative?.replace("<p>", "").replace("</p>", ""),
           // address: `${result?.expand?.house?.address} ${result?.expand?.house?.apt} ${result?.expand?.house?.city} ${result?.expand?.house?.state} ${result?.expand?.house?.zip}`,
           house: {
             id: result?.expand?.house?.id,
