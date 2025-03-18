@@ -80,6 +80,7 @@ export type reportType = {
   phone_number: string,
   weather: "clear" | "sunny" | "cloudy" | "rain",
   narative: string,
+  ai_generated_narative: string,
   // created_by: string,
   house: {
     id: string,
