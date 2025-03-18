@@ -180,7 +180,7 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
           user_input: reportNarative,
         })
       })
-      console.log("res: ", res)
+      // console.log("res: ", res)
       // setAiGeneratedNarative(res?.data)
       form.setValue("aiGeneartedNarative", res?.data)
     } catch (e) {
