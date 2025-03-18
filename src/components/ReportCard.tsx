@@ -73,7 +73,7 @@ const ReportCard = ({ report }: CProps) => {
               setNarativeType={setNarativeType}
             />
           </div>
-          <Note note={report?.narative} />
+          <Note note={narativeType === NARATIVE_TYPE.aiAssist && report?.ai_generated_narative ? report?.ai_generated_narative : report?.narative} />
         </div>
       </CardContent>
 
