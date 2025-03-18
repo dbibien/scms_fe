@@ -18,7 +18,6 @@ import SCMSHouseSearch from "./SCMSHouseSearch"
 import { houseType } from "@/common/types"
 import { useApplicationStore, useLoggedInUserStore } from "@/common/store"
 import { toast } from "./ui/use-toast"
-import ReportCreateNarative from "./ReportCreateNarative"
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs"
 import { TabsContent } from "@radix-ui/react-tabs"
 import NarativeTextArea from "./NarativeTextArea"
@@ -101,6 +100,7 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
       // const record = await pb.collection('reports').create({
       await pb.collection('reports').create({
         narative: values?.narative,
+        ai_generated_narative: values?.aiGeneartedNarative,
         type: values?.type,
         incident_time: incidentDateTime, // TODO: use the hour and the minutes to create the actual and correct time
         weather: values?.weather,
@@ -322,7 +322,6 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
                         </FormItem>
                       )}
                     />
-
                   </TabsContent>
                 </Tabs>
               </ScrollArea>
@@ -345,39 +344,3 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
 }
 
 export default ReportCreate
-
-
-// <FormField
-//   control={form.control}
-//   name="narative"
-//   render={({ field }) => (
-//     <FormItem className="mb-4 mt-4">
-//       <div className="flex flex-row justify-between items-center">
-//         <FormLabel>Narative: </FormLabel>
-//         <Button
-//           type="button"
-//           size="sm"
-//           disabled={reportNarative?.length === 0 || reportNarative === undefined}
-//           onClick={handleAIAssist}
-//         >
-//           <Brain className="pr-1" />
-//           Ai Assist
-//         </Button>
-//       </div>
-//       <FormControl>
-//         <ReportCreateNarative
-//           name="say"
-//           placeHolder="Date, time, who, what, where"
-//           originalValue={reportNarative}
-//           aiGeneratedValue={aiGeneratedNarative}
-//           helperText="Narative of what occured"
-//           max={4500}
-//           styles="h-40"
-//           fields={field}
-//         // setAiGeneratedNarative={setAiGeneratedNarative}
-//         />
-//       </FormControl>
-//       <FormMessage />
-//     </FormItem>
-//   )}
-// />
