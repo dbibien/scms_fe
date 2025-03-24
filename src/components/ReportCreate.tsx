@@ -264,11 +264,14 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
                     disabled={reportNarative?.length === 0 || reportNarative === undefined}
                     onClick={handleAIAssist}
                   >
-                    <Brain className="pr-1" />
-                    Ai Assist
+                    {loading ? <Spinner /> : (
+                      <>
+                        <Brain className="pr-1" />
+                        Ai Assist
+                      </>
+                    )}
                   </Button>
                 </div>
-
 
                 <Tabs defaultValue={aiGeneratedNarative?.length > 0 ? TABS_HEADER.aiGenerated : TABS_HEADER.original}>
                   <TabsList>
