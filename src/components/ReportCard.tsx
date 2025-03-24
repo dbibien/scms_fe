@@ -65,7 +65,7 @@ const ReportCard = ({ report }: CProps) => {
         </div>
 
         <div className="mt-4">
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-between items-center mb-2">
             <ReportCardText title="Narative" content="" />
             <ReportCardNarativeTypeSelector
               narativeType={narativeType}
