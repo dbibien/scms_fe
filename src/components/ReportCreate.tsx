@@ -195,6 +195,12 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
     }
   }
 
+  const handleSetCurrentTimeAsReportTime = () => {
+    const now = new Date()
+    form.setValue("incidentTimeHour", now.getHours().toString())
+    form.setValue("incidentTimeMinute", now.getMinutes().toString())
+  }
+
   // console.log("form: ", form)
 
   return (
@@ -237,9 +243,12 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
 
                   <SCMSFormInputCalendar control={form.control} />
 
-                  <p className="text-sm font-medium">Incident time: </p>
+                  <p className="text-sm font-medium mt-4">Incident time: </p>
 
-                  <SCMSFormInputTimePicker control={form.control} />
+                  <SCMSFormInputTimePicker
+                    control={form.control}
+                    handleSetCurrentTimeAsReportTime={handleSetCurrentTimeAsReportTime}
+                  />
                 </div>
 
                 <SCMSHouseSearch setHouse={setSelectedHouse} />
