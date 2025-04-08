@@ -24,7 +24,7 @@ const SInput = ({ type, name, placeHolder, helperText = "", maxCharacters = unde
         maxLength={maxCharacters}
         max={max}
         min={min}
-        value={fields.value}
+        value={fields?.value}
         className={`focus-visible:ring-0 ${styles}`} {...fields} />
       <p className="text-sm text-muted-foreground mt-1">{helperText}</p>
     </div>
