@@ -51,6 +51,7 @@ const HouseCheckCard = ({ house }: { house: houseType }) => {
       // const record = await pb.collection('reports').create({
       await pb.collection('reports').create({
         narative: values?.remark && values?.remark !== "" ? values?.remark : values.everything_ok === "yes" ? yesMessage : noMessage,
+        ai_generated_narative: "",
         type: "house_check",
         incident_time: new Date(),
         weather: "clear",
