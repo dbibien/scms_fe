@@ -80,12 +80,14 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
   const watchLastName = form.watch("last_name")
   const houseCheck = form.watch("house_check")
 
-  // console.log("house?.house_check_start_date: ", house?.house_check_start_date)
-  // console.log("house?.house_check_end_date: ", house?.house_check_end_date)
-
   const onSubmit = async (values: z.infer<typeof homeUpdateFormSchema>) => {
     setLoading(true)
+
+    values.house_check_start_date?.setHours(0, 0, 0, 0) // setting the house check start date value to the first hour, minute, second and, miliseconds of the date
+    values.house_check_end_date?.setHours(23, 59, 59, 999) // setting the house check end date value to the last hour, minute, second and, miliseconds of the date
+
     // console.log("values: ", values)
+
     try {
       const updateHouseData = {
         address: values.address,
