@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { addDaysToDate, getFirstDateOfWeek, isNowBetweenStartAndEndDates } from "./utils";
+import { addDaysToDate, getFirstDateOfWeek, isDateBetweenStartAndEndDates } from "./utils";
 
 describe("getFirstDateOfWeek ", () => {
   it("should return May 11th, 2025 as the first date of the week when the weeks starts on Sundays and the given date is May 14th, 2025", () => {
@@ -31,15 +31,15 @@ describe("getFirstDateOfWeek ", () => {
   })
 })
 
-describe("isNowBetweenStartAndEndDates ", () => {
+describe("isDateBetweenStartAndEndDates ", () => {
   // NOTE: the hours, minute, and seconds of the end date for a house check should be 11:59:59pm. This will make sure the house remain in the list of houses to be checked all the way until the end of the day
 
   it("should return 'true' when the current date is BETWEEN the start and end date", () => {
-    const now = new Date()
-    const start = new Date("April 17, 2025 03:24:00")
-    const end = new Date("April 17, 3040 03:24:00")
+    const date = new Date("April 19, 2025 ")
+    const start = new Date("April 17, 2025 00:00:00")
+    const end = new Date("April 20, 2025 23:59:59")
 
-    const answer = isNowBetweenStartAndEndDates(now, start, end)
+    const answer = isDateBetweenStartAndEndDates(date, start, end)
     expect(answer).toBeTruthy()
   })
 
@@ -48,7 +48,7 @@ describe("isNowBetweenStartAndEndDates ", () => {
     const start = new Date("April 17, 2025 03:24:00")
     const end = new Date("April 17, 3040 03:24:00")
 
-    const answer = isNowBetweenStartAndEndDates(now, start, end)
+    const answer = isDateBetweenStartAndEndDates(now, start, end)
     expect(answer).toBeTruthy()
   })
 
@@ -57,16 +57,16 @@ describe("isNowBetweenStartAndEndDates ", () => {
     const start = new Date("April 17, 2020 03:24:00")
     const end = new Date("April 17, 2025 15:24:00")
 
-    const answer = isNowBetweenStartAndEndDates(now, start, end)
+    const answer = isDateBetweenStartAndEndDates(now, start, end)
     expect(answer).toBeTruthy()
   })
 
   it("should return 'false' when the current date is BEFORE the start date", () => {
-    const now = new Date("January 17, 1990 03:24:00")
-    const start = new Date("April 17, 2025 03:24:00")
-    const end = new Date("April 17, 3040 03:24:00")
+    const now = new Date("April 11, 2025 00:00:00")
+    const start = new Date("April 17, 2025 00:00:00")
+    const end = new Date("April 17, 3040 23:59:59")
 
-    const answer = isNowBetweenStartAndEndDates(now, start, end)
+    const answer = isDateBetweenStartAndEndDates(now, start, end)
     expect(answer).toBeFalsy()
   })
 
@@ -75,7 +75,7 @@ describe("isNowBetweenStartAndEndDates ", () => {
     const start = new Date("April 17, 2022 03:24:00")
     const end = new Date("April 17, 2025 03:24:00")
 
-    const answer = isNowBetweenStartAndEndDates(now, start, end)
+    const answer = isDateBetweenStartAndEndDates(now, start, end)
     expect(answer).toBeFalsy()
   })
 })
