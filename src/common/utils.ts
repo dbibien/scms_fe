@@ -192,3 +192,7 @@ export const displayDateStringIn24HourFormat = (date: string) => {
   return new Date(date).toLocaleString("en-US", { hour12: false })
 }
 
+export const addDaysToDate = (date: Date, daysToAdd: number) => {
+  date.setDate(date.getDate() + daysToAdd)
+  return date
+}
