@@ -122,7 +122,7 @@ export const getFirstDateOfWeek = (date: Date, startDay: 'sunday' | 'monday' = '
   return firstDateOfWeek;
 }
 
-export const shouldHouseBeAddedToHouseCheckList = (houseCheckStartDate: Date, houseCheckEndDate: Date, houseCheckLastCheckedDate: Date, currentDate: Date, startOfWeekDate: Date): boolean => {
+export const shouldHouseBeAddedToHouseCheckList = (houseCheckStartDate: Date, houseCheckEndDate: Date, houseCheckLastCheckedDate: Date | null): boolean => {
   // console.log("houseId: ", houseId)
   // console.log("start: ", houseCheckStartDate)
   // console.log("end: ", houseCheckEndDate)
@@ -131,18 +131,13 @@ export const shouldHouseBeAddedToHouseCheckList = (houseCheckStartDate: Date, ho
   // console.log("current: ", currentDate)
   // console.log()
 
-  // if (!houseCheckLastCheckedDate) console.log("no last check")
+  if (!houseCheckLastCheckedDate) {
+    const now = new Date()
+    return isDateBetweenStartAndEndDates(now, houseCheckStartDate, houseCheckEndDate)
+  }
 
-  const currentDateInTime = currentDate.getTime()
-  console.log("currentDateInTime: ", currentDateInTime)
-
-  // is the current date the same as the house check end date
-  const areDatesTheSame = currentDate.getFullYear() === houseCheckEndDate.getFullYear() && currentDate.getMonth() === houseCheckEndDate.getMonth() && currentDate.getDate() === houseCheckEndDate.getDate()
-  console.log("areDatesTheSame: ", areDatesTheSame)
-
-  if ((houseCheckStartDate.getTime() <= currentDateInTime && (areDatesTheSame || currentDateInTime <= houseCheckEndDate.getTime())) && houseCheckLastCheckedDate.getTime() < startOfWeekDate.getTime()) return true
-
-  return false
+  const lastCheckDatePlus7Days = addDaysToDate(houseCheckLastCheckedDate, 7)
+  return isDateBetweenStartAndEndDates(lastCheckDatePlus7Days, houseCheckStartDate, houseCheckEndDate)
 }
 
 export const isDateBetweenStartAndEndDates = (date: Date, houseCheckStart: Date, houseCheckEnd: Date) => {
