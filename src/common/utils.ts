@@ -188,3 +188,7 @@ export const filterForHousesToBeChecked = (houses: houseType[], searchValue: str
   return filterdList
 }
 
+export const displayDateStringIn24HourFormat = (date: string) => {
+  return new Date(date).toLocaleString("en-US", { hour12: false })
+}
+
