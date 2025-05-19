@@ -21,6 +21,7 @@ import { ScrollArea } from "./ui/scroll-area"
 import HomeAddress from "./HomeAddress"
 import { homeUpdateFormSchema } from "@/common/formSchemas"
 import SCMSFormInputCalendar2 from "./SCMSFormInputCalendar2"
+import { displayDateStringIn24HourFormat } from "@/common/utils"
 
 type CProps = {
   house: houseType,
@@ -511,6 +512,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
 
                   {houseCheck && (
                     <>
+                      <p className="text-sm font-medium">Last checked: <span className="font-normal">{displayDateStringIn24HourFormat(house?.house_check_last_date)}</span></p>
                       <SCMSFormInputCalendar2
                         form={form}
                         name="house_check_start_date"
