@@ -18,27 +18,25 @@ const HouseCheckComponent = () => {
 
   const filterForHousesToBeChecked = () => {
     const filterdList = allHouses.filter(house => {
-      console.log("house: ", house)
+      // console.log("house: ", house)
 
-      const currentDate = new Date()
-      const start = new Date(house?.house_check_start_date)
-      const end = new Date(house?.house_check_end_date)
-      const startOfWeekDate = getFirstDateOfWeek(currentDate, 'sunday')
-      let lastChecked = house?.house_check_last_date === "" ? new Date(startOfWeekDate) : new Date(house?.house_check_last_date)
-      lastChecked = new Date(lastChecked.setDate(lastChecked.getDate() - 1))
-      // console.log("lastChecked: ", lastChecked)
+      // const currentDate = new Date()
+      const houseCheckStartDate = new Date(house?.house_check_start_date)
+      const houseCheckEndDate = new Date(house?.house_check_end_date)
+      // const startOfWeekDate = getFirstDateOfWeek(currentDate, 'sunday')
+      const houseLastChecked = house?.house_check_last_date === "" ? null : new Date(house?.house_check_last_date)
 
-      console.log("currentDate: ", currentDate)
-      console.log("start: ", start)
-      console.log("end: ", end)
-      console.log("date of start of week: ", startOfWeekDate)
-      console.log("lastChecked: ", lastChecked)
+      // console.log("currentDate: ", currentDate)
+      // console.log("houseCheckStartDate : ", houseCheckStartDate)
+      // console.log("houseCheckEndDate : ", houseCheckEndDate)
+      // console.log("date of start of week: ", startOfWeekDate)
+      // console.log("lastChecked: ", houseLastChecked)
 
-      const shouldReturnHouse = shouldHouseBeAddedToHouseCheckList(start, end, lastChecked, currentDate, startOfWeekDate)
+      const shouldReturnHouse = shouldHouseBeAddedToHouseCheckList(houseCheckStartDate, houseCheckEndDate, houseLastChecked)
       // console.log("shouldReturnHouse: ", shouldReturnHouse)
 
       if (house?.house_check && shouldReturnHouse && searchValue === "") {
-        // console.log("house: ", house)
+        console.log("house: ", house)
         return house
       } else if (house?.house_check && shouldReturnHouse && (
         house.address?.toLowerCase().includes(searchValue.toLowerCase()) ||
