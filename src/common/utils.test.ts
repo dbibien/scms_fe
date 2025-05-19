@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { getFirstDateOfWeek, isNowBetweenStartAndEndDates } from "./utils";
+import { addDaysToDate, getFirstDateOfWeek, isNowBetweenStartAndEndDates } from "./utils";
 
 describe("getFirstDateOfWeek ", () => {
   it("should return May 11th, 2025 as the first date of the week when the weeks starts on Sundays and the given date is May 14th, 2025", () => {
@@ -77,5 +77,43 @@ describe("isNowBetweenStartAndEndDates ", () => {
 
     const answer = isNowBetweenStartAndEndDates(now, start, end)
     expect(answer).toBeFalsy()
+  })
+})
+
+describe("addDaysToDate", () => {
+  it("should return May 19 2025, 00:00:00 when 7 days is added to May 12, 2025 00:00:00", () => {
+    const date = new Date("May 12, 2025 00:00:00")
+    const datePlus7Days = addDaysToDate(date, 7)
+
+    const expectedDate = new Date("May 19 2025, 00:00:00")
+
+    expect(datePlus7Days).toStrictEqual(expectedDate)
+  })
+
+  it("should return May 08 2025, 00:00:00 when 7 days is added to May 01, 2025 00:00:00", () => {
+    const date = new Date("May 01, 2025 00:00:00")
+    const datePlus7Days = addDaysToDate(date, 7)
+
+    const expectedDate = new Date("May 08 2025, 00:00:00")
+
+    expect(datePlus7Days).toStrictEqual(expectedDate)
+  })
+
+  it("should return June 03 2025, 00:00:00 when 7 days is added to May 27, 2025 00:00:00", () => {
+    const date = new Date("May 27, 2025 00:00:00")
+    const datePlus7Days = addDaysToDate(date, 7)
+
+    const expectedDate = new Date("June 03 2025, 00:00:00")
+
+    expect(datePlus7Days).toStrictEqual(expectedDate)
+  })
+
+  it("should return June 07 2025, 00:00:00 when 7 days is added to May 31, 2025 00:00:00", () => {
+    const date = new Date("May 31, 2025 00:00:00")
+    const datePlus7Days = addDaysToDate(date, 7)
+
+    const expectedDate = new Date("June 07 2025, 00:00:00")
+
+    expect(datePlus7Days).toStrictEqual(expectedDate)
   })
 })
