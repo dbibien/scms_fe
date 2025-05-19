@@ -18,7 +18,7 @@ const HouseCheckComponent = () => {
 
   const filterForHousesToBeChecked = () => {
     const filterdList = allHouses.filter(house => {
-      // console.log("house: ", house)
+      console.log("house: ", house)
 
       const currentDate = new Date()
       const start = new Date(house?.house_check_start_date)
@@ -27,6 +27,12 @@ const HouseCheckComponent = () => {
       let lastChecked = house?.house_check_last_date === "" ? new Date(startOfWeekDate) : new Date(house?.house_check_last_date)
       lastChecked = new Date(lastChecked.setDate(lastChecked.getDate() - 1))
       // console.log("lastChecked: ", lastChecked)
+
+      console.log("currentDate: ", currentDate)
+      console.log("start: ", start)
+      console.log("end: ", end)
+      console.log("date of start of week: ", startOfWeekDate)
+      console.log("lastChecked: ", lastChecked)
 
       const shouldReturnHouse = shouldHouseBeAddedToHouseCheckList(start, end, lastChecked, currentDate, startOfWeekDate)
       // console.log("shouldReturnHouse: ", shouldReturnHouse)

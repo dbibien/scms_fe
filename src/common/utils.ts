@@ -1,3 +1,5 @@
+import { houseType } from "./types"
+
 type backend400ErrorMessageType = {
   code: number,
   message: string,
@@ -132,12 +134,57 @@ export const shouldHouseBeAddedToHouseCheckList = (houseCheckStartDate: Date, ho
   // if (!houseCheckLastCheckedDate) console.log("no last check")
 
   const currentDateInTime = currentDate.getTime()
+  console.log("currentDateInTime: ", currentDateInTime)
 
+  // is the current date the same as the house check end date
   const areDatesTheSame = currentDate.getFullYear() === houseCheckEndDate.getFullYear() && currentDate.getMonth() === houseCheckEndDate.getMonth() && currentDate.getDate() === houseCheckEndDate.getDate()
-  // console.log("areDatesTheSame: ", areDatesTheSame)
+  console.log("areDatesTheSame: ", areDatesTheSame)
 
   if ((houseCheckStartDate.getTime() <= currentDateInTime && (areDatesTheSame || currentDateInTime <= houseCheckEndDate.getTime())) && houseCheckLastCheckedDate.getTime() < startOfWeekDate.getTime()) return true
 
   return false
+}
+
+export const isNowBetweenStartAndEndDates = (now: Date, houseCheckStart: Date, houseCheckEnd: Date) => {
+  if (houseCheckStart.getTime() <= now.getTime() && now.getTime() <= houseCheckEnd.getTime()) return true
+  return false
+}
+
+export const filterForHousesToBeChecked = (houses: houseType[], searchValue: string) => {
+  const filterdList = houses.filter(house => {
+    console.log("house: ", house)
+
+    const currentDate = new Date()
+    const start = new Date(house?.house_check_start_date)
+    const end = new Date(house?.house_check_end_date)
+    const startOfWeekDate = getFirstDateOfWeek(currentDate, 'sunday')
+    let lastChecked = house?.house_check_last_date === "" ? new Date(startOfWeekDate) : new Date(house?.house_check_last_date)
+    lastChecked = new Date(lastChecked.setDate(lastChecked.getDate() - 1))
+    // console.log("lastChecked: ", lastChecked)
+
+    console.log("currentDate: ", currentDate)
+    console.log("start: ", start)
+    console.log("end: ", end)
+    console.log("date of start of week: ", startOfWeekDate)
+    console.log("lastChecked: ", lastChecked)
+
+    const shouldReturnHouse = shouldHouseBeAddedToHouseCheckList(start, end, lastChecked, currentDate, startOfWeekDate)
+    // console.log("shouldReturnHouse: ", shouldReturnHouse)
+
+    if (house?.house_check && shouldReturnHouse && searchValue === "") {
+      // console.log("house: ", house)
+      return house
+    } else if (house?.house_check && shouldReturnHouse && (
+      house.address?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      house.apt?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      house.city?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      house.state?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      house.zip?.toLowerCase().includes(searchValue.toLowerCase()))
+    ) {
+      return house
+    }
+  })
+
+  return filterdList
 }
 
