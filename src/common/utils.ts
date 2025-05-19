@@ -145,8 +145,8 @@ export const shouldHouseBeAddedToHouseCheckList = (houseCheckStartDate: Date, ho
   return false
 }
 
-export const isNowBetweenStartAndEndDates = (now: Date, houseCheckStart: Date, houseCheckEnd: Date) => {
-  if (houseCheckStart.getTime() <= now.getTime() && now.getTime() <= houseCheckEnd.getTime()) return true
+export const isDateBetweenStartAndEndDates = (date: Date, houseCheckStart: Date, houseCheckEnd: Date) => {
+  if (date.getTime() >= houseCheckStart.getTime() && date.getTime() <= houseCheckEnd.getTime()) return true
   return false
 }
 
