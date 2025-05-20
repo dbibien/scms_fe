@@ -20,6 +20,7 @@ import { toast } from "./ui/use-toast";
 import SplInput from "./SplInput";
 import Note from "./Note";
 import { Separator } from "./ui/separator";
+import HomeNotice from "./HomeNotice/HomeNotice";
 
 type homeCardType = {
   house: houseType,
@@ -188,19 +189,12 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
           </>)
           }
 
-          {house?.phones.length === 0 || house?.pending_call_concerns_ids !== "" || callInProgress || house?.house_check ? (<>
-            <Separator className="mt-6 border border-slate-200" />
-            <div className="mt-4">
-              <p className="text-sm underline text-slate-500">Notice:</p>
-              {/*<div className="space-y-2 spce-x-2">*/}
-              <div className="flex flex-row gap-2">
-                {house?.phones.length === 0 && <p className="text-sm text-orange-400 p-2 inline-block rounded-md bg-orange-100">Primary phone number missing</p>}
-                {house?.pending_call_concerns_ids && <p className="text-sm text-slate-500 p-2 inline-block rounded-md bg-sky-200 ml-2">Call pending</p>}
-                {callInProgress && <p className="text-sm text-pink-500 p-2 inline-block rounded-md bg-pink-200 animate-pulse">Call in progress...</p>}
-                {house?.house_check && <p className="text-sm text-purple-500 p-2 inline-block rounded-md bg-purple-200">House check</p>}
-              </div>
-            </div>
-          </>) : ""}
+          <HomeNotice
+            phones={house?.phones}
+            pending_call_concerns_ids={house?.pending_call_concerns_ids}
+            callInProgress={callInProgress}
+            house_check={house?.house_check}
+          />
         </CardContent>
       </div>
 
