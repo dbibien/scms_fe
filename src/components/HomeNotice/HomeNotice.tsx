@@ -1,27 +1,26 @@
-import { phoneType } from "@/common/types"
-import { Button } from "../ui/button"
+import { phoneType, residentType } from "@/common/types"
 import { Separator } from "../ui/separator"
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import HouseCheckDialogue from "../HouseCheckDialogue/HouseCheckDialogue"
 
 type CProps = {
   phones: phoneType[],
   pending_call_concerns_ids: string,
   callInProgress: boolean,
   house_check: boolean,
+
+  // house props
+  id: string,
+  address: string,
+  apt: string,
+  city: string,
+  state: string,
+  zip: string,
+  note: string,
+  house_check_note: string,
+  residents: residentType[]
 }
 
-const HomeNotice = ({ phones, pending_call_concerns_ids, callInProgress, house_check }: CProps) => {
+const HomeNotice = ({ phones, pending_call_concerns_ids, callInProgress, house_check, id, address, apt, city, state, zip, note, house_check_note, residents }: CProps) => {
   return (
     <>
       {phones.length === 0 || pending_call_concerns_ids !== "" || callInProgress || house_check ? (<div data-testid="home-notice-container">
@@ -37,7 +36,17 @@ const HomeNotice = ({ phones, pending_call_concerns_ids, callInProgress, house_c
             {pending_call_concerns_ids && <p data-testid="home-notice-pending" className="text-sm text-slate-500 p-2 inline-block rounded-md bg-sky-200 ml-2">Call pending</p>}
             {callInProgress && <p data-testid="home-notice-callprog" className="text-sm text-pink-500 p-2 inline-block rounded-md bg-pink-200 animate-pulse">Call in progress...</p>}
             {house_check && (
-              <HouseCheckDialogue />
+              <HouseCheckDialogue
+                id={id}
+                address={address}
+                apt={apt}
+                city={city}
+                state={state}
+                zip={zip}
+                note={note}
+                house_check_note={house_check_note}
+                residents={residents}
+              />
             )}
           </div>
         </div>
@@ -47,47 +56,3 @@ const HomeNotice = ({ phones, pending_call_concerns_ids, callInProgress, house_c
 }
 
 export default HomeNotice
-
-
-const HouseCheckDialogue = () => {
-
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          data-testid="home-notice-houseCheck"
-          className="text-sm text-purple-500 p-2 rounded-md bg-purple-200 hover:bg-purple-300"
-        >
-          House check
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader className="flex flex-col items-center" >
-          <DialogTitle>House Check</DialogTitle>
-          <DialogDescription>
-            21341 Highland Circle
-          </DialogDescription>
-        </DialogHeader>
-
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
-        </div>
-
-        <DialogFooter>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  )
-}
