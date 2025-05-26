@@ -11,26 +11,20 @@ import HomeCreate from "@/components/HomeCreate"
 import HomeCard from "@/components/HomeCard";
 import NoResultFound from '@/components/NoResultsFound'
 import useGetHomes from "@/hooks/useGetHomes"
+import { toast } from "@/components/ui/use-toast"
+import Spinner from "@/components/Spinner"
 
 const HomePage = () => {
-  // const pb = useApplicationStore(state => state.pb)
   const setHouses = useCommunityStore(state => state.setHouses)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
 
   const { data: houses, isLoading, error } = useGetHomes(loggedInUserCommunityId)
   setHouses(houses)
-  const [filteredHouses, setFilteredHouses] = useState<houseType[]>(() => houses)
-  // setFilteredHouses(houses)
 
-  // const houses = useCommunityStore(state => state.houses)
+  const [filteredHouses, setFilteredHouses] = useState<houseType[]>(() => houses)
   const [searchHomeValue, setSearchHomeValue] = useState("")
   const [openHomeCreationCard, setOpenHomeCreationCard] = useState(false)
 
-
-  // console.log("houses: ", houses)
-  console.log("isLoading: ", isLoading)
-  console.log("error: ", error)
-  console.log("filteredHouses: ", filteredHouses)
 
   // const getHomeData = async () => {
   //   try {
@@ -138,53 +132,68 @@ const HomePage = () => {
   // console.log("house: ", houses)
   // console.log("concerns: ", concerns)
 
-  return (
-    <div>
-      <SplInput
-        type="text"
-        name="search"
-        searchValue={searchHomeValue}
-        setSearchValue={setSearchHomeValue}
-        placeHolder="Search homes..."
-        styles="pt-5 pb-5 text-lg"
-      />
 
-      <PageInfoBar
-        resultLength={filteredHouses.length}
-        resultType=" home(s)"
-        component={<HomeCreate
-          openHomeCreationCard={openHomeCreationCard}
-          setOpenHomeCreationCard={setOpenHomeCreationCard}
-          showCreationButton={filteredHouses.length > 0 && true}
-          getHomeData={getHomeData}
-        />}
-      />
+  if (error) {
+    toast({
+      variant: "destructive",
+      title: "Fail",
+      description: error?.message,
+    })
 
-      {filteredHouses.length < 1 && (
-        <>
-          <NoResultFound message='No homes found' />
+    return (
+      <div>
+        <SplInput
+          type="text"
+          name="search"
+          searchValue={searchHomeValue}
+          setSearchValue={setSearchHomeValue}
+          placeHolder="Search homes..."
+          styles="pt-5 pb-5 text-lg"
+        />
 
-          <div className="mt-4 flex flex-row justify-center">
-            <HomeCreate
-              openHomeCreationCard={openHomeCreationCard}
-              setOpenHomeCreationCard={setOpenHomeCreationCard}
+        <PageInfoBar
+          resultLength={filteredHouses.length}
+          resultType=" home(s)"
+          component={<HomeCreate
+            openHomeCreationCard={openHomeCreationCard}
+            setOpenHomeCreationCard={setOpenHomeCreationCard}
+            showCreationButton={filteredHouses.length > 0 && true}
+            getHomeData={getHomeData}
+          />}
+        />
+
+        {filteredHouses.length < 1 && (
+          <>
+            <NoResultFound message='No homes found' />
+
+            <div className="mt-4 flex flex-row justify-center">
+              <HomeCreate
+                openHomeCreationCard={openHomeCreationCard}
+                setOpenHomeCreationCard={setOpenHomeCreationCard}
+                getHomeData={getHomeData}
+              />
+            </div>
+          </>
+        )}
+
+        <div className="mt-4 h-[73vh] overflow-hidden overflow-y-auto">
+          {isLoading && (
+            <div className="flex justify-center">
+              <Spinner color="black" />
+            </div>
+
+          )}
+
+          {filteredHouses?.map((house: houseType) => {
+            return <HomeCard
+              key={house?.id}
+              house={house}
               getHomeData={getHomeData}
             />
-          </div>
-        </>
-      )}
-
-      <div className="mt-4 h-[73vh] overflow-hidden overflow-y-auto">
-        {filteredHouses?.map((house: houseType) => {
-          return <HomeCard
-            key={house?.id}
-            house={house}
-            getHomeData={getHomeData}
-          />
-        })}
+          })}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
-
 export default HomePage
