@@ -1,6 +1,6 @@
 
 import { houseType } from "@/common/types"
-import HomeAddress from "./HomeAddress"
+import HomeAddress from "./HomeAddress/HomeAddress"
 import { Card, CardContent, CardTitle } from "./ui/card"
 import Note from "./Note"
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
@@ -99,7 +99,14 @@ const HouseCheckCard = ({ house }: { house: houseType }) => {
   return (
     <Card className="p-2 mb-8">
       <CardTitle className="text-lg pt-4">
-        <HomeAddress house={house} styles="text-center text-md font-semibold" />
+        <HomeAddress
+          address={house?.address}
+          apt={house?.apt}
+          city={house?.city}
+          state={house?.state}
+          zip={house?.zip}
+          styles="text-center text-md font-semibold"
+        />
       </CardTitle>
 
       <CardContent>
