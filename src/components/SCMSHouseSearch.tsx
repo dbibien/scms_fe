@@ -3,7 +3,7 @@ import { Input } from "./ui/input"
 import { Button } from "./ui/button"
 import { useCommunityStore } from "@/common/store"
 import { useEffect, useState } from "react"
-import HomeAddress from "./HomeAddress"
+import HomeAddress from "./HomeAddress/HomeAddress"
 import { houseType } from "@/common/types"
 
 type CProps = {
@@ -75,7 +75,13 @@ const SCMSHouseSearch = ({ setHouse }: CProps) => {
               className="bg-slate-50 text-black hover:bg-slate-100 inline-block"
               onClick={() => handleSelectHouse(house)}
             >
-              <HomeAddress house={house} />
+              <HomeAddress
+                address={house?.address}
+                apt={house?.apt}
+                city={house?.city}
+                state={house?.state}
+                zip={house?.zip}
+              />
             </Button>
           ))}
         </div>
