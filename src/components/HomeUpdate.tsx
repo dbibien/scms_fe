@@ -213,6 +213,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
           state={house?.state}
           zip={house?.zip}
         />
+
         <div className="mt-2 pl-2 pr-2 pb-2 lg:w-[50%] lg:mx-auto">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
