@@ -12,7 +12,7 @@ import CheckBox from "@/components/CheckBox"
 import ConcernSelectorViewer from "@/components/ConcernSelectorViewer"
 import Spinner from "@/components/Spinner"
 import HomeUpdate from "@/components/HomeUpdate"
-import HomeAddress from "@/components/HomeAddress";
+import HomeAddress from "@/components/HomeAddress/HomeAddress";
 import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
 import { concernType, houseType, selectConcernsType } from "@/common/types"
 import { useEffect, useState } from "react";
@@ -159,7 +159,13 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
 
       <div>
         <CardContent className="pt-2">
-          <HomeAddress house={house} />
+          <HomeAddress
+            address={house?.address}
+            apt={house?.apt}
+            city={house?.city}
+            state={house?.state}
+            zip={house?.zip}
+          />
 
           <div className="pt-2 flex flex-row justify-center gap-2">
             {house?.residents.map((resident, index) => {
@@ -194,6 +200,15 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
             pending_call_concerns_ids={house?.pending_call_concerns_ids}
             callInProgress={callInProgress}
             house_check={house?.house_check}
+            id={house?.id}
+            address={house?.address}
+            apt={house?.apt}
+            city={house?.city}
+            state={house?.state}
+            zip={house?.zip}
+            note={house?.note}
+            house_check_note={house?.house_check_note}
+            residents={house?.residents}
           />
         </CardContent>
       </div>
