@@ -2,97 +2,112 @@
 // import { Info } from 'lucide-react'
 // import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
-import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
-import { houseType, phoneType, residentType } from "@/common/types"
+import { useCommunityStore, useLoggedInUserStore } from "@/common/store"
+import { houseType } from "@/common/types"
 import SplInput from "@/components/SplInput"
-import { toast } from "@/components/ui/use-toast"
+// import { toast } from "@/components/ui/use-toast"
 import PageInfoBar from "@/components/PageInfoBar"
 import HomeCreate from "@/components/HomeCreate"
 import HomeCard from "@/components/HomeCard";
 import NoResultFound from '@/components/NoResultsFound'
+import useGetHomes from "@/hooks/useGetHomes"
 
 const HomePage = () => {
-  const pb = useApplicationStore(state => state.pb)
-  const houses = useCommunityStore(state => state.houses)
-  const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
+  // const pb = useApplicationStore(state => state.pb)
   const setHouses = useCommunityStore(state => state.setHouses)
+  const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
 
+  const { data: houses, isLoading, error } = useGetHomes(loggedInUserCommunityId)
+  setHouses(houses)
+  const [filteredHouses, setFilteredHouses] = useState<houseType[]>(() => houses)
+  // setFilteredHouses(houses)
+
+  // const houses = useCommunityStore(state => state.houses)
   const [searchHomeValue, setSearchHomeValue] = useState("")
-  const [filteredHouses, setFilteredHouses] = useState<houseType[]>(houses)
   const [openHomeCreationCard, setOpenHomeCreationCard] = useState(false)
 
-  const getHomeData = async () => {
-    try {
-      // fields the backend should return
-      const houseFields = `id, address, apt, city, state, zip, member_number, security_code, pending_call_concerns_ids, image, note, house_check, house_check_start_date, house_check_end_date, house_check_last_date, house_check_note`
-      const phoneFields = `
-        expand.phones_via_house.id, expand.phones_via_house.phone_number, expand.phones_via_house.primary, expand.phones_via_house.type
-      `
-      const residentFields = `
-        expand.residents_via_house.id, expand.residents_via_house.first_name, expand.residents_via_house.last_name, expand.residents_via_house.owner,
-      `
-      const fields = `${houseFields}, ${phoneFields}, ${residentFields}`
-      const records = await pb.collection('houses').getFullList({
-        filter: `community.id = '${loggedInUserCommunityId}'`,
-        fields: fields,
-        expand: 'phones_via_house, residents_via_house',
-      })
 
-      const houses = records.map((house) => {
-        const phones: phoneType[] = house?.expand?.phones_via_house?.map((phone: phoneType) => ({
-          id: phone?.id,
-          phone_number: phone?.phone_number,
-          primary: phone?.primary,
-          type: phone?.type,
-        }))
+  // console.log("houses: ", houses)
+  console.log("isLoading: ", isLoading)
+  console.log("error: ", error)
+  console.log("filteredHouses: ", filteredHouses)
 
-        const residents: residentType[] = house?.expand?.residents_via_house?.map((resident: residentType) => ({
-          id: resident?.id,
-          first_name: resident?.first_name,
-          last_name: resident?.last_name,
-          owner: resident?.owner,
-        }))
+  // const getHomeData = async () => {
+  //   try {
+  //     // fields the backend should return
+  //     const houseFields = `id, address, apt, city, state, zip, member_number, security_code, pending_call_concerns_ids, image, note, house_check, house_check_start_date, house_check_end_date, house_check_last_date, house_check_note`
+  //     const phoneFields = `
+  //       expand.phones_via_house.id, expand.phones_via_house.phone_number, expand.phones_via_house.primary, expand.phones_via_house.type
+  //     `
+  //     const residentFields = `
+  //       expand.residents_via_house.id, expand.residents_via_house.first_name, expand.residents_via_house.last_name, expand.residents_via_house.owner,
+  //     `
+  //     const fields = `${houseFields}, ${phoneFields}, ${residentFields}`
+  //     const records = await pb.collection('houses').getFullList({
+  //       filter: `community.id = '${loggedInUserCommunityId}'`,
+  //       fields: fields,
+  //       expand: 'phones_via_house, residents_via_house',
+  //     })
+  //
+  //     const houses = records.map((house) => {
+  //       const phones: phoneType[] = house?.expand?.phones_via_house?.map((phone: phoneType) => ({
+  //         id: phone?.id,
+  //         phone_number: phone?.phone_number,
+  //         primary: phone?.primary,
+  //         type: phone?.type,
+  //       }))
+  //
+  //       const residents: residentType[] = house?.expand?.residents_via_house?.map((resident: residentType) => ({
+  //         id: resident?.id,
+  //         first_name: resident?.first_name,
+  //         last_name: resident?.last_name,
+  //         owner: resident?.owner,
+  //       }))
+  //
+  //       const data: houseType = {
+  //         id: house?.id,
+  //         address: house?.address,
+  //         apt: house?.apt,
+  //         city: house?.city,
+  //         state: house?.state,
+  //         zip: house?.zip,
+  //         image: house?.image,
+  //         member_number: house?.member_number,
+  //         security_code: house?.security_code,
+  //         pending_call_concerns_ids: house?.pending_call_concerns_ids,
+  //         note: house?.note,
+  //         house_check: house?.house_check,
+  //         house_check_start_date: house?.house_check_start_date,
+  //         house_check_end_date: house?.house_check_end_date,
+  //         house_check_last_date: house?.house_check_last_date,
+  //         house_check_note: house?.house_check_note,
+  //         phones: phones || [],
+  //         residents: residents || [],
+  //       }
+  //
+  //       return data
+  //     })
+  //
+  //     // console.log("houses: ", houses)
+  //
+  //     setHouses(houses)
+  //     setFilteredHouses(houses)
+  //   } catch (e) {
+  //     // console.log("e:", e)
+  //     // @ts-expect-error fix types later  
+  //     const errData = e?.data
+  //     if (errData?.code === 400) {
+  //       toast({
+  //         variant: "destructive",
+  //         title: "Fail",
+  //         description: errData?.message,
+  //       })
+  //     }
+  //   }
+  // }
 
-        const data: houseType = {
-          id: house?.id,
-          address: house?.address,
-          apt: house?.apt,
-          city: house?.city,
-          state: house?.state,
-          zip: house?.zip,
-          image: house?.image,
-          member_number: house?.member_number,
-          security_code: house?.security_code,
-          pending_call_concerns_ids: house?.pending_call_concerns_ids,
-          note: house?.note,
-          house_check: house?.house_check,
-          house_check_start_date: house?.house_check_start_date,
-          house_check_end_date: house?.house_check_end_date,
-          house_check_last_date: house?.house_check_last_date,
-          house_check_note: house?.house_check_note,
-          phones: phones || [],
-          residents: residents || [],
-        }
-
-        return data
-      })
-
-      // console.log("houses: ", houses)
-
-      setHouses(houses)
-      setFilteredHouses(houses)
-    } catch (e) {
-      // console.log("e:", e)
-      // @ts-expect-error fix types later  
-      const errData = e?.data
-      if (errData?.code === 400) {
-        toast({
-          variant: "destructive",
-          title: "Fail",
-          description: errData?.message,
-        })
-      }
-    }
+  const getHomeData = () => {
+    console.log("hello")
   }
 
   const filterHousesBySearchedValue = (house: houseType) => {
@@ -112,13 +127,13 @@ const HomePage = () => {
     }
   }
 
-  useEffect(() => {
-    getHomeData()
-  }, [])
+  // useEffect(() => {
+  //   // getHomeData()
+  // }, [])
 
   useEffect(() => {
     setFilteredHouses(houses.filter(filterHousesBySearchedValue))
-  }, [searchHomeValue])
+  }, [searchHomeValue, houses])
 
   // console.log("house: ", houses)
   // console.log("concerns: ", concerns)
