@@ -2,7 +2,7 @@ import { houseType, phoneType, residentType } from "@/common/types"
 import { useCallback, useEffect, useState } from "react"
 import { useApplicationStore, useCommunityStore } from "@/common/store"
 
-const useGetHomes = (loggedInUserCommunityId: string) => {
+const useGetHomes = (loggedInUserCommunityId: string, autoFetch = true) => {
   const pb = useApplicationStore(state => state.pb)
 
   const houses = useCommunityStore(state => state.houses)
@@ -90,7 +90,7 @@ const useGetHomes = (loggedInUserCommunityId: string) => {
   }, [loggedInUserCommunityId, houses, setHouses, setIsLoading, setError])
 
   useEffect(() => {
-    getHomeData()
+    if (autoFetch) getHomeData()
   }, [])
 
   return { houses, isLoading, error, getHomeData }
