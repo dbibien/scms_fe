@@ -28,6 +28,7 @@ import { useApplicationStore, useLoggedInUserStore } from "@/common/store"
 import STextArea from "../STextArea"
 import Spinner from "../Spinner"
 import { residentType } from "@/common/types"
+import useGetHomes from "@/hooks/useGetHomes"
 
 type CProps = {
   id: string,
@@ -49,9 +50,13 @@ const FormSchema = z.object({
 const HouseCheckDialogue = ({ id, address, apt, city, state, zip, note, house_check_note, residents }: CProps) => {
   const pb = useApplicationStore(state => state.pb)
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
+  const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
+
+  const { getHomeData } = useGetHomes(loggedInUserCommunityId, false)
 
   const [loading, setLoading] = useState(false)
   const [showRemarkField, setShowRemarkField] = useState(false)
+  const [openDialogue, setOpenDialogue] = useState(false)
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -99,11 +104,14 @@ const HouseCheckDialogue = ({ id, address, apt, city, state, zip, note, house_ch
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     // console.log("data: ", data)
+
     setLoading(true)
 
     try {
-      createReport(data)
-      updateHome()
+      await createReport(data)
+      await updateHome()
+      await getHomeData()
+      setOpenDialogue(false)
     } catch (e) {
       console.log(e)
     } finally {
@@ -112,8 +120,10 @@ const HouseCheckDialogue = ({ id, address, apt, city, state, zip, note, house_ch
   }
 
 
+  // console.log(form.formState.errors)
+
   return (
-    <Dialog>
+    <Dialog open={openDialogue} onOpenChange={setOpenDialogue}>
       <DialogTrigger asChild>
         <Button
           data-testid="home-notice-houseCheck"
@@ -227,21 +237,20 @@ const HouseCheckDialogue = ({ id, address, apt, city, state, zip, note, house_ch
                     />
                   )}
                 </div>
+
+                <DialogFooter>
+                  <Button
+                    type="submit"
+                    disabled={loading || watchedOk === undefined}
+                    className="w-full"
+                  >
+                    {loading ? <Spinner /> : "Submit"}
+                  </Button>
+                </DialogFooter>
               </form>
             </Form>
           </div>
-
         </div>
-
-        <DialogFooter>
-          <Button
-            type="submit"
-            disabled={loading || watchedOk === undefined}
-            className="w-full"
-          >
-            {loading ? <Spinner /> : "Submit"}
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
