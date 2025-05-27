@@ -1,11 +1,7 @@
-// import SInput from "@/components/SInput"
-// import { Info } from 'lucide-react'
-// import { Home } from 'lucide-react'
 import { useEffect, useState } from "react"
-import { useCommunityStore, useLoggedInUserStore } from "@/common/store"
+import { useLoggedInUserStore } from "@/common/store"
 import { houseType } from "@/common/types"
 import SplInput from "@/components/SplInput"
-// import { toast } from "@/components/ui/use-toast"
 import PageInfoBar from "@/components/PageInfoBar"
 import HomeCreate from "@/components/HomeCreate"
 import HomeCard from "@/components/HomeCard";
@@ -15,11 +11,9 @@ import { toast } from "@/components/ui/use-toast"
 import Spinner from "@/components/Spinner"
 
 const HomePage = () => {
-  const setHouses = useCommunityStore(state => state.setHouses)
   const loggedInUserCommunityId = useLoggedInUserStore(state => state.user.community_id)
 
-  const { data: houses, isLoading, error } = useGetHomes(loggedInUserCommunityId)
-  setHouses(houses)
+  const { houses, isLoading, error, getHomeData } = useGetHomes(loggedInUserCommunityId)
 
   const [filteredHouses, setFilteredHouses] = useState<houseType[]>(() => houses)
   const [searchHomeValue, setSearchHomeValue] = useState("")
@@ -53,61 +47,62 @@ const HomePage = () => {
       title: "Fail",
       description: error?.message,
     })
+  }
 
-    return (
-      <div>
-        <SplInput
-          type="text"
-          name="search"
-          searchValue={searchHomeValue}
-          setSearchValue={setSearchHomeValue}
-          placeHolder="Search homes..."
-          styles="pt-5 pb-5 text-lg"
-        />
+  return (
+    <div>
+      <SplInput
+        type="text"
+        name="search"
+        searchValue={searchHomeValue}
+        setSearchValue={setSearchHomeValue}
+        placeHolder="Search homes..."
+        styles="pt-5 pb-5 text-lg"
+      />
 
-        <PageInfoBar
-          resultLength={filteredHouses.length}
-          resultType=" home(s)"
-          component={<HomeCreate
-            openHomeCreationCard={openHomeCreationCard}
-            setOpenHomeCreationCard={setOpenHomeCreationCard}
-            showCreationButton={filteredHouses.length > 0 && true}
-            getHomeData={getHomeData}
-          />}
-        />
+      <PageInfoBar
+        resultLength={filteredHouses.length}
+        resultType=" home(s)"
+        component={<HomeCreate
+          openHomeCreationCard={openHomeCreationCard}
+          setOpenHomeCreationCard={setOpenHomeCreationCard}
+          showCreationButton={filteredHouses.length > 0 && true}
+          getHomeData={getHomeData}
+        />}
+      />
 
-        {filteredHouses.length < 1 && (
-          <>
-            <NoResultFound message='No homes found' />
+      {filteredHouses.length < 1 && (
+        <>
+          <NoResultFound message='No homes found' />
 
-            <div className="mt-4 flex flex-row justify-center">
-              <HomeCreate
-                openHomeCreationCard={openHomeCreationCard}
-                setOpenHomeCreationCard={setOpenHomeCreationCard}
-                getHomeData={getHomeData}
-              />
-            </div>
-          </>
-        )}
-
-        <div className="mt-4 h-[73vh] overflow-hidden overflow-y-auto">
-          {isLoading && (
-            <div className="flex justify-center">
-              <Spinner color="black" />
-            </div>
-
-          )}
-
-          {filteredHouses?.map((house: houseType) => {
-            return <HomeCard
-              key={house?.id}
-              house={house}
+          <div className="mt-4 flex flex-row justify-center">
+            <HomeCreate
+              openHomeCreationCard={openHomeCreationCard}
+              setOpenHomeCreationCard={setOpenHomeCreationCard}
               getHomeData={getHomeData}
             />
-          })}
-        </div>
+          </div>
+        </>
+      )}
+
+      <div className="mt-4 h-[73vh] overflow-hidden overflow-y-auto">
+        {isLoading && (
+          <div className="flex justify-center">
+            <Spinner color="black" />
+          </div>
+
+        )}
+
+        {filteredHouses?.map((house: houseType) => {
+          return <HomeCard
+            key={house?.id}
+            house={house}
+            getHomeData={getHomeData}
+          />
+        })}
       </div>
-    )
-  }
+    </div>
+  )
 }
+
 export default HomePage
