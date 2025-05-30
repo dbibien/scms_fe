@@ -189,6 +189,26 @@ describe('<HomeNotice />', () => {
       pending_call_concerns: "",
       callInProgress: true,
       house_check: false,
+
+      id: "",
+      address: "",
+      apt: "",
+      city: "",
+      state: "",
+      zip: "",
+      note: "",
+      house_check_note: "",
+      residents: [
+        {
+          id: "",
+          first_name: "",
+          last_name: "",
+          owner: false,
+        }
+      ],
+      houseCheckStartDate: new Date(),
+      houseCheckEndDate: new Date(),
+      houseLastChecked: null,
     }
 
     render(<HomeNotice
@@ -196,6 +216,19 @@ describe('<HomeNotice />', () => {
       pending_call_concerns_ids={testProps.pending_call_concerns}
       callInProgress={testProps.callInProgress}
       house_check={testProps.house_check}
+
+      id={testProps.id}
+      address={testProps.address}
+      apt={testProps.apt}
+      city={testProps.city}
+      state={testProps.state}
+      zip={testProps.zip}
+      note={testProps.note}
+      house_check_note={testProps.house_check_note}
+      residents={testProps.residents}
+      houseCheckStartDate={testProps.houseCheckStartDate}
+      houseCheckEndDate={testProps.houseCheckEndDate}
+      houseLastChecked={testProps.houseLastChecked}
     />)
 
     expect(screen.getByTestId("home-notice-container")).not.toBeNull()
@@ -206,7 +239,7 @@ describe('<HomeNotice />', () => {
     expect(screen.getByTestId("home-notice-callprog").textContent).toEqual("Call in progress...")
   })
 
-  it('should display the component AND ONLY the string: "Call in progress..."', () => {
+  it('should display the component AND the "House check" button when the house was last checked less then 7 days ago and the end has not yet passed', () => {
     const testProps = {
       phones: [{
         id: "1",
@@ -217,6 +250,26 @@ describe('<HomeNotice />', () => {
       pending_call_concerns: "",
       callInProgress: false,
       house_check: true,
+
+      id: "",
+      address: "",
+      apt: "",
+      city: "",
+      state: "",
+      zip: "",
+      note: "",
+      house_check_note: "",
+      residents: [
+        {
+          id: "",
+          first_name: "",
+          last_name: "",
+          owner: false,
+        }
+      ],
+      houseCheckStartDate: new Date("April 01, 2025 00:00:00"),
+      houseCheckEndDate: new Date("April 30, 2025 23:59:59"),
+      houseLastChecked: new Date("April 10, 2025 23:59:59"),
     }
 
     render(<HomeNotice
@@ -224,6 +277,19 @@ describe('<HomeNotice />', () => {
       pending_call_concerns_ids={testProps.pending_call_concerns}
       callInProgress={testProps.callInProgress}
       house_check={testProps.house_check}
+
+      id={testProps.id}
+      address={testProps.address}
+      apt={testProps.apt}
+      city={testProps.city}
+      state={testProps.state}
+      zip={testProps.zip}
+      note={testProps.note}
+      house_check_note={testProps.house_check_note}
+      residents={testProps.residents}
+      houseCheckStartDate={testProps.houseCheckStartDate}
+      houseCheckEndDate={testProps.houseCheckEndDate}
+      houseLastChecked={testProps.houseLastChecked}
     />)
 
     expect(screen.getByTestId("home-notice-container")).not.toBeNull()
