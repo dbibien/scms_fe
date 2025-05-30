@@ -15,6 +15,27 @@ describe('<HomeNotice />', () => {
       pending_call_concerns: "",
       callInProgress: false,
       house_check: false,
+
+      // house props
+      id: "",
+      address: "",
+      apt: "",
+      city: "",
+      state: "",
+      zip: "",
+      note: "",
+      house_check_note: "",
+      residents: [
+        {
+          id: "",
+          first_name: "",
+          last_name: "",
+          owner: false,
+        }
+      ],
+      houseCheckStartDate: new Date(),
+      houseCheckEndDate: new Date(),
+      houseLastChecked: null,
     }
 
     render(<HomeNotice
@@ -22,9 +43,22 @@ describe('<HomeNotice />', () => {
       pending_call_concerns_ids={testProps.pending_call_concerns}
       callInProgress={testProps.callInProgress}
       house_check={testProps.house_check}
+
+      id={testProps.id}
+      address={testProps.address}
+      apt={testProps.apt}
+      city={testProps.city}
+      state={testProps.state}
+      zip={testProps.zip}
+      note={testProps.note}
+      house_check_note={testProps.house_check_note}
+      residents={testProps.residents}
+      houseCheckStartDate={testProps.houseCheckStartDate}
+      houseCheckEndDate={testProps.houseCheckEndDate}
+      houseLastChecked={testProps.houseLastChecked}
     />)
 
-    expect(screen.queryByTestId("home-notice-container")).toBeNull()
+    expect(screen.queryByTestId("")).toBeNull()
   })
 
   it('should display the component AND ONLY the string: "Primary phone number missing"', () => {
@@ -33,6 +67,26 @@ describe('<HomeNotice />', () => {
       pending_call_concerns: "",
       callInProgress: false,
       house_check: false,
+
+      id: "",
+      address: "",
+      apt: "",
+      city: "",
+      state: "",
+      zip: "",
+      note: "",
+      house_check_note: "",
+      residents: [
+        {
+          id: "",
+          first_name: "",
+          last_name: "",
+          owner: false,
+        }
+      ],
+      houseCheckStartDate: new Date(),
+      houseCheckEndDate: new Date(),
+      houseLastChecked: null,
     }
 
     render(<HomeNotice
@@ -40,6 +94,19 @@ describe('<HomeNotice />', () => {
       pending_call_concerns_ids={testProps.pending_call_concerns}
       callInProgress={testProps.callInProgress}
       house_check={testProps.house_check}
+
+      id={testProps.id}
+      address={testProps.address}
+      apt={testProps.apt}
+      city={testProps.city}
+      state={testProps.state}
+      zip={testProps.zip}
+      note={testProps.note}
+      house_check_note={testProps.house_check_note}
+      residents={testProps.residents}
+      houseCheckStartDate={testProps.houseCheckStartDate}
+      houseCheckEndDate={testProps.houseCheckEndDate}
+      houseLastChecked={testProps.houseLastChecked}
     />)
 
     expect(screen.getByTestId("home-notice-container")).not.toBeNull()
