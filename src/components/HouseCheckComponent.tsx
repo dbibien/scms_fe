@@ -32,7 +32,8 @@ const HouseCheckComponent = () => {
       // console.log("date of start of week: ", startOfWeekDate)
       // console.log("lastChecked: ", houseLastChecked)
 
-      const shouldReturnHouse = shouldHouseBeAddedToHouseCheckList(houseCheckStartDate, houseCheckEndDate, houseLastChecked)
+      const now = new Date()
+      const shouldReturnHouse = shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, houseLastChecked)
       // console.log("shouldReturnHouse: ", shouldReturnHouse)
 
       if (house?.house_check && shouldReturnHouse && searchValue === "") {
