@@ -166,7 +166,8 @@ export const filterForHousesToBeChecked = (houses: houseType[], searchValue: str
     console.log("date of start of week: ", startOfWeekDate)
     console.log("lastChecked: ", lastChecked)
 
-    const shouldReturnHouse = shouldHouseBeAddedToHouseCheckList(start, end, lastChecked, currentDate, startOfWeekDate)
+    const now = new Date()
+    const shouldReturnHouse = shouldHouseBeAddedToHouseCheckList(now, start, end, lastChecked)
     // console.log("shouldReturnHouse: ", shouldReturnHouse)
 
     if (house?.house_check && shouldReturnHouse && searchValue === "") {
