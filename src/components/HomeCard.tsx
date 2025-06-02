@@ -141,7 +141,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
   }, [concerns])
 
   // console.log("note: ", house?.note)
-  // console.log("house: ", house)
+  // console.log("house in: ", house)
   // console.log("selected concerns: ", selectConcerns)
   // console.log("searchValue: ", searchValue)
 
@@ -196,6 +196,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
           }
 
           <HomeNotice
+            now={new Date()}
             phones={house?.phones}
             pending_call_concerns_ids={house?.pending_call_concerns_ids}
             callInProgress={callInProgress}
@@ -209,6 +210,9 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
             note={house?.note}
             house_check_note={house?.house_check_note}
             residents={house?.residents}
+            houseCheckStartDate={new Date(house?.house_check_start_date)}
+            houseCheckEndDate={new Date(house?.house_check_end_date)}
+            houseLastChecked={new Date(house?.house_check_last_date)}
           />
         </CardContent>
       </div>
