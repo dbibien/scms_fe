@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { addDaysToDate, getFirstDateOfWeek, isDateBetweenStartAndEndDates, shouldHouseBeAddedToHouseCheckList } from "./utils";
+import { addDaysToDate, getFirstDateOfWeek, isDateBetweenStartAndEndDates, shouldHouseBeAddedToHouseCheckList, daysBetweenDates } from "./utils";
 
 describe("getFirstDateOfWeek ", () => {
   it("should return May 11th, 2025 as the first date of the week when the weeks starts on Sundays and the given date is May 14th, 2025", () => {
@@ -118,14 +118,44 @@ describe("addDaysToDate", () => {
   })
 })
 
+describe("daysBetweenDates ", () => {
+  it('should return 0 when the date are the same', () => {
+    const now = new Date()
+
+    expect(daysBetweenDates(now, now)).toEqual(0)
+  })
+
+  it('should return 1 when the date are 1 day apart', () => {
+    const start = new Date("April 2, 2025")
+    const end = new Date("April 3, 2025")
+
+    expect(daysBetweenDates(end, start)).toEqual(1)
+  })
+
+  it('should return 14 when the date are 14 days apart', () => {
+    const start = new Date("April 2, 2025")
+    const end = new Date("April 16, 2025 17:50:12")
+
+    expect(daysBetweenDates(end, start)).toEqual(14)
+  })
+
+  it('should return 2 when the date are from one month going on to the other and the dates are 2 days apart', () => {
+    const start = new Date("April 30, 2025")
+    const end = new Date("May 2, 2025 17:50:12")
+
+    expect(daysBetweenDates(end, start)).toEqual(2)
+  })
+})
+
 describe("shouldHouseBeAddedToHouseCheckList", () => {
   it('should return "True" when NO Last House Checks, Current date is BETWEEN the start and end date of the house check dates', () => {
+    const now = new Date()
     const lastHouseCheckDate = null
     const houseCheckStartDate = new Date()
     const houseCheckEndDate = new Date()
     houseCheckEndDate.setDate(houseCheckStartDate.getDate() + 3)
 
-    const ans = shouldHouseBeAddedToHouseCheckList(houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
+    const ans = shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
 
     expect(ans).toBeTruthy()
   })
