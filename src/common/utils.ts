@@ -135,7 +135,9 @@ export const shouldHouseBeAddedToHouseCheckList = (now: Date, houseCheckStartDat
     return isDateBetweenStartAndEndDates(now, houseCheckStartDate, houseCheckEndDate)
   }
 
-  if (daysBetweenDates(now, houseCheckLastCheckedDate) < 7) return false // return false if the house was checked less than 7 days ago
+  // if (daysBetweenDates(now, houseCheckLastCheckedDate) < 7) return false // return false if the house was checked less than 7 days ago
+  if (daysBetweenDates(now, houseCheckLastCheckedDate) >= 7 &&
+    isDateBetweenStartAndEndDates(houseCheckLastCheckedDate, houseCheckStartDate, houseCheckEndDate)) return true // return true if the last time the house was check is more than 7 days ago and is within the start and end date set for the house to be checked
 
   const lastCheckDatePlus7Days = addDaysToDate(houseCheckLastCheckedDate, 7)
   return isDateBetweenStartAndEndDates(lastCheckDatePlus7Days, houseCheckStartDate, houseCheckEndDate)
