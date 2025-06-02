@@ -160,6 +160,17 @@ describe("shouldHouseBeAddedToHouseCheckList", () => {
     expect(ans).toBeTruthy()
   })
 
+  it('should return "False" when the CURRENT DATE is NOT in between the start and end date of the house check ', () => {
+    const now = new Date("May 09, 2025")
+    const lastHouseCheckDate = new Date("April 18, 2025")
+    const houseCheckStartDate = new Date("April 01, 2025")
+    const houseCheckEndDate = new Date("April 30, 2025")
+
+    const ans = shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
+
+    expect(ans).toBeFalsy()
+  })
+
   it('should return "False" when NO Last House Checks, Current date is BEFORE the start and end date of the house check dates ', () => {
     const now = new Date()
     const lastHouseCheckDate = null
@@ -187,7 +198,7 @@ describe("shouldHouseBeAddedToHouseCheckList", () => {
   })
 
   it('should return "True" when Last House Checks is BETWEEN the house checks start date. Last House Checks: April 10, 2025 16:05:00, house check start: April 01, 2025 00:00:00, house check end: April 20, 2025 23:59:59', () => {
-    const now = new Date()
+    const now = new Date("April 12, 2025")
     const lastHouseCheckDate = new Date("April 10, 2025 16:05:00")
     const houseCheckStartDate = new Date("April 01, 2025 00:00:00")
     const houseCheckEndDate = new Date("April 20, 2025 23:59:59")
