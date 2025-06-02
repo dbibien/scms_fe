@@ -161,56 +161,65 @@ describe("shouldHouseBeAddedToHouseCheckList", () => {
   })
 
   it('should return "False" when NO Last House Checks, Current date is BEFORE the start and end date of the house check dates ', () => {
+    const now = new Date()
     const lastHouseCheckDate = null
     const houseCheckStartDate = new Date()
     houseCheckStartDate.setDate(houseCheckStartDate.getDate() + 3)
     const houseCheckEndDate = new Date()
     houseCheckEndDate.setDate(houseCheckStartDate.getDate() + 5)
 
-    const ans = shouldHouseBeAddedToHouseCheckList(houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
+    const ans = shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
 
     expect(ans).toBeFalsy()
   })
 
   it('should return "False" when NO Last House Checks, Current date is AFTER the start and end date of the house check dates ', () => {
+    const now = new Date()
     const lastHouseCheckDate = null
     const houseCheckStartDate = new Date()
     houseCheckStartDate.setDate(houseCheckStartDate.getDate() - 5)
     const houseCheckEndDate = new Date()
-    houseCheckEndDate.setDate(houseCheckStartDate.getDate() - 3)
+    houseCheckEndDate.setDate(houseCheckEndDate.getDate() - 3)
 
-    const ans = shouldHouseBeAddedToHouseCheckList(houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
+    const ans = shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
 
     expect(ans).toBeFalsy()
   })
 
   it('should return "True" when Last House Checks is BETWEEN the house checks start date. Last House Checks: April 10, 2025 16:05:00, house check start: April 01, 2025 00:00:00, house check end: April 20, 2025 23:59:59', () => {
+    const now = new Date()
     const lastHouseCheckDate = new Date("April 10, 2025 16:05:00")
     const houseCheckStartDate = new Date("April 01, 2025 00:00:00")
     const houseCheckEndDate = new Date("April 20, 2025 23:59:59")
 
-    const ans = shouldHouseBeAddedToHouseCheckList(houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
+    const ans = shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
 
     expect(ans).toBeTruthy()
   })
 
   it('should return "False" when Last House Checks is BEFORE the house checks start date. Last House Checks: April 01, 2025 16:05:00, house check start: April 10, 2025 00:00:00, house check end: April 12, 2025 23:59:59', () => {
+    const now = new Date()
     const lastHouseCheckDate = new Date("April 01, 2025 16:05:00")
     const houseCheckStartDate = new Date("April 10, 2025 00:00:00")
     const houseCheckEndDate = new Date("April 12, 2025 23:59:59")
 
-    const ans = shouldHouseBeAddedToHouseCheckList(houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
+    const ans = shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
 
     expect(ans).toBeFalsy()
   })
 
   it('should return "False" when Last House Checks is AFTER the house check end date. Last House Checks: April 10, 2025 16:05:00, house check start: April 01, 2025 00:00:00, house check end: April 12, 2025 23:59:59', () => {
+    const now = new Date()
     const lastHouseCheckDate = new Date("April 10, 2025 16:05:00")
     const houseCheckStartDate = new Date("April 01, 2025 00:00:00")
     const houseCheckEndDate = new Date("April 12, 2025 23:59:59")
 
-    const ans = shouldHouseBeAddedToHouseCheckList(houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
+    const ans = shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
 
     expect(ans).toBeFalsy()
+  })
+
+  it('should return "True" when the last time the house was checked is more than 7 days ago and the house check end date still require the house to be checked', () => {
+
   })
 })
