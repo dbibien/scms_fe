@@ -123,19 +123,13 @@ export const getFirstDateOfWeek = (date: Date, startDay: 'sunday' | 'monday' = '
 }
 
 export const shouldHouseBeAddedToHouseCheckList = (now: Date, houseCheckStartDate: Date, houseCheckEndDate: Date, houseCheckLastCheckedDate: Date | null): boolean => {
-  // console.log("houseId: ", houseId)
-  // console.log("start: ", houseCheckStartDate)
-  // console.log("end: ", houseCheckEndDate)
-  // console.log("week start: ", startOfWeekDate)
-  // console.log("last: ", houseCheckLastCheckedDate)
-  // console.log("current: ", currentDate)
-  // console.log()
+  // must first check whether the current date (now) is in between the start and end date for the house check
+  if (!isDateBetweenStartAndEndDates(now, houseCheckStartDate, houseCheckEndDate)) return false // if the now is not in between the start and end date, do not include the house in the list of homes to be checked
 
   if (!houseCheckLastCheckedDate) {
     return isDateBetweenStartAndEndDates(now, houseCheckStartDate, houseCheckEndDate)
   }
 
-  // if (daysBetweenDates(now, houseCheckLastCheckedDate) < 7) return false // return false if the house was checked less than 7 days ago
   if (daysBetweenDates(now, houseCheckLastCheckedDate) >= 7 &&
     isDateBetweenStartAndEndDates(houseCheckLastCheckedDate, houseCheckStartDate, houseCheckEndDate)) return true // return true if the last time the house was check is more than 7 days ago and is within the start and end date set for the house to be checked
 
