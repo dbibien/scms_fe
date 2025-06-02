@@ -122,7 +122,7 @@ export const getFirstDateOfWeek = (date: Date, startDay: 'sunday' | 'monday' = '
   return firstDateOfWeek;
 }
 
-export const shouldHouseBeAddedToHouseCheckList = (houseCheckStartDate: Date, houseCheckEndDate: Date, houseCheckLastCheckedDate: Date | null): boolean => {
+export const shouldHouseBeAddedToHouseCheckList = (now: Date, houseCheckStartDate: Date, houseCheckEndDate: Date, houseCheckLastCheckedDate: Date | null): boolean => {
   // console.log("houseId: ", houseId)
   // console.log("start: ", houseCheckStartDate)
   // console.log("end: ", houseCheckEndDate)
@@ -132,9 +132,10 @@ export const shouldHouseBeAddedToHouseCheckList = (houseCheckStartDate: Date, ho
   // console.log()
 
   if (!houseCheckLastCheckedDate) {
-    const now = new Date()
     return isDateBetweenStartAndEndDates(now, houseCheckStartDate, houseCheckEndDate)
   }
+
+  if (daysBetweenDates(now, houseCheckLastCheckedDate) < 7) return false // return false if the house was checked less than 7 days ago
 
   const lastCheckDatePlus7Days = addDaysToDate(houseCheckLastCheckedDate, 7)
   return isDateBetweenStartAndEndDates(lastCheckDatePlus7Days, houseCheckStartDate, houseCheckEndDate)
@@ -190,4 +191,10 @@ export const displayDateStringIn24HourFormat = (date: string) => {
 export const addDaysToDate = (date: Date, daysToAdd: number) => {
   date.setDate(date.getDate() + daysToAdd)
   return date
+}
+
+export const daysBetweenDates = (end: Date, start: Date) => {
+  const diffInMs = end.getTime() - start.getTime()
+  const diffInDays = Math.floor(diffInMs / (24 * 60 * 60 * 1000))
+  return diffInDays
 }
