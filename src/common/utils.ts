@@ -182,7 +182,11 @@ export const filterForHousesToBeChecked = (houses: houseType[], searchValue: str
 }
 
 export const displayDateStringIn24HourFormat = (date: string) => {
-  return new Date(date).toLocaleString("en-US", { hour12: false })
+  const dateString = new Date(date).toLocaleString("en-US", { hour12: false })
+
+  if (dateString === "Invalid Date") return "N/A"
+
+  return dateString
 }
 
 export const addDaysToDate = (date: Date, daysToAdd: number) => {
