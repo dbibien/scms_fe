@@ -57,7 +57,7 @@ const HomeNotice = ({
   return (
 
     <>
-      {phones.length === 0 || pending_call_concerns_ids !== "" || callInProgress || house_check ? (<div data-testid="home-notice-container">
+      {phones.length === 0 || pending_call_concerns_ids !== "" || callInProgress || (house_check && shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, houseLastChecked)) ? (<div data-testid="home-notice-container">
         <Separator
           data-testid="home-notice-separator"
           className="mt-6 border border-slate-200"

@@ -214,6 +214,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
             houseCheckEndDate={new Date(house?.house_check_end_date)}
             houseLastChecked={new Date(house?.house_check_last_date)}
           />
+
         </CardContent>
       </div>
 
