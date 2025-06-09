@@ -556,7 +556,6 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                     </>
                   )}
                 </div>
-
               </ScrollArea>
 
               <div className="mt-8">
