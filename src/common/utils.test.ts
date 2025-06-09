@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { addDaysToDate, getFirstDateOfWeek, isDateBetweenStartAndEndDates, shouldHouseBeAddedToHouseCheckList, daysBetweenDates } from "./utils";
+import { addDaysToDate, getFirstDateOfWeek, isDateBetweenStartAndEndDates, shouldHouseBeAddedToHouseCheckList, daysBetweenDates, displayDateStringIn24HourFormat } from "./utils";
 
 describe("getFirstDateOfWeek ", () => {
   it("should return May 11th, 2025 as the first date of the week when the weeks starts on Sundays and the given date is May 14th, 2025", () => {
@@ -250,5 +250,19 @@ describe("shouldHouseBeAddedToHouseCheckList", () => {
     const ans = shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
 
     expect(ans).toBeTruthy()
+  })
+})
+
+describe("displayDateStringIn24HourFormat", () => {
+  it('should return  "N/A" when an empty string is given', () => {
+    const ans = displayDateStringIn24HourFormat("")
+
+    expect(ans).toBe("N/A")
+  })
+
+  it('should return "6/9/2025, 00:51:21" when "2025-06-09 04:51:21.598Z" is passed', () => {
+    const ans = displayDateStringIn24HourFormat("2025-06-09 04:51:21.598Z")
+
+    expect(ans).toBe("6/9/2025, 00:51:21")
   })
 })
