@@ -131,14 +131,19 @@ export const shouldHouseBeAddedToHouseCheckList = (now: Date, houseCheckStartDat
     return isDateBetweenStartAndEndDates(now, houseCheckStartDate, houseCheckEndDate)
   }
 
+  // the house does not need to be checked if the last time it was checked was less than 7 days ago
   // @ts-expect-error just ts type error
-  if (isDaysBetweenDates(now, houseCheckLastCheckedDate) >= 7 &&
+  if (diffBetweenDays(now, houseCheckLastCheckedDate) < 7 && isDateBetweenStartAndEndDates(houseCheckLastCheckedDate, houseCheckStartDate, houseCheckEndDate)) return false
+
+  // @ts-expect-error just ts type error
+  if (diffBetweenDays(now, houseCheckLastCheckedDate) >= 7 &&
     // @ts-expect-error just ts type error
     isDateBetweenStartAndEndDates(houseCheckLastCheckedDate, houseCheckStartDate, houseCheckEndDate)) return true // return true if the last time the house was check is more than 7 days ago and is within the start and end date set for the house to be checked
 
   // if the last house check is BEFORE the start date but the current date is between the start and end date of the house check, the house should be checked
   // @ts-expect-error just ts type error
   if (houseCheckLastCheckedDate?.getTime() < houseCheckStartDate.getTime() && isDateBetweenStartAndEndDates(now, houseCheckStartDate, houseCheckEndDate)) return true
+
   // @ts-expect-error just ts type error
   const lastCheckDatePlus7Days = addDaysToDate(houseCheckLastCheckedDate, 7)
   return isDateBetweenStartAndEndDates(lastCheckDatePlus7Days, houseCheckStartDate, houseCheckEndDate)
@@ -209,7 +214,7 @@ export const addDaysToDate = (date: Date, daysToAdd: number) => {
   return date
 }
 
-export const isDaysBetweenDates = (end: Date, start: Date) => {
+export const diffBetweenDays = (end: Date, start: Date): number => {
   const diffInMs = end?.getTime() - start?.getTime()
   const diffInDays = Math.floor(diffInMs / (24 * 60 * 60 * 1000))
   return diffInDays
