@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { addDaysToDate, getFirstDateOfWeek, isDateBetweenStartAndEndDates, shouldHouseBeAddedToHouseCheckList, daysBetweenDates, displayDateStringIn24HourFormat } from "./utils";
+import { addDaysToDate, getFirstDateOfWeek, isDateBetweenStartAndEndDates, shouldHouseBeAddedToHouseCheckList, isDaysBetweenDates, displayDateStringIn24HourFormat, isValidDate } from "./utils";
 
 describe("getFirstDateOfWeek ", () => {
   it("should return May 11th, 2025 as the first date of the week when the weeks starts on Sundays and the given date is May 14th, 2025", () => {
@@ -118,32 +118,32 @@ describe("addDaysToDate", () => {
   })
 })
 
-describe("daysBetweenDates ", () => {
+describe("isDaysBetweenDates ", () => {
   it('should return 0 when the date are the same', () => {
     const now = new Date()
 
-    expect(daysBetweenDates(now, now)).toEqual(0)
+    expect(isDaysBetweenDates(now, now)).toEqual(0)
   })
 
   it('should return 1 when the date are 1 day apart', () => {
     const start = new Date("April 2, 2025")
     const end = new Date("April 3, 2025")
 
-    expect(daysBetweenDates(end, start)).toEqual(1)
+    expect(isDaysBetweenDates(end, start)).toEqual(1)
   })
 
   it('should return 14 when the date are 14 days apart', () => {
     const start = new Date("April 2, 2025")
     const end = new Date("April 16, 2025 17:50:12")
 
-    expect(daysBetweenDates(end, start)).toEqual(14)
+    expect(isDaysBetweenDates(end, start)).toEqual(14)
   })
 
   it('should return 2 when the date are from one month going on to the other and the dates are 2 days apart', () => {
     const start = new Date("April 30, 2025")
     const end = new Date("May 2, 2025 17:50:12")
 
-    expect(daysBetweenDates(end, start)).toEqual(2)
+    expect(isDaysBetweenDates(end, start)).toEqual(2)
   })
 })
 
@@ -251,6 +251,18 @@ describe("shouldHouseBeAddedToHouseCheckList", () => {
 
     expect(ans).toBeTruthy()
   })
+
+  it("should mark the house as a checkout house", () => {
+    const now = new Date()
+    const lastHouseCheckDate = ""
+    const houseCheckStartDate = new Date("2025-06-01T04:00:00.000Z")
+    const houseCheckEndDate = new Date("2025-07-01T03:59:59.999Z")
+
+    // @ts-expect-error this purposely being done
+    const ans = shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
+
+    expect(ans).toBeTruthy()
+  })
 })
 
 describe("displayDateStringIn24HourFormat", () => {
@@ -264,5 +276,21 @@ describe("displayDateStringIn24HourFormat", () => {
     const ans = displayDateStringIn24HourFormat("2025-06-09 04:51:21.598Z")
 
     expect(ans).toBe("6/9/2025, 00:51:21")
+  })
+})
+
+describe("isValidDate ", () => {
+  it('should return FALSE when an invalid date (quotation marks: """) is passed in', () => {
+    // @ts-expect-error this purposely being done
+    expect(isValidDate("")).toBeFalsy()
+  })
+
+  it('should return FALSE when the value "null" is passed in', () => {
+    // @ts-expect-error this purposely being done
+    expect(isValidDate(null)).toBeFalsy()
+  })
+
+  it("should return TRUE when a valid date is passed in", () => {
+    expect(isValidDate(new Date())).toBeTruthy()
   })
 })
