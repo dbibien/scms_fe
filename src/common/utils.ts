@@ -124,21 +124,31 @@ export const getFirstDateOfWeek = (date: Date, startDay: 'sunday' | 'monday' = '
 
 export const shouldHouseBeAddedToHouseCheckList = (now: Date, houseCheckStartDate: Date, houseCheckEndDate: Date, houseCheckLastCheckedDate: Date | null): boolean => {
   // must first check whether the current date (now) is in between the start and end date for the house check
-  if (!isDateBetweenStartAndEndDates(now, houseCheckStartDate, houseCheckEndDate)) return false // if the now is not in between the start and end date, do not include the house in the list of homes to be checked
+  if (isDateBetweenStartAndEndDates(now, houseCheckStartDate, houseCheckEndDate) === false) return false // if the now is NOT in between the start and end date, do not include the house in the list of homes to be checked
 
-  if (!houseCheckLastCheckedDate) {
+  // @ts-expect-error I know
+  if (!isValidDate(houseCheckLastCheckedDate)) {
     return isDateBetweenStartAndEndDates(now, houseCheckStartDate, houseCheckEndDate)
   }
 
-  if (daysBetweenDates(now, houseCheckLastCheckedDate) >= 7 &&
+  // @ts-expect-error just ts type error
+  if (isDaysBetweenDates(now, houseCheckLastCheckedDate) >= 7 &&
+    // @ts-expect-error just ts type error
     isDateBetweenStartAndEndDates(houseCheckLastCheckedDate, houseCheckStartDate, houseCheckEndDate)) return true // return true if the last time the house was check is more than 7 days ago and is within the start and end date set for the house to be checked
 
+  // if the last house check is BEFORE the start date but the current date is between the start and end date of the house check, the house should be checked
+  // @ts-expect-error just ts type error
+  if (houseCheckLastCheckedDate?.getTime() < houseCheckStartDate.getTime() && isDateBetweenStartAndEndDates(now, houseCheckStartDate, houseCheckEndDate)) return true
+  // @ts-expect-error just ts type error
   const lastCheckDatePlus7Days = addDaysToDate(houseCheckLastCheckedDate, 7)
   return isDateBetweenStartAndEndDates(lastCheckDatePlus7Days, houseCheckStartDate, houseCheckEndDate)
 }
 
 export const isDateBetweenStartAndEndDates = (date: Date, houseCheckStart: Date, houseCheckEnd: Date) => {
-  if (date.getTime() >= houseCheckStart.getTime() && date.getTime() <= houseCheckEnd.getTime()) return true
+  //if any one of the date isn't a date, return false
+  if (!isValidDate(date) || !isValidDate(houseCheckStart) || !isValidDate(houseCheckEnd)) return false
+
+  if (date?.getTime() >= houseCheckStart?.getTime() && date?.getTime() <= houseCheckEnd?.getTime()) return true
   return false
 }
 
@@ -181,7 +191,7 @@ export const filterForHousesToBeChecked = (houses: houseType[], searchValue: str
   return filterdList
 }
 
-export const displayDateStringIn24HourFormat = (date: string) => {
+export const displayDateStringIn24HourFormat = (date: string): string => {
   const dateString = new Date(date).toLocaleString("en-US", { hour12: false })
 
   if (dateString === "Invalid Date") return "N/A"
@@ -189,13 +199,18 @@ export const displayDateStringIn24HourFormat = (date: string) => {
   return dateString
 }
 
+export const isValidDate = (date: Date): boolean => {
+  if (date === null) return false
+  return new Date(date).toString() !== "Invalid Date"
+}
+
 export const addDaysToDate = (date: Date, daysToAdd: number) => {
   date.setDate(date.getDate() + daysToAdd)
   return date
 }
 
-export const daysBetweenDates = (end: Date, start: Date) => {
-  const diffInMs = end.getTime() - start.getTime()
+export const isDaysBetweenDates = (end: Date, start: Date) => {
+  const diffInMs = end?.getTime() - start?.getTime()
   const diffInDays = Math.floor(diffInMs / (24 * 60 * 60 * 1000))
   return diffInDays
 }
