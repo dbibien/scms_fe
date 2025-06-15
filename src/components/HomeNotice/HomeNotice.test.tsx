@@ -336,6 +336,7 @@ describe('<HomeNotice />', () => {
       now: new Date("April 13, 2025 23:59:59")
     }
 
+
     render(<HomeNotice
       now={testProps.now}
       phones={testProps.phones}
@@ -357,12 +358,12 @@ describe('<HomeNotice />', () => {
       houseLastChecked={testProps.houseLastChecked}
     />)
 
-    expect(screen.getByTestId("home-notice-container")).not.toBeNull()
-    expect(screen.getByTestId("home-notice-separator")).not.toBeNull()
+    expect(screen.queryByTestId("home-notice-container")).toBeNull()
+    expect(screen.queryByTestId("home-notice-separator")).toBeNull()
     expect(screen.queryByTestId("home-notice-phones")).toBeNull()
     expect(screen.queryByTestId("home-notice-pending")).toBeNull()
     expect(screen.queryByTestId("home-notice-callprog")).toBeNull()
-    expect(screen.getByTestId("home-notice-houseCheck").textContent).toEqual("House check")
+    expect(screen.queryByTestId("home-notice-houseCheck")).toBeNull()
   })
 
   it('should display the component AND ALL notices', () => {
