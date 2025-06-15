@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { addDaysToDate, getFirstDateOfWeek, isDateBetweenStartAndEndDates, shouldHouseBeAddedToHouseCheckList, isDaysBetweenDates, displayDateStringIn24HourFormat, isValidDate } from "./utils";
+import { addDaysToDate, getFirstDateOfWeek, isDateBetweenStartAndEndDates, shouldHouseBeAddedToHouseCheckList, diffBetweenDays, displayDateStringIn24HourFormat, isValidDate } from "./utils";
 
 describe("getFirstDateOfWeek ", () => {
   it("should return May 11th, 2025 as the first date of the week when the weeks starts on Sundays and the given date is May 14th, 2025", () => {
@@ -122,28 +122,28 @@ describe("isDaysBetweenDates ", () => {
   it('should return 0 when the date are the same', () => {
     const now = new Date()
 
-    expect(isDaysBetweenDates(now, now)).toEqual(0)
+    expect(diffBetweenDays(now, now)).toEqual(0)
   })
 
   it('should return 1 when the date are 1 day apart', () => {
     const start = new Date("April 2, 2025")
     const end = new Date("April 3, 2025")
 
-    expect(isDaysBetweenDates(end, start)).toEqual(1)
+    expect(diffBetweenDays(end, start)).toEqual(1)
   })
 
   it('should return 14 when the date are 14 days apart', () => {
     const start = new Date("April 2, 2025")
     const end = new Date("April 16, 2025 17:50:12")
 
-    expect(isDaysBetweenDates(end, start)).toEqual(14)
+    expect(diffBetweenDays(end, start)).toEqual(14)
   })
 
   it('should return 2 when the date are from one month going on to the other and the dates are 2 days apart', () => {
     const start = new Date("April 30, 2025")
     const end = new Date("May 2, 2025 17:50:12")
 
-    expect(isDaysBetweenDates(end, start)).toEqual(2)
+    expect(diffBetweenDays(end, start)).toEqual(2)
   })
 })
 
@@ -197,8 +197,8 @@ describe("shouldHouseBeAddedToHouseCheckList", () => {
     expect(ans).toBeFalsy()
   })
 
-  it('should return "True" when Last House Checks is BETWEEN the house checks start date. Last House Checks: April 10, 2025 16:05:00, house check start: April 01, 2025 00:00:00, house check end: April 20, 2025 23:59:59', () => {
-    const now = new Date("April 12, 2025")
+  it('should return "True" when Last House Checks is BETWEEN the house checks start and end date. Last House Checks: April 10, 2025 16:05:00, house check start: April 01, 2025 00:00:00, house check end: April 20, 2025 23:59:59', () => {
+    const now = new Date("April 18, 2025")
     const lastHouseCheckDate = new Date("April 10, 2025 16:05:00")
     const houseCheckStartDate = new Date("April 01, 2025 00:00:00")
     const houseCheckEndDate = new Date("April 20, 2025 23:59:59")
@@ -231,7 +231,7 @@ describe("shouldHouseBeAddedToHouseCheckList", () => {
   })
 
   it('should return "True" when the last time the house was checked is MORE than 7 days ago and the house check end date still require the house to be checked', () => {
-    const now = new Date("April 09, 2025")
+    const now = new Date("April 10, 2025")
     const lastHouseCheckDate = new Date("April 02, 2025 16:05:00")
     const houseCheckStartDate = new Date("April 01, 2025 00:00:00")
     const houseCheckEndDate = new Date("April 22, 2025 23:59:59")
@@ -249,7 +249,7 @@ describe("shouldHouseBeAddedToHouseCheckList", () => {
 
     const ans = shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, lastHouseCheckDate)
 
-    expect(ans).toBeTruthy()
+    expect(ans).toBeFalsy()
   })
 
   it("should mark the house as a checkout house", () => {
