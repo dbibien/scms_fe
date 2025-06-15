@@ -1,7 +1,7 @@
 import { phoneType, residentType } from "@/common/types"
 import { Separator } from "../ui/separator"
 import HouseCheckDialogue from "../HouseCheckDialogue/HouseCheckDialogue"
-import { shouldHouseBeAddedToHouseCheckList } from "@/common/utils"
+import { isValidDate, shouldHouseBeAddedToHouseCheckList } from "@/common/utils"
 
 type CProps = {
   phones: phoneType[],
@@ -51,9 +51,12 @@ const HomeNotice = ({
   //   start: houseCheckStartDate,
   //   end: houseCheckEndDate,
   //   last: houseLastChecked,
-  // }
 
-  // console.log("house: ", house, shouldHouseBeAddedToHouseCheckList(houseCheckStartDate, houseCheckEndDate, houseLastChecked))
+
+  // @ts-expect-error type errors
+  const houseLastDateChecked = isValidDate(houseLastChecked) ? houseLastChecked : null
+  // console.log("house: ", house, shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, houseLastDateChecked))
+
   return (
 
     <>
@@ -69,7 +72,7 @@ const HomeNotice = ({
             {phones.length === 0 && <p data-testid="home-notice-phones" className="text-sm text-orange-400 p-2 inline-block rounded-md bg-orange-100">Primary phone number missing</p>}
             {pending_call_concerns_ids && <p data-testid="home-notice-pending" className="text-sm text-slate-500 p-2 inline-block rounded-md bg-sky-200 ml-2">Call pending</p>}
             {callInProgress && <p data-testid="home-notice-callprog" className="text-sm text-pink-500 p-2 inline-block rounded-md bg-pink-200 animate-pulse">Call in progress...</p>}
-            {(house_check && shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, houseLastChecked)) && (
+            {(house_check && shouldHouseBeAddedToHouseCheckList(now, houseCheckStartDate, houseCheckEndDate, houseLastDateChecked)) && (
               <HouseCheckDialogue
                 id={id}
                 address={address}
