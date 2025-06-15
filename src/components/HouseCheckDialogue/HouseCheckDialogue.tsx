@@ -135,7 +135,7 @@ const HouseCheckDialogue = ({ id, address, apt, city, state, zip, note, house_ch
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="flex flex-col items-center" >
-          <DialogTitle>House Check</DialogTitle>
+          <DialogTitle data-testid="house-check-dialogue">House Check</DialogTitle>
           <DialogDescription>
             <HomeAddress
               address={address}
