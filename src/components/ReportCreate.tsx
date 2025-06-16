@@ -323,7 +323,7 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
                             <NarativeTextArea
                               name="say"
                               placeHolder="Date, time, who, what, where"
-                              value={aiGeneratedNarative}
+                              value={aiGeneratedNarative || ""}
                               helperText="Narative of what occured"
                               max={4500}
                               styles="h-40"
