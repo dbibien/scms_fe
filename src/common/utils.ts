@@ -87,7 +87,7 @@ export const REPORT_TYPES = [
 export const reportFilterStartAndEndOfMonthDates = () => {
   const today = new Date()
   const startOfMonthDate = new Date(today.getFullYear(), today.getMonth())
-  const endOfMonthDate = new Date(today.getFullYear(), today.getMonth() + 1, -1)
+  const endOfMonthDate = new Date(today.getFullYear(), today.getMonth() + 1, -1, 23, 59, 59, 59)
 
   return {
     today: today,
