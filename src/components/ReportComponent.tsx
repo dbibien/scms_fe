@@ -1,5 +1,6 @@
-import { useApplicationStore } from "@/common/store"
+import { useApplicationStore, useCommunityStore } from "@/common/store"
 import { reportType } from "@/common/types"
+import { reportFilterStartAndEndOfMonthDates } from "@/common/utils"
 import PageInfoBar from "@/components/PageInfoBar"
 import ReportCardList from "@/components/ReportCardList"
 import ReportCreate from "@/components/ReportCreate"
@@ -8,7 +9,7 @@ import SplInput from "@/components/SplInput"
 // import { Separator } from "@/components/ui/separator"
 import { toast } from "@/components/ui/use-toast"
 import { Trash } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const ClearFilter = ({ setIsFiltered }: { setIsFiltered: React.Dispatch<React.SetStateAction<boolean>> }) => {
   return (
@@ -23,6 +24,7 @@ const ClearFilter = ({ setIsFiltered }: { setIsFiltered: React.Dispatch<React.Se
 
 const ReportComponent = () => {
   const pb = useApplicationStore(state => state.pb)
+  const communityID = useCommunityStore(state => state.community.id)
 
   const [reports, setReports] = useState<reportType[] | []>([])
   const [searchReportValue, setSearchReportValue] = useState("")
@@ -40,8 +42,11 @@ const ReportComponent = () => {
                           expand.house.state, expand.house.zip, expand.house.member_number, expand.house.security_code,
                           expand.created_by.id, expand.created_by.first_name, expand.created_by.last_name,
                           expand.resident.id, expand.resident.first_name, expand.resident.last_name`
+
       const resultList = await pb.collection("reports").getFullList({
-        filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") ${reportType != "" ? ` && type = "${reportType}"` : ""}`, // it makes sense to filter by when the incident occured. Users will ask; "when did the incident occured?" not "When was the incident created on the software"
+        filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") && community = "${communityID || 0}" ${reportType != "" ? ` && type = "${reportType}"` : ""}`, // it makes sense to filter by when the incident occured. Users will ask; "when did the incident occured?" not "When was the incident created on the software". Only get the reports for a particular community. 
+        // filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") && community = "${communityID}" ${reportType != "" ? ` && type = "${reportType}"` : ""}`, // it makes sense to filter by when the incident occured. Users will ask; "when did the incident occured?" not "When was the incident created on the software"
+        // filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") ${reportType != "" ? ` && type = "${reportType}"` : ""}`, // it makes sense to filter by when the incident occured. Users will ask; "when did the incident occured?" not "When was the incident created on the software"
         // filter: `(created  >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `&& type = "${reportType}"` : ""}`,
         // filter: `(created >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`,
         fields: houseFields,
@@ -123,6 +128,12 @@ const ReportComponent = () => {
   // const handleReportSort = () => {
   //   console.log("Need to implement sorting for reports")
   // }
+
+
+  useEffect(() => {
+    const { startOfMonthDate, endOfMonthDate } = reportFilterStartAndEndOfMonthDates()
+    getReports(startOfMonthDate, endOfMonthDate)
+  }, [])
 
   return (
     <div>
