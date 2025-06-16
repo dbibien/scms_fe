@@ -282,7 +282,7 @@ const ReportCreate = ({ openSheet, setOpenSheet, getReports }: CProps) => {
                   </Button>
                 </div>
 
-                <Tabs defaultValue={aiGeneratedNarative?.length > 0 ? TABS_HEADER.aiGenerated : TABS_HEADER.original}>
+                <Tabs defaultValue={aiGeneratedNarative && aiGeneratedNarative?.length > 0 ? TABS_HEADER.aiGenerated : TABS_HEADER.original}>
                   <TabsList>
                     <TabsTrigger value={TABS_HEADER.original}>Original</TabsTrigger>
                     {aiGeneratedNarative && (
