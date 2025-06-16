@@ -44,7 +44,6 @@ const ReportCardList = ({ reports, searchValue, loading, setSearchResultLength }
       {loading ? (
         <div className="flex justify-center items-center h-[50vh]">
           <Spinner color="black" />
-
         </div>
       ) : searchResult.length === 0 ? (
         <NoResultFound message="No reports found" />
