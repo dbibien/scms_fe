@@ -14,10 +14,10 @@ import { Toaster } from './components/ui/toaster'
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/" element={<LoginPage />} />
 
       <Route element={<PrivateRoutes />}>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/homes" element={<HomePage />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/concerns" element={<ConcernsPage />} />
         <Route path="/reports" element={<ReportPage />} />
@@ -28,7 +28,6 @@ function App() {
 export default App
 
 const Layout = () => {
-  // <div className='ml-1 mr-1'>
   return (
     <>
       <Nav />
@@ -44,5 +43,5 @@ const PrivateRoutes = () => {
   const pb = useApplicationStore(state => state.pb)
 
   const auth = pb.authStore.isValid
-  return auth ? <Layout /> : <Navigate to="/login" />
+  return auth ? <Layout /> : <Navigate to="/" />
 }
