@@ -4,7 +4,8 @@ import Nav from './components/Nav'
 import HomePage from './pages/Home'
 import UsersPage from './pages/Users'
 import ConcernsPage from './pages/Concerns'
-import ReportPage from './pages/Reports'
+import ReportPage from './pages/report/ReportPage'
+import ReportCreatePage from './pages/report/ReportCreatePage'
 import LoginPage from './pages/Login'
 import { useApplicationStore } from './common/store'
 import { Toaster } from './components/ui/toaster'
@@ -20,7 +21,10 @@ function App() {
         <Route path="/homes" element={<HomePage />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/concerns" element={<ConcernsPage />} />
-        <Route path="/reports" element={<ReportPage />} />
+        <Route path="/reports">
+          <Route path="" element={<ReportPage />} />
+          <Route path="create" element={<ReportCreatePage />} />
+        </Route>
       </Route>
     </Routes>)
 }
