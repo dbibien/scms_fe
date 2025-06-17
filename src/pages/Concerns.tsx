@@ -79,7 +79,7 @@ const ConcernsPage = () => {
       // console.log("no user found. loging out...")
       setTimeout(() => { // time out ensure the toast will have enough time to be shown to the user
         pb.authStore.clear()
-        return navigate("/login")
+        return navigate("/")
       }, 2000)
     }
   }, [loggedInUserId])
