@@ -85,22 +85,21 @@ const HomePage = () => {
         </>
       )}
 
-      <div className="mt-4 h-[73vh] overflow-hidden overflow-y-auto">
-        {isLoading && (
-          <div className="flex justify-center">
-            <Spinner color="black" />
-          </div>
+      {isLoading && (
+        <div className="flex justify-center">
+          <Spinner color="black" />
+        </div>
 
-        )}
+      )}
 
-        {filteredHouses?.map((house: houseType) => {
-          return <HomeCard
-            key={house?.id}
-            house={house}
-            getHomeData={getHomeData}
-          />
-        })}
-      </div>
+      {filteredHouses?.map((house: houseType) => {
+        return <HomeCard
+          key={house?.id}
+          house={house}
+          getHomeData={getHomeData}
+        />
+      })}
+
     </div>
   )
 }
