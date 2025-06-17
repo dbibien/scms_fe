@@ -3,7 +3,6 @@ import { reportType } from "@/common/types"
 import { reportFilterStartAndEndOfMonthDates } from "@/common/utils"
 import PageInfoBar from "@/components/PageInfoBar"
 import ReportCardList from "@/components/ReportCardList"
-import ReportCreate from "@/components/ReportCreate"
 import ReportFilter from "@/components/ReportFilter"
 import SplInput from "@/components/SplInput"
 import { toast } from "@/components/ui/use-toast"
@@ -31,7 +30,6 @@ const ReportComponent = () => {
   const [searchResultLength, setSearchResultLength] = useState<number>(0)
   const [loading, setLoading] = useState(true)
   const [isFiltered, setIsFiltered] = useState(false)
-  const [openReportCreate, setOpenReportCreate] = useState(false)
   const [reportType, setReportType] = useState("")
 
   const getReports = async (startDate: Date, endDate: Date) => {
@@ -49,6 +47,8 @@ const ReportComponent = () => {
         // filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") ${reportType != "" ? ` && type = "${reportType}"` : ""}`, // it makes sense to filter by when the incident occured. Users will ask; "when did the incident occured?" not "When was the incident created on the software"
         // filter: `(created  >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `&& type = "${reportType}"` : ""}`,
         // filter: `(created >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`,
+        // sort: "-incident_time",
+        sort: "-created",
         fields: houseFields,
         expand: "house, created_by, resident",
       })
