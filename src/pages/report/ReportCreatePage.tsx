@@ -14,16 +14,13 @@ import { createReportFormSchema } from "@/common/formSchemas"
 import SCMSFormInputCalendar from "@/components/SCMSFormInputCalendar"
 import SCMSHouseSearch from "@/components/SCMSHouseSearch"
 import { houseType } from "@/common/types"
-import { useApplicationStore, useLoggedInUserStore } from "@/common/store"
+import { useApplicationStore, useCommunityStore, useLoggedInUserStore } from "@/common/store"
 import { toast } from "@/components/ui/use-toast"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { TabsContent } from "@radix-ui/react-tabs"
 import NarativeTextArea from "@/components/NarativeTextArea"
 import PageHeader from "@/components/PageHeader/PageHeader"
-
-type CProps = {
-  getReports: (startDate: Date, endDate: Date) => Promise<void>,
-}
+import { useNavigate } from "react-router-dom"
 
 const WEATHER_TYPES = [
   {
@@ -53,8 +50,9 @@ const TABS_HEADER = {
   aiGenerated: "ai-generated",
 }
 
-const ReportCreatePage = ({ getReports }: CProps) => {
+const ReportCreatePage = () => {
   const pb = useApplicationStore(state => state.pb)
+  const communityID = useCommunityStore(state => state.community.id)
   const loggedInUserId = useLoggedInUserStore(state => state.user.id)
 
   const [loading, setLoading] = useState(false)
@@ -67,6 +65,8 @@ const ReportCreatePage = ({ getReports }: CProps) => {
       incidentTimeDate: new Date(),
     },
   })
+
+  const navigate = useNavigate()
 
   const reportNarative = form.watch("narative")
   const aiGeneratedNarative = form.watch("aiGeneartedNarative")
@@ -103,6 +103,7 @@ const ReportCreatePage = ({ getReports }: CProps) => {
         weather: values?.weather,
         // "phone_number": values?.phoo,
         created_by: loggedInUserId,
+        community: communityID,
         house: selectedHouse?.id,
         // @ts-expect-error this is ok
         resident: selectedHouse?.residents?.length > 0 ? selectedHouse?.residents[0]?.id : "",
@@ -114,11 +115,11 @@ const ReportCreatePage = ({ getReports }: CProps) => {
 
       setSelectedHouse(undefined)
 
-      const { today, startOfMonthDate } = reportFilterStartAndEndOfMonthDates()
-      await getReports( // passing in the modified dates to the function that will send the request to the backend
-        new Date(startOfMonthDate.getFullYear(), startOfMonthDate.getMonth(), startOfMonthDate.getDate() - 1, 0, 0, 0, 0),
-        new Date(today.getFullYear(), today.getMonth() + 1, -1, 23, 59, 59, 59)
-      )
+      // const { today, startOfMonthDate } = reportFilterStartAndEndOfMonthDates()
+      // await getReports( // passing in the modified dates to the function that will send the request to the backend
+      //   new Date(startOfMonthDate.getFullYear(), startOfMonthDate.getMonth(), startOfMonthDate.getDate() - 1, 0, 0, 0, 0),
+      //   new Date(today.getFullYear(), today.getMonth() + 1, -1, 23, 59, 59, 59)
+      // )
 
       form.reset({
         type: "",
@@ -139,6 +140,8 @@ const ReportCreatePage = ({ getReports }: CProps) => {
         title: "Success",
         description: "Report created successfully",
       })
+
+      navigate("/reports")
     } catch (e) {
       // console.log("e: ", e)
       // @ts-expect-error fix types later
