@@ -33,7 +33,7 @@ const LoginPage = () => {
   // do not allow users to navigate to the login page when they are already logged in 
   useEffect(() => {
     if (pb.authStore.isValid) {
-      return navigate("/")
+      return navigate("/homes")
     }
   }, [])
 
@@ -71,7 +71,7 @@ const LoginPage = () => {
         })
 
         setErrorMessage("")
-        return navigate("/")
+        return navigate("/homes")
       }
     } catch (e) {
       console.log("e: ", e)
