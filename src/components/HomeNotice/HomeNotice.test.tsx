@@ -2,7 +2,7 @@ import ResizeObserver from 'resize-observer-polyfill'
 global.ResizeObserver = ResizeObserver
 import { describe, expect, it } from "vitest";
 import userEvent from "@testing-library/user-event"
-import { fireEvent, render, screen } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import HomeNotice from "./HomeNotice";
 import { phoneType } from "@/common/types";
 
@@ -39,9 +39,11 @@ describe('<HomeNotice />', () => {
       houseCheckStartDate: new Date(),
       houseCheckEndDate: new Date(),
       houseLastChecked: null,
+      now: new Date("April 13, 2025 23:59:59")
     }
 
     render(<HomeNotice
+      now={testProps.now}
       phones={testProps.phones}
       pending_call_concerns_ids={testProps.pending_call_concerns}
       callInProgress={testProps.callInProgress}
@@ -90,9 +92,11 @@ describe('<HomeNotice />', () => {
       houseCheckStartDate: new Date(),
       houseCheckEndDate: new Date(),
       houseLastChecked: null,
+      now: new Date("April 13, 2025 23:59:59")
     }
 
     render(<HomeNotice
+      now={testProps.now}
       phones={testProps.phones}
       pending_call_concerns_ids={testProps.pending_call_concerns}
       callInProgress={testProps.callInProgress}
@@ -151,9 +155,11 @@ describe('<HomeNotice />', () => {
       houseCheckStartDate: new Date(),
       houseCheckEndDate: new Date(),
       houseLastChecked: null,
+      now: new Date("April 13, 2025 23:59:59")
     }
 
     render(<HomeNotice
+      now={testProps.now}
       phones={testProps.phones}
       pending_call_concerns_ids={testProps.pending_call_concerns}
       callInProgress={testProps.callInProgress}
@@ -212,9 +218,11 @@ describe('<HomeNotice />', () => {
       houseCheckStartDate: new Date(),
       houseCheckEndDate: new Date(),
       houseLastChecked: null,
+      now: new Date("April 13, 2025 23:59:59")
     }
 
     render(<HomeNotice
+      now={testProps.now}
       phones={testProps.phones}
       pending_call_concerns_ids={testProps.pending_call_concerns}
       callInProgress={testProps.callInProgress}
