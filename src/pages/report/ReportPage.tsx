@@ -1,6 +1,7 @@
 import HouseCheckComponent from "@/components/HouseCheckComponent"
 import ReportComponent from "@/components/ReportComponent"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Outlet } from "react-router-dom"
 
 const ReportPage = () => {
   return (
@@ -12,6 +13,7 @@ const ReportPage = () => {
 
       <TabsContent value="reports">
         <ReportComponent />
+        <Outlet />
       </TabsContent>
 
       <TabsContent value="house_checks">
