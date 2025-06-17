@@ -47,7 +47,7 @@ const Nav = () => {
     pb.authStore.clear()
 
     console.log("loging out...")
-    return navigate("/login")
+    return navigate("/")
   }
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const Nav = () => {
   return (
     <nav className="sticky top-0 z-40 px-4 bg-black flex items-center justify-between">
       <div>
-        <h1 className="text-white">SCMS</h1>
+        <h1 className="text-white font-bold">SCMS</h1>
       </div>
 
       <div className="flex flex-row gap-2">
