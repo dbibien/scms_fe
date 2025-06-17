@@ -129,7 +129,6 @@ const ReportComponent = () => {
   //   console.log("Need to implement sorting for reports")
   // }
 
-
   useEffect(() => {
     const { startOfMonthDate, endOfMonthDate } = reportFilterStartAndEndOfMonthDates()
     getReports(startOfMonthDate, endOfMonthDate)
@@ -157,6 +156,7 @@ const ReportComponent = () => {
               Sort
             </button>
           */}
+
         </div>
         <ReportCreate
           openSheet={openReportCreate}
