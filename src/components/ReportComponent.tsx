@@ -6,10 +6,10 @@ import ReportCardList from "@/components/ReportCardList"
 import ReportCreate from "@/components/ReportCreate"
 import ReportFilter from "@/components/ReportFilter"
 import SplInput from "@/components/SplInput"
-// import { Separator } from "@/components/ui/separator"
 import { toast } from "@/components/ui/use-toast"
-import { Trash } from "lucide-react"
+import { Plus, Trash } from "lucide-react"
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 const ClearFilter = ({ setIsFiltered }: { setIsFiltered: React.Dispatch<React.SetStateAction<boolean>> }) => {
   return (
@@ -158,11 +158,21 @@ const ReportComponent = () => {
           */}
 
         </div>
+        {/*
         <ReportCreate
           openSheet={openReportCreate}
           setOpenSheet={setOpenReportCreate}
           getReports={getReports}
         />
+        */}
+
+        <Link
+          to="create"
+          className="bg-black rounded-md text-white text-sm flex flex-row items-center p-2 pl-3 pr-3 hover:bg-black/85"
+        >
+          <Plus />
+          Create Report
+        </Link>
       </div>
 
       <div>
