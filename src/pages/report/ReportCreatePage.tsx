@@ -223,7 +223,7 @@ const ReportCreatePage = ({ getReports }: CProps) => {
             data={WEATHER_TYPES}
           />
 
-          <div>
+          <div className="mt-2">
             <p className="text-sm  font-medium">Incident date: </p>
 
             <SCMSFormInputCalendar control={form.control} />
@@ -280,7 +280,7 @@ const ReportCreatePage = ({ getReports }: CProps) => {
                 control={form.control}
                 name="narative"
                 render={({ field }) => (
-                  <FormItem className="mb-4 mt-1">
+                  <FormItem className="mb-4 mt-2">
                     <FormControl>
                       <NarativeTextArea
                         name="say"
@@ -303,7 +303,7 @@ const ReportCreatePage = ({ getReports }: CProps) => {
                 control={form.control}
                 name="aiGeneartedNarative"
                 render={({ field }) => (
-                  <FormItem className="mb-4 mt-1">
+                  <FormItem className="mb-4 mt-2">
                     <FormControl>
                       <NarativeTextArea
                         name="say"
@@ -322,7 +322,7 @@ const ReportCreatePage = ({ getReports }: CProps) => {
             </TabsContent>
           </Tabs>
 
-          <div className="mt-8">
+          <div className="my-8">
             <Button
               type="submit"
               disabled={loading}
