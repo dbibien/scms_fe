@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import DatePicker from "./DatePicker"
 import ReportTypePicker from "./ReportTypePicker"
 import { Filter } from "lucide-react"
@@ -7,7 +7,6 @@ import { PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
 // import { reportType } from "@/common/types"
 import { toast } from "./ui/use-toast"
-import { reportFilterStartAndEndOfMonthDates } from "@/common/utils"
 
 type CProps = {
   isFiltered: boolean,
@@ -71,6 +70,8 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: 
   // console.log("fromDate: ", fromDate)
   // console.log("toDate: ", toDate)
   // console.log("reportType: ", reportType)
+
+  console.log("isFiltered:", isFiltered)
 
   return (
     <Popover open={sheetOpen} onOpenChange={setSheetOpen}>
