@@ -79,6 +79,7 @@ const HouseCheckDialogue = ({ id, address, apt, city, state, zip, note, house_ch
         weather: "clear",
         // "phone_number": values?.phoo,
         created_by: loggedInUserId,
+        community: loggedInUserCommunityId,
         house: id,
         resident: residents?.length > 0 ? residents[0]?.id : "",
         injury: false,
