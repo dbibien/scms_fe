@@ -2,17 +2,18 @@ import { CalendarIcon } from "lucide-react"
 import { FormDescription, FormField, FormItem, FormLabel } from "./ui/form"
 import { Calendar } from "./ui/calendar"
 import { useState } from "react"
-import { format } from "date-fns"
+import { addDays, format } from "date-fns"
 
 type CProps = {
   form: any,
   name: string,
   label: string,
   description?: string,
-  isButtonClickable?: boolean
+  isButtonClickable?: boolean,
+  houseCheckStartDate?: Date | undefined,
 }
 
-const SCMSFormInputCalendar2 = ({ form, name, label, description = "", isButtonClickable = true }: CProps) => {
+const SCMSFormInputCalendar2 = ({ form, name, label, description = "", isButtonClickable = true, houseCheckStartDate }: CProps) => {
   const [open, setOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
 
@@ -80,8 +81,11 @@ const SCMSFormInputCalendar2 = ({ form, name, label, description = "", isButtonC
                   selected={field.value}
                   onSelect={field.onChange}
                   onDayClick={(e) => handleDayClick(e)}
+                  // disabled={(date) =>
+                  //   date > new Date() || date < new Date("1900-01-01")
+                  // }
                   disabled={(date) =>
-                    date > new Date() || date < new Date("1900-01-01")
+                    houseCheckStartDate !== undefined && date < addDays(houseCheckStartDate, 1)
                   }
                   initialFocus
                 />

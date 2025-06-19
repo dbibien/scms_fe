@@ -534,6 +534,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                         label="End date: "
                         description=""
                         isButtonClickable={watchHouseCheckStartDate !== undefined} // can't be clicked unless a date has been selected for the house check start date 
+                        houseCheckStartDate={watchHouseCheckStartDate}
                       />
 
                       <FormField
