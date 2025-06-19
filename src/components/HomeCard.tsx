@@ -146,7 +146,7 @@ const HomeCard = ({ house, getHomeData }: homeCardType) => {
   // console.log("searchValue: ", searchValue)
 
   return (
-    <Card className="mb-8 lg:grid lg:grid-cols-[2fr_2fr_2fr]">
+    <Card className="mb-8 mt-4 lg:grid lg:grid-cols-[2fr_2fr_2fr]">
       <CardHeader className={`p-0 ${imageError ? "bg-white" : "bg-black"} flex flex-row items-center`}>
         <img
           src={imageError ? "/assets/homeDefault.jpg" : `${import.meta.env.VITE_BACKEND_URL}/api/files/houses/${house?.id}/${house?.image}`}
