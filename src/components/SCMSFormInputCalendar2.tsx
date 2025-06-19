@@ -9,9 +9,10 @@ type CProps = {
   name: string,
   label: string,
   description?: string,
+  isButtonClickable?: boolean
 }
 
-const SCMSFormInputCalendar2 = ({ form, name, label, description = "" }: CProps) => {
+const SCMSFormInputCalendar2 = ({ form, name, label, description = "", isButtonClickable = true }: CProps) => {
   const [open, setOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
 
@@ -49,6 +50,7 @@ const SCMSFormInputCalendar2 = ({ form, name, label, description = "" }: CProps)
       <button
         type="button"
         onClick={() => setOpen(!open)}
+        disabled={!isButtonClickable}
         className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-colors
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none 
         disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground 
@@ -64,7 +66,6 @@ const SCMSFormInputCalendar2 = ({ form, name, label, description = "" }: CProps)
 
       <p className="text-red-500 text-sm">{form.control?._formState?.errors[name]?.message}</p>
 
-
       {open && (
         <div>
           <FormField
@@ -79,9 +80,9 @@ const SCMSFormInputCalendar2 = ({ form, name, label, description = "" }: CProps)
                   selected={field.value}
                   onSelect={field.onChange}
                   onDayClick={(e) => handleDayClick(e)}
-                  // disabled={(date) =>
-                  //   date > new Date() || date < new Date("1900-01-01")
-                  // }
+                  disabled={(date) =>
+                    date > new Date() || date < new Date("1900-01-01")
+                  }
                   initialFocus
                 />
                 <FormDescription>{description}</FormDescription>

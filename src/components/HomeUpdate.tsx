@@ -80,6 +80,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
   const watchFirstName = form.watch("first_name")
   const watchLastName = form.watch("last_name")
   const houseCheck = form.watch("house_check")
+  const watchHouseCheckStartDate = form.watch("house_check_start_date")
 
   const onSubmit = async (values: z.infer<typeof homeUpdateFormSchema>) => {
     setLoading(true)
@@ -532,6 +533,7 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                         name="house_check_end_date"
                         label="End date: "
                         description=""
+                        isButtonClickable={watchHouseCheckStartDate !== undefined} // can't be clicked unless a date has been selected for the house check start date 
                       />
 
                       <FormField
