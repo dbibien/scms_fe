@@ -526,6 +526,8 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                         name="house_check_start_date"
                         label="Start date: "
                         description=""
+                        position="start"
+                        currentDate={new Date()}
                       />
 
                       <SCMSFormInputCalendar2
@@ -535,6 +537,8 @@ const HomeUpdate = ({ house, getHomeData }: CProps) => {
                         description=""
                         isButtonClickable={watchHouseCheckStartDate !== undefined} // can't be clicked unless a date has been selected for the house check start date 
                         houseCheckStartDate={watchHouseCheckStartDate}
+                        currentDate={null}
+                        position="end"
                       />
 
                       <FormField

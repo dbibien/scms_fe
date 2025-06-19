@@ -1,3 +1,4 @@
+import { addDays, subDays } from "date-fns"
 import { houseType } from "./types"
 
 type backend400ErrorMessageType = {
@@ -218,4 +219,15 @@ export const diffBetweenDays = (end: Date, start: Date): number => {
   const diffInMs = end?.getTime() - start?.getTime()
   const diffInDays = Math.floor(diffInMs / (24 * 60 * 60 * 1000))
   return diffInDays
+}
+
+export const disableHouseCheckCalendarDays = (calendarDate: Date, userSelectedDate: Date | undefined, currentDate: Date, position: "start" | "end") => {
+  // decide which days on the calendar should not be selectable
+  if (position === "start") { // days before the current date will not be selectable
+    return calendarDate < subDays(currentDate, 1)
+  }
+
+  if (position === "end") { // the selected day and all days before it will not be selectable
+    return userSelectedDate !== undefined && calendarDate < addDays(userSelectedDate, 1)
+  }
 }
