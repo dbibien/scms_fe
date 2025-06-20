@@ -8,6 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { useState } from "react"
 
 type CProps = {
   label: string,
@@ -15,14 +16,18 @@ type CProps = {
   setDate: React.Dispatch<React.SetStateAction<Date | undefined>>,
 }
 
+// <PopoverContent className="w-auto p-0 ">
+
 const DatePicker = ({ label, date, setDate }: CProps) => {
+  const [open, setOpen] = useState(false)
+
   return (
     <div>
       <p>{label}: </p>
-      <Popover>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
-            variant={"outline"}
+            variant="outline"
             className={cn(
               "w-full justify-start text-left font-normal",
               !date && "text-muted-foreground"
@@ -37,8 +42,11 @@ const DatePicker = ({ label, date, setDate }: CProps) => {
           <Calendar
             mode="single"
             selected={date}
-            onSelect={setDate}
-            initialFocus
+            onSelect={(date) => {
+              setDate(date)
+              setOpen(false)
+            }}
+            className="z-1000 pointer-events-auto"
           />
         </PopoverContent>
       </Popover>

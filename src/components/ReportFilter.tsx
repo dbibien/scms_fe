@@ -7,6 +7,7 @@ import { PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
 // import { reportType } from "@/common/types"
 import { toast } from "./ui/use-toast"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 
 type CProps = {
   isFiltered: boolean,
@@ -19,7 +20,7 @@ type CProps = {
 }
 
 const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: CProps) => {
-  const [sheetOpen, setSheetOpen] = useState(false)
+  const [openDialogue, setOpenDialogue] = useState(false)
   const [fromDate, setFromDate] = useState<Date>()
   const [toDate, setToDate] = useState<Date>()
 
@@ -38,7 +39,7 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: 
       // @ts-expect-error expected and handled
       new Date(toDate?.getFullYear(), toDate?.getMonth(), toDate?.getDate(), 23, 59, 59)
     )
-    setSheetOpen(false)
+    setOpenDialogue(false)
     setIsFiltered(true)
   }
 
@@ -70,20 +71,33 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: 
   // console.log("fromDate: ", fromDate)
   // console.log("toDate: ", toDate)
   // console.log("reportType: ", reportType)
+  // <PopoverTrigger className="flex flex-row gap-1 items-center">
+  // </PopoverTrigger>
 
-  console.log("isFiltered:", isFiltered)
+  // console.log("isFiltered:", isFiltered)
 
   return (
-    <Popover open={sheetOpen} onOpenChange={setSheetOpen}>
-      <PopoverTrigger className="flex flex-row gap-1 items-center">
-        <Filter />
-        Filter
-      </PopoverTrigger>
+    <Dialog open={openDialogue} onOpenChange={setOpenDialogue}>
+      <DialogTrigger asChild>
+        <Button
+          data-testid="report-filter"
+          className="text-sm p-2 rounded-md bg-transparent text-black hover:bg-transparent"
+        >
+          <Filter />
+          Filter + Sort
+        </Button>
+      </DialogTrigger>
 
-      <PopoverContent>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader className="flex flex-col items-center" >
+          <DialogTitle data-testid="house-check-dialogue">Filter + Sort</DialogTitle>
+        </DialogHeader>
+
+
         <DatePicker label="From" date={fromDate} setDate={setFromDate} />
         <DatePicker label="To" date={toDate} setDate={setToDate} />
         <ReportTypePicker label="Report type" setValue={setReportType} styles="mt-2" />
+
         <Button
           className="mt-6 w-full flex gap-2"
           onClick={handleFilterReports}
@@ -91,8 +105,8 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: 
           <Filter />
           Filter
         </Button>
-      </PopoverContent>
-    </Popover>
+      </DialogContent>
+    </Dialog>
   )
 }
 
