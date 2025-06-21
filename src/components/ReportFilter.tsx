@@ -2,12 +2,10 @@ import { useState } from "react"
 import DatePicker from "./DatePicker"
 import ReportTypePicker from "./ReportTypePicker"
 import { Filter } from "lucide-react"
-import { Popover } from "@radix-ui/react-popover"
-import { PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
-// import { reportType } from "@/common/types"
 import { toast } from "./ui/use-toast"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
+import { ReportFilterType } from "@/common/types"
 
 type CProps = {
   isFiltered: boolean,
@@ -23,6 +21,92 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: 
   const [openDialogue, setOpenDialogue] = useState(false)
   const [fromDate, setFromDate] = useState<Date>()
   const [toDate, setToDate] = useState<Date>()
+  const [reportFilterTypes, setReportFilterTypes] = useState<ReportFilterType[]>([
+    {
+      id: 1,
+      value: "accident",
+      label: "Accident",
+      isSelected: false,
+    },
+    {
+      id: 2,
+      value: "assist_ems",
+      label: "Assist EMS",
+      isSelected: false,
+    },
+    {
+      id: 3,
+      value: "damaged_mailbox",
+      label: "Damaged mailbox",
+      isSelected: false,
+    },
+    {
+      id: 4,
+      value: "ems_response",
+      label: "EMS response",
+      isSelected: false,
+    },
+    {
+      id: 5,
+      value: "false_alarm",
+      label: "False alarm",
+      isSelected: false,
+    },
+    {
+      id: 12,
+      value: "garage_door_light_check",
+      label: "Garage door light check",
+      isSelected: false,
+    },
+    {
+      id: 14,
+      value: "house_check",
+      label: "House check",
+      isSelected: false,
+    },
+    {
+      id: 6,
+      value: "loud_noise",
+      label: "Loud noise",
+      isSelected: false,
+    },
+    {
+      id: 7,
+      value: "open_garage_door",
+      label: "Open garage door",
+      isSelected: false,
+    },
+    {
+      id: 13,
+      value: "ticket_issued",
+      label: "Ticket issued",
+      isSelected: false,
+    },
+    {
+      id: 8,
+      value: "unauthorized_entry",
+      label: "Unauthorized entry",
+      isSelected: false,
+    },
+    {
+      id: 9,
+      value: "vehicle_damage",
+      label: "Vehicle damage",
+      isSelected: false,
+    },
+    {
+      id: 10,
+      value: "vehicle_tailgaite",
+      label: "Vehicle tailgate",
+      isSelected: false,
+    },
+    {
+      id: 11,
+      value: "youths_fishing",
+      label: "Youths fishing",
+      isSelected: false,
+    }
+  ])
 
   const handleFilterReports = () => {
     if (!fromDate || !toDate) {
@@ -96,7 +180,13 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: 
 
         <DatePicker label="From" date={fromDate} setDate={setFromDate} />
         <DatePicker label="To" date={toDate} setDate={setToDate} />
-        <ReportTypePicker label="Report type" setValue={setReportType} styles="mt-2" />
+        <ReportTypePicker
+          label="Report type"
+          setValue={setReportType}
+          styles="mt-2"
+          reportFilterTypes={reportFilterTypes}
+          setReportFilterTypes={setReportFilterTypes}
+        />
 
         <Button
           className="mt-6 w-full flex gap-2"
