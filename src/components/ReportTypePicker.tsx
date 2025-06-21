@@ -1,13 +1,4 @@
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { REPORT_TYPES } from "@/common/utils"
-
-import {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -25,33 +16,12 @@ type CProps = {
   setValue: React.Dispatch<React.SetStateAction<string>>,
 }
 
-const ReportTypePicker2 = ({ label, styles = "", setValue }: CProps) => {
-  return (
-    <div className={styles}>
-      <p>{label}:</p>
-      <Select onValueChange={(e) => setValue(e)}>
-        <SelectTrigger className="w-full">
-          <SelectValue defaultValue="" placeholder="Select type" />
-        </SelectTrigger>
-        <SelectContent>
-          {REPORT_TYPES.map(type => (
-            <SelectItem key={type.id} value={type.value}>{type.label}</SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
-  )
-}
-
-// export ReportTypePicker2
-
 const ReportTypePicker = ({ label, styles = "", setReportValue, reportFilterTypes, setReportFilterTypes }: CProps) => {
 
   const isChecked = (checked: string | boolean, selectedType: ReportFilterType) => {
     const newReportFilterType = reportFilterTypes.map(val => {
       if (selectedType.id === val.id) {
         if (checked) {
-          console.log("in here", "val.label", val.label)
           return {
             id: val.id,
             value: val.value,
@@ -76,9 +46,6 @@ const ReportTypePicker = ({ label, styles = "", setReportValue, reportFilterType
       }
     })
 
-    console.log("checked: ", checked, "selectedType: ", selectedType)
-    console.log("newReportFilterType: ", newReportFilterType)
-
     return newReportFilterType
   }
 
@@ -88,15 +55,16 @@ const ReportTypePicker = ({ label, styles = "", setReportValue, reportFilterType
       <Accordion type="single" collapsible>
         <AccordionItem value="report-types">
           <AccordionTrigger>Report types</AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="grid grid-cols-2 gap-2">
             {reportFilterTypes.map(type => (
               <div
                 key={type.id}
-                className="flex flex-row items-center gap-2 mb-4"
+                className="flex flex-row items-center gap-2 mt-2 mb-4"
               >
                 <Checkbox
-                  key={type.id}
-                  // checked={type.id}
+                  aria-label={type.label}
+                  key={`${type.id}`}
+                  id={`${type.id}`}
                   checked={type.isSelected}
                   onCheckedChange={(checked) => setReportFilterTypes(isChecked(checked, type))}
                 >
