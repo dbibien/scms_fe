@@ -101,3 +101,11 @@ export type reportType = {
     last_name: string,
   },
 }
+
+export type ReportFilterType = {
+  id: number,
+  value: string,
+  label: string,
+  isSelected: boolean,
+}
+
