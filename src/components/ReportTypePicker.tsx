@@ -51,10 +51,9 @@ const ReportTypePicker = ({ label, styles = "", setReportValue, reportFilterType
 
   return (
     <div className={styles}>
-      <p>{label}:</p>
       <Accordion type="single" collapsible>
         <AccordionItem value="report-types">
-          <AccordionTrigger>Report types</AccordionTrigger>
+          <AccordionTrigger className="font-normal">{label}</AccordionTrigger>
           <AccordionContent className="grid grid-cols-2 gap-2">
             {reportFilterTypes.map(type => (
               <div
