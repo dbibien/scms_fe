@@ -6,6 +6,7 @@ import { Button } from "./ui/button"
 import { toast } from "./ui/use-toast"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { ReportFilterType } from "@/common/types"
+import { ScrollArea } from "./ui/scroll-area"
 
 type CProps = {
   isFiltered: boolean,
@@ -177,16 +178,17 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: 
           <DialogTitle data-testid="house-check-dialogue">Filter + Sort</DialogTitle>
         </DialogHeader>
 
-
-        <DatePicker label="From" date={fromDate} setDate={setFromDate} />
-        <DatePicker label="To" date={toDate} setDate={setToDate} />
-        <ReportTypePicker
-          label="Report type"
-          setValue={setReportType}
-          styles="mt-2"
-          reportFilterTypes={reportFilterTypes}
-          setReportFilterTypes={setReportFilterTypes}
-        />
+        <ScrollArea className="h-[50vh]">
+          <DatePicker label="From" date={fromDate} setDate={setFromDate} />
+          <DatePicker label="To" date={toDate} setDate={setToDate} />
+          <ReportTypePicker
+            label="Report type"
+            setValue={setReportType}
+            styles="mt-2"
+            reportFilterTypes={reportFilterTypes}
+            setReportFilterTypes={setReportFilterTypes}
+          />
+        </ScrollArea>
 
         <Button
           className="mt-6 w-full flex gap-2"
