@@ -7,6 +7,7 @@ import { toast } from "./ui/use-toast"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { ReportFilterType } from "@/common/types"
 import { ScrollArea } from "./ui/scroll-area"
+import ReportSort from "./ReportSort/ReportSort"
 
 type CProps = {
   isFiltered: boolean,
@@ -22,6 +23,7 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: 
   const [openDialogue, setOpenDialogue] = useState(false)
   const [fromDate, setFromDate] = useState<Date>()
   const [toDate, setToDate] = useState<Date>()
+  const [reportSortBy, setReportSortBy] = useState("-created")
   const [reportFilterTypes, setReportFilterTypes] = useState<ReportFilterType[]>([
     {
       id: 1,
@@ -128,6 +130,14 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: 
     setIsFiltered(true)
   }
 
+  const handleReportSortBy = (val: "newest" | "oldest") => {
+    if (val === "newest") {
+      setReportSortBy("-created")
+    } else {
+      setReportSortBy("created")
+    }
+  }
+
   // useEffect(() => {
   //   // query the backend for all reports for the month.
   //   // NOTE: due to timezone differences, I am querying the backend from the prev month at 12am to the next month at 11:59p
@@ -160,6 +170,10 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: 
   // </PopoverTrigger>
 
   // console.log("isFiltered:", isFiltered)
+  // newest first to oldest incident time ()
+  // oldest first to newest incident time ()
+  //
+  console.log("reportSortBy: ", reportSortBy)
 
   return (
     <Dialog open={openDialogue} onOpenChange={setOpenDialogue}>
@@ -187,6 +201,10 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: 
             styles="mt-2"
             reportFilterTypes={reportFilterTypes}
             setReportFilterTypes={setReportFilterTypes}
+          />
+          <ReportSort
+            label="Sort by"
+            handleReportSortBy={handleReportSortBy}
           />
         </ScrollArea>
 
