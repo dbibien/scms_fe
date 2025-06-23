@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { ReportFilterType } from "@/common/types"
 import { ScrollArea } from "./ui/scroll-area"
 import ReportSort from "./ReportSort/ReportSort"
+import { generateSelectedReportTypeString } from "@/common/utils"
 
 type CProps = {
   isFiltered: boolean,
@@ -17,13 +18,14 @@ type CProps = {
   setReportSortBy: React.Dispatch<React.SetStateAction<string>>
 
   setReportType: React.Dispatch<React.SetStateAction<string>>,
-  getReports: (startDate: Date, endDate: Date) => Promise<void>,
+  getReports: (startDate: Date, endDate: Date, reportType: string, reportSortBy: string) => Promise<void>,
 }
 
-const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, setReportSortBy, getReports }: CProps) => {
+const ReportFilter = ({ isFiltered, setIsFiltered, getReports }: CProps) => {
   const [openDialogue, setOpenDialogue] = useState(false)
   const [fromDate, setFromDate] = useState<Date>()
   const [toDate, setToDate] = useState<Date>()
+  const [reportSortBy, setReportSortBy] = useState("-created")
   const [reportFilterTypes, setReportFilterTypes] = useState<ReportFilterType[]>([
     {
       id: 1,
@@ -124,7 +126,9 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, setReportSortB
       // @ts-expect-error expected and handled
       new Date(fromDate?.getFullYear(), fromDate?.getMonth(), fromDate?.getDate(), 0, 0),
       // @ts-expect-error expected and handled
-      new Date(toDate?.getFullYear(), toDate?.getMonth(), toDate?.getDate(), 23, 59, 59)
+      new Date(toDate?.getFullYear(), toDate?.getMonth(), toDate?.getDate(), 23, 59, 59),
+      generateSelectedReportTypeString(reportFilterTypes), // generates the string for filtering the reports by type
+      reportSortBy
     )
     setOpenDialogue(false)
     setIsFiltered(true)
@@ -137,43 +141,6 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, setReportSortB
       setReportSortBy("created")
     }
   }
-
-  // useEffect(() => {
-  //   // query the backend for all reports for the month.
-  //   // NOTE: due to timezone differences, I am querying the backend from the prev month at 12am to the next month at 11:59p
-  //
-  //   if (!isFiltered) { // this condition ensure the code queries for all of the report of the current month only on the first render and when the user have cleared a previous filter
-  //     // const today = new Date()
-  //     // const startDate = new Date(today.getFullYear(), today.getMonth())
-  //     // const endOfMonthDate = new Date(today.getFullYear(), today.getMonth() + 1, -1)
-  //
-  //     const { today, startOfMonthDate, endOfMonthDate } = reportFilterStartAndEndOfMonthDates()
-  //
-  //     // console.log("startDate: ", startDate.toISOString())
-  //     // console.log("endOfMonthDate : ", endOfMonthDate)
-  //
-  //     // setting the dates so the user can visually see they are filtering for reports from the 1st to the end of the month
-  //     setFromDate(startOfMonthDate)
-  //     setToDate(endOfMonthDate)
-  //
-  //     getReports( // passing in the modified dates to the function that will send the request to the backend
-  //       new Date(startOfMonthDate.getFullYear(), startOfMonthDate.getMonth(), startOfMonthDate.getDate() - 1, 0, 0, 0, 0),
-  //       new Date(today.getFullYear(), today.getMonth() + 1, -1, 23, 59, 59, 59)
-  //     )
-  //   }
-  // }, [isFiltered])
-
-  // console.log("fromDate: ", fromDate)
-  // console.log("toDate: ", toDate)
-  // console.log("reportType: ", reportType)
-  // <PopoverTrigger className="flex flex-row gap-1 items-center">
-  // </PopoverTrigger>
-
-  // console.log("isFiltered:", isFiltered)
-  // newest first to oldest incident time ()
-  // oldest first to newest incident time ()
-  //
-  console.log("reportSortBy: ", reportSortBy)
 
   return (
     <Dialog open={openDialogue} onOpenChange={setOpenDialogue}>
@@ -197,7 +164,6 @@ const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, setReportSortB
           <DatePicker label="To" date={toDate} setDate={setToDate} />
           <ReportTypePicker
             label="Report type"
-            setValue={setReportType}
             styles="mt-2"
             reportFilterTypes={reportFilterTypes}
             setReportFilterTypes={setReportFilterTypes}

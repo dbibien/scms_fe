@@ -31,9 +31,8 @@ const ReportComponent = () => {
   const [loading, setLoading] = useState(true)
   const [isFiltered, setIsFiltered] = useState(false)
   const [reportType, setReportType] = useState("")
-  const [reportSortBy, setReportSortBy] = useState("-created")
 
-  const getReports = async (startDate: Date, endDate: Date) => {
+  const getReports = async (startDate: Date, endDate: Date, reportType: string, reportSortBy: "newest" | "oldest") => {
     setLoading(true)
     try {
       const houseFields = `id, narative, ai_generated_narative, type, weather, incident_time, created, phone_number, injury, ems_pbso,
@@ -44,13 +43,15 @@ const ReportComponent = () => {
 
       const resultList = await pb.collection("reports").getFullList({
         // filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") && community = "${communityID || 0}" ${reportType != "" ? ` && type = "${reportType}"` : ""}`, // it makes sense to filter by when the incident occured. Users will ask; "when did the incident occured?" not "When was the incident created on the software". Only get the reports for a particular community. 
-        filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") && community = "${communityID || 0}"  && (type ?= "accident" || type ?= "house_check" || type ?= "assist_ems")`, // it makes sense to filter by when the incident occured. Users will ask; "when did the incident occured?" not "When was the incident created on the software". Only get the reports for a particular community. 
+        filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") && community = "${communityID || 0}" ${reportType != "" ? ` && (${reportType})` : ""}`, // it makes sense to filter by when the incident occured. Users will ask; "when did the incident occured?" not "When was the incident created on the software". Only get the reports for a particular community. 
+        // filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") && community = "${communityID || 0}"  && (type ?= "accident" || type ?= "house_check" || type ?= "assist_ems")`, // it makes sense to filter by when the incident occured. Users will ask; "when did the incident occured?" not "When was the incident created on the software". Only get the reports for a particular community. 
         // filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") && community = "${communityID}" ${reportType != "" ? ` && type = "${reportType}"` : ""}`, // it makes sense to filter by when the incident occured. Users will ask; "when did the incident occured?" not "When was the incident created on the software"
         // filter: `(incident_time  >= "${startDate.toISOString()}" && incident_time <= "${endDate.toISOString()}") ${reportType != "" ? ` && type = "${reportType}"` : ""}`, // it makes sense to filter by when the incident occured. Users will ask; "when did the incident occured?" not "When was the incident created on the software"
         // filter: `(created  >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `&& type = "${reportType}"` : ""}`,
         // filter: `(created >= "${startDate.toISOString()}" && created <= "${endDate.toISOString()}") ${reportType != "" ? `type = "${reportType}"` : ""}`,
         // sort: "-incident_time",
-        sort: "-created",
+        // sort: "-created",
+        sort: reportSortBy,
         fields: houseFields,
         expand: "house, created_by, resident",
       })
@@ -133,7 +134,7 @@ const ReportComponent = () => {
 
   useEffect(() => {
     const { startOfMonthDate, endOfMonthDate } = reportFilterStartAndEndOfMonthDates()
-    getReports(startOfMonthDate, endOfMonthDate)
+    getReports(startOfMonthDate, endOfMonthDate, "", "-created")
   }, [])
 
   return (
@@ -144,7 +145,6 @@ const ReportComponent = () => {
             isFiltered={isFiltered}
             setIsFiltered={setIsFiltered}
             setReportType={setReportType}
-            setReportSortBy={setReportSortBy}
             getReports={getReports}
           />
 

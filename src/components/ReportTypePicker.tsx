@@ -13,10 +13,9 @@ type CProps = {
   styles?: string,
   reportFilterTypes: ReportFilterType[]
   setReportFilterTypes: React.Dispatch<React.SetStateAction<ReportFilterType[]>>
-  setValue: React.Dispatch<React.SetStateAction<string>>,
 }
 
-const ReportTypePicker = ({ label, styles = "", setReportValue, reportFilterTypes, setReportFilterTypes }: CProps) => {
+const ReportTypePicker = ({ label, styles = "", reportFilterTypes, setReportFilterTypes }: CProps) => {
 
   const isChecked = (checked: string | boolean, selectedType: ReportFilterType) => {
     const newReportFilterType = reportFilterTypes.map(val => {
