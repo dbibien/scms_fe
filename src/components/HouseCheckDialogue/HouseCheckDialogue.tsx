@@ -199,8 +199,6 @@ const HouseCheckDialogue = ({ id, address, apt, city, state, zip, note, house_ch
                               No
                             </FormLabel>
                           </FormItem>
-
-
                         </RadioGroup>
                       </FormControl>
                     </FormItem>
