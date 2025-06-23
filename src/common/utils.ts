@@ -1,5 +1,5 @@
 import { addDays, subDays } from "date-fns"
-import { houseType } from "./types"
+import { ReportFilterType, houseType } from "./types"
 
 type backend400ErrorMessageType = {
   code: number,
@@ -230,4 +230,18 @@ export const disableHouseCheckCalendarDays = (calendarDate: Date, userSelectedDa
   if (position === "end") { // the selected day and all days before it will not be selectable
     return userSelectedDate !== undefined && calendarDate < addDays(userSelectedDate, 1)
   }
+}
+
+export const generateSelectedReportTypeString = (reportFilterTypes: ReportFilterType[]): string => {
+  // genrate the following string:  "(type ?= "accident" || type ?= "house_check" || type ?= "assist_ems")"
+  let generatedString = ""
+  for (let i = 0; i < reportFilterTypes.length; i++) {
+    if (reportFilterTypes[i].isSelected && generatedString === "") {
+      generatedString += `type ?= "${reportFilterTypes[i].value}"`
+    } else if (reportFilterTypes[i].isSelected && generatedString !== "") {
+      generatedString += ` || type ?= "${reportFilterTypes[i].value}"`
+    }
+  }
+
+  return generatedString
 }
