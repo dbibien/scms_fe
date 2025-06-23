@@ -14,16 +14,16 @@ type CProps = {
   // setReports: React.Dispatch<React.SetStateAction<[] | reportType[]>>,
   // setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>,
+  setReportSortBy: React.Dispatch<React.SetStateAction<string>>
 
   setReportType: React.Dispatch<React.SetStateAction<string>>,
   getReports: (startDate: Date, endDate: Date) => Promise<void>,
 }
 
-const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, getReports }: CProps) => {
+const ReportFilter = ({ isFiltered, setIsFiltered, setReportType, setReportSortBy, getReports }: CProps) => {
   const [openDialogue, setOpenDialogue] = useState(false)
   const [fromDate, setFromDate] = useState<Date>()
   const [toDate, setToDate] = useState<Date>()
-  const [reportSortBy, setReportSortBy] = useState("-created")
   const [reportFilterTypes, setReportFilterTypes] = useState<ReportFilterType[]>([
     {
       id: 1,

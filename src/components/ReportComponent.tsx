@@ -31,6 +31,7 @@ const ReportComponent = () => {
   const [loading, setLoading] = useState(true)
   const [isFiltered, setIsFiltered] = useState(false)
   const [reportType, setReportType] = useState("")
+  const [reportSortBy, setReportSortBy] = useState("-created")
 
   const getReports = async (startDate: Date, endDate: Date) => {
     setLoading(true)
@@ -143,6 +144,7 @@ const ReportComponent = () => {
             isFiltered={isFiltered}
             setIsFiltered={setIsFiltered}
             setReportType={setReportType}
+            setReportSortBy={setReportSortBy}
             getReports={getReports}
           />
 
