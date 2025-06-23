@@ -29,6 +29,7 @@ import STextArea from "../STextArea"
 import Spinner from "../Spinner"
 import { residentType } from "@/common/types"
 import useGetHomes from "@/hooks/useGetHomes"
+import { ScrollArea } from "../ui/scroll-area"
 
 type CProps = {
   id: string,
@@ -149,7 +150,7 @@ const HouseCheckDialogue = ({ id, address, apt, city, state, zip, note, house_ch
           </DialogDescription>
         </DialogHeader>
 
-        <div>
+        <ScrollArea className="h-[50vh]">
           {note && (<>
             <div className="mt-2">
               <p className="text-sm underline text-slate-500">House note:</p>
@@ -251,7 +252,7 @@ const HouseCheckDialogue = ({ id, address, apt, city, state, zip, note, house_ch
               </form>
             </Form>
           </div>
-        </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   )
