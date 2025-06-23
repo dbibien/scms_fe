@@ -12,14 +12,11 @@ import { generateSelectedReportTypeString } from "@/common/utils"
 
 type CProps = {
   isFiltered: boolean,
-  // setReports: React.Dispatch<React.SetStateAction<[] | reportType[]>>,
-  // setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>,
-
-  getReports: (startDate: Date, endDate: Date, reportType: string, reportSortBy: "newest" | "oldest") => Promise<void>,
+  getReports: (startDate: Date, endDate: Date, reportType: string, reportSortBy: string) => Promise<void>,
 }
 
-const ReportFilter = ({ isFiltered, setIsFiltered, getReports }: CProps) => {
+const ReportFilter = ({ setIsFiltered, getReports }: CProps) => {
   const [openDialogue, setOpenDialogue] = useState(false)
   const [fromDate, setFromDate] = useState<Date>()
   const [toDate, setToDate] = useState<Date>()

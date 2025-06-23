@@ -233,7 +233,7 @@ export const disableHouseCheckCalendarDays = (calendarDate: Date, userSelectedDa
 }
 
 export const generateSelectedReportTypeString = (reportFilterTypes: ReportFilterType[]): string => {
-  // genrate the following string:  "(type ?= "accident" || type ?= "house_check" || type ?= "assist_ems")"
+  // genrate the following string format:  "(tpe ?= "accident" || type ?= "house_check" || type ?= "assist_ems")"
   let generatedString = ""
   for (let i = 0; i < reportFilterTypes.length; i++) {
     if (reportFilterTypes[i].isSelected && generatedString === "") {
