@@ -22,7 +22,6 @@ import { Button } from "../ui/button"
 import HomeAddress from "../HomeAddress/HomeAddress"
 import Note from "../Note"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
-import { NotebookPen } from "lucide-react"
 import { useState } from "react"
 import { useApplicationStore, useLoggedInUserStore } from "@/common/store"
 import STextArea from "../STextArea"
@@ -56,7 +55,6 @@ const HouseCheckDialogue = ({ id, address, apt, city, state, zip, note, house_ch
   const { getHomeData } = useGetHomes(loggedInUserCommunityId, false)
 
   const [loading, setLoading] = useState(false)
-  const [showRemarkField, setShowRemarkField] = useState(false)
   const [openDialogue, setOpenDialogue] = useState(false)
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -206,36 +204,25 @@ const HouseCheckDialogue = ({ id, address, apt, city, state, zip, note, house_ch
                 />
 
                 <div className="mb-4">
-                  <div className="flex justify-end">
-                    <button
-                      type="button"
-                      onClick={() => setShowRemarkField(!showRemarkField)}
-                    >
-                      <NotebookPen className="text-slate-400 font-thin hover:text-black" />
-                    </button>
-                  </div>
-
-                  {showRemarkField && (
-                    <FormField
-                      control={form.control}
-                      name="remark"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-md font-semibold">Remark:</FormLabel>
-                          <FormControl>
-                            <STextArea
-                              name="remark"
-                              placeHolder="Remark regarding the home inspection"
-                              helperText=""
-                              styles="h-40"
-                              fields={field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  )}
+                  <FormField
+                    control={form.control}
+                    name="remark"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-md font-semibold">Remark:</FormLabel>
+                        <FormControl>
+                          <STextArea
+                            name="remark"
+                            placeHolder="Remark regarding the home inspection"
+                            helperText=""
+                            styles="h-40"
+                            fields={field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
                 <DialogFooter>
