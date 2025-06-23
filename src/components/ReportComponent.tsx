@@ -30,9 +30,9 @@ const ReportComponent = () => {
   const [searchResultLength, setSearchResultLength] = useState<number>(0)
   const [loading, setLoading] = useState(true)
   const [isFiltered, setIsFiltered] = useState(false)
-  const [reportType, setReportType] = useState("")
+  // const [reportType, setReportType] = useState("")
 
-  const getReports = async (startDate: Date, endDate: Date, reportType: string, reportSortBy: "newest" | "oldest") => {
+  const getReports = async (startDate: Date, endDate: Date, reportType: string, reportSortBy: string) => {
     setLoading(true)
     try {
       const houseFields = `id, narative, ai_generated_narative, type, weather, incident_time, created, phone_number, injury, ems_pbso,
@@ -122,15 +122,10 @@ const ReportComponent = () => {
         })
       }
     } finally {
-      setReportType("")
+      // setReportType("")
       setLoading(false)
     }
   }
-
-  // TODO: implement sort for reports 
-  // const handleReportSort = () => {
-  //   console.log("Need to implement sorting for reports")
-  // }
 
   useEffect(() => {
     const { startOfMonthDate, endOfMonthDate } = reportFilterStartAndEndOfMonthDates()
@@ -144,30 +139,9 @@ const ReportComponent = () => {
           <ReportFilter
             isFiltered={isFiltered}
             setIsFiltered={setIsFiltered}
-            setReportType={setReportType}
             getReports={getReports}
           />
-
-          {/*
-            <Separator orientation="vertical" />
-
-            <button
-              className="flex items-center gap-1"
-              onClick={handleReportSort}
-            >
-              <ArrowDownUp />
-              Sort
-            </button>
-          */}
-
         </div>
-        {/*
-        <ReportCreate
-          openSheet={openReportCreate}
-          setOpenSheet={setOpenReportCreate}
-          getReports={getReports}
-        />
-        */}
 
         <Link
           to="create"

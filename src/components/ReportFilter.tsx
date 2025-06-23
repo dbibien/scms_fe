@@ -15,10 +15,8 @@ type CProps = {
   // setReports: React.Dispatch<React.SetStateAction<[] | reportType[]>>,
   // setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>,
-  setReportSortBy: React.Dispatch<React.SetStateAction<string>>
 
-  setReportType: React.Dispatch<React.SetStateAction<string>>,
-  getReports: (startDate: Date, endDate: Date, reportType: string, reportSortBy: string) => Promise<void>,
+  getReports: (startDate: Date, endDate: Date, reportType: string, reportSortBy: "newest" | "oldest") => Promise<void>,
 }
 
 const ReportFilter = ({ isFiltered, setIsFiltered, getReports }: CProps) => {
