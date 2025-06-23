@@ -6,20 +6,10 @@ import ReportCardList from "@/components/ReportCardList"
 import ReportFilter from "@/components/ReportFilter"
 import SplInput from "@/components/SplInput"
 import { toast } from "@/components/ui/use-toast"
-import { Plus, Trash } from "lucide-react"
+import { Plus } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-
-const ClearFilter = ({ setIsFiltered }: { setIsFiltered: React.Dispatch<React.SetStateAction<boolean>> }) => {
-  return (
-    <button
-      onClick={() => setIsFiltered(false)}
-      className="flex items-center gap-1 text-red-300 text-sm hover:text-red-500">
-      <Trash size={20} />
-      Clear filter
-    </button>
-  )
-}
+import ReportClearFilter from "./ReportClearFilter/ReportClearFilter"
 
 const ReportComponent = () => {
   const pb = useApplicationStore(state => state.pb)
@@ -165,7 +155,7 @@ const ReportComponent = () => {
         <PageInfoBar
           resultLength={searchResultLength}
           resultType=" report(s)"
-          component={isFiltered ? <ClearFilter setIsFiltered={setIsFiltered} /> : <></>}
+          component={isFiltered ? <ReportClearFilter setIsFiltered={setIsFiltered} getReports={getReports} /> : <></>}
         />
 
         <ReportCardList
