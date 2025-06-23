@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { addDaysToDate, getFirstDateOfWeek, isDateBetweenStartAndEndDates, shouldHouseBeAddedToHouseCheckList, diffBetweenDays, displayDateStringIn24HourFormat, isValidDate } from "./utils";
+import { addDaysToDate, getFirstDateOfWeek, isDateBetweenStartAndEndDates, shouldHouseBeAddedToHouseCheckList, diffBetweenDays, displayDateStringIn24HourFormat, isValidDate, generateSelectedReportTypeString } from "./utils";
 
 describe("getFirstDateOfWeek ", () => {
   it("should return May 11th, 2025 as the first date of the week when the weeks starts on Sundays and the given date is May 14th, 2025", () => {
@@ -292,5 +292,109 @@ describe("isValidDate ", () => {
 
   it("should return TRUE when a valid date is passed in", () => {
     expect(isValidDate(new Date())).toBeTruthy()
+  })
+})
+
+describe("generateSelectedReportTypeString ", () => {
+  it('should generate an empty string: ""', () => {
+    const reportFilterTypes = [
+      {
+        id: 1,
+        value: "accident",
+        label: "Accident",
+        isSelected: false,
+      },
+      {
+        id: 2,
+        value: "assist_ems",
+        label: "Assist EMS",
+        isSelected: false,
+      },
+      {
+        id: 3,
+        value: "damaged_mailbox",
+        label: "Damaged mailbox",
+        isSelected: false,
+      },
+      {
+        id: 4,
+        value: "ems_response",
+        label: "EMS response",
+        isSelected: false,
+      },
+      {
+        id: 5,
+        value: "false_alarm",
+        label: "False alarm",
+        isSelected: false,
+      },
+      {
+        id: 12,
+        value: "garage_door_light_check",
+        label: "Garage door light check",
+        isSelected: false,
+      },
+      {
+        id: 14,
+        value: "house_check",
+        label: "House check",
+        isSelected: false,
+      },
+    ]
+
+    const response = generateSelectedReportTypeString(reportFilterTypes)
+
+    expect(response).toEqual("")
+  })
+
+  it('should generate the following string: " type ?= "accident" || type ?= "house_check" || type ?= "assist_ems" "', () => {
+    const reportFilterTypes = [
+      {
+        id: 1,
+        value: "accident",
+        label: "Accident",
+        isSelected: true,
+      },
+      {
+        id: 14,
+        value: "house_check",
+        label: "House check",
+        isSelected: true,
+      },
+      {
+        id: 2,
+        value: "assist_ems",
+        label: "Assist EMS",
+        isSelected: true,
+      },
+      {
+        id: 3,
+        value: "damaged_mailbox",
+        label: "Damaged mailbox",
+        isSelected: false,
+      },
+      {
+        id: 4,
+        value: "ems_response",
+        label: "EMS response",
+        isSelected: false,
+      },
+      {
+        id: 5,
+        value: "false_alarm",
+        label: "False alarm",
+        isSelected: false,
+      },
+      {
+        id: 12,
+        value: "garage_door_light_check",
+        label: "Garage door light check",
+        isSelected: false,
+      },
+    ]
+
+    const response = generateSelectedReportTypeString(reportFilterTypes)
+
+    expect(response).toEqual(`type ?= "accident" || type ?= "house_check" || type ?= "assist_ems"`)
   })
 })
